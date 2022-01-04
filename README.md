@@ -1,2 +1,2 @@
 # hazel
-private bot based on discord.js and mongoose, used in hazels as moderation tool and music bot.
+moderation and music bot based on discord.js. including use of mongoose. slash command focused.
