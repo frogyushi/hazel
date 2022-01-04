@@ -84,12 +84,6 @@ class Hazel extends Client {
                     type: 1,
                     permission: true
                 };
-
-                return {
-                    id: perm,
-                    type: 2,
-                    permission: true
-                };
             });
 
             fullPermissions.push({ id, permissions });
