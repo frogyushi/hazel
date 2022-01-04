@@ -79,7 +79,7 @@ class Hazel extends Client {
             const permissions = perms.map((perm) => {
                 const role = roles.cache.find((role) => role.name === perm)?.id;
 
-                if (!role) return {
+                if (role) return {
                     id: role,
                     type: 1,
                     permission: true
