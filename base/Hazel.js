@@ -70,15 +70,12 @@ class Hazel extends Client {
         const data = await commands.fetch();
 
         const fullPermissions = [];
-
         for (const { name, id } of data.values()) {
             const { permissions: perms } = this.commands.get(name);
-
             if (!perms) continue;
 
             const permissions = perms.map((perm) => {
                 const role = roles.cache.find((role) => role.name === perm)?.id;
-
                 if (role) return {
                     id: role,
                     type: 1,
