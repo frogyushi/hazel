@@ -1,5 +1,3 @@
-const config = require("../../config.json");
-
 module.exports = {
     name: "resume",
     description: "resumes a paused queue",
@@ -18,7 +16,7 @@ module.exports = {
             return;
         }
 
-        if (!interaction.member.voice.channel.members.has(config.clientId) && client.voice.adapters.get(interaction.guildId)) {
+        if (!interaction.member.voice.channel.members.has(client.CLIENT_ID) && client.voice.adapters.get(interaction.guildId)) {
             await interaction.reply(
                 {
                     content: "u cannot use this command if you're not in the same voice channel as hazel",

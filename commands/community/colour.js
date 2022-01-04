@@ -1,5 +1,5 @@
 const { MessageActionRow, MessageSelectMenu } = require("discord.js");
-const menuOptions = require("../../menu-options.json");
+const options = require("../../menu-options.json");
 
 module.exports = {
     name: "colour",
@@ -21,7 +21,7 @@ module.exports = {
         const subcommand = interaction.options.getSubcommand();
 
         if (subcommand === "remove") {
-            const roles = Object.values(menuOptions.colour);
+            const roles = Object.values(options.colour);
 
             let isRoleFound = false;
 
