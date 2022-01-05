@@ -4,6 +4,7 @@ const memberSchema = require("../../models/memberSchema");
 module.exports = {
     name: "leaderboard",
     description: "show ranking of most active members",
+
     async execute(client, interaction) {
         const schemas = await memberSchema.find({ guildId: interaction.guildId });
         const memberData = schemas.sort(({ messages: a }, { messages: b }) => b - a).entries();
