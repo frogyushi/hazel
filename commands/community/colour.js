@@ -22,12 +22,10 @@ module.exports = {
 
         if (subcommand === "remove") {
             const roles = Object.values(options.colour);
-
             let isRoleFound = false;
 
             for (const [id] of interaction.member.roles.cache) {
                 if (!roles.includes(id)) continue;
-
                 isRoleFound = true;
 
                 const userRole = await interaction.guild.roles.cache.get(id);
