@@ -7,6 +7,6 @@ A discord bot using @discord.js and mongoose. Used for music, moderation, and en
 - Moderation
 - Entertainment ― inc. leaderboard system ranked by most active members
 
-## setup
+## Setup
 
 > work in progress
