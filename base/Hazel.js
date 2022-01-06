@@ -18,10 +18,10 @@ class Hazel extends Client {
             }
         );
 
-        this.TOKEN = process.env.HAZEL_TOKEN;
-        this.CLIENT_ID = process.env.CLIENT_ID;
-        this.GUILD_ID = process.env.GUILD_ID;
-        this.MONGODB_URI = process.env.MONGODB_URI;
+        this.token = process.env.CLIENT_TOKEN;
+        this.id = process.env.CLIENT_ID;
+        this.guildId = process.env.GUILD_ID;
+        this.mongoURI = process.env.MONGO_URI;
 
         this.distube = new DisTube(
             this,
@@ -66,7 +66,7 @@ class Hazel extends Client {
     }
 
     async setSlashPermissions() {
-        const { commands, roles } = this.guilds.cache.get(this.GUILD_ID);
+        const { commands, roles } = this.guilds.cache.get(this.guildId);
         const data = await commands.fetch();
 
         const fullPermissions = [];
@@ -90,10 +90,10 @@ class Hazel extends Client {
     }
 
     async registerSlashCommands() {
-        const rest = new REST({ version: "9" }).setToken(this.TOKEN);
+        const rest = new REST({ version: "9" }).setToken(this.token);
 
         await rest.put(
-            Routes.applicationGuildCommands(this.CLIENT_ID, this.GUILD_ID),
+            Routes.applicationGuildCommands(this.id, this.guildId),
             {
                 body: this.slashCommands
             }
