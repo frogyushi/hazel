@@ -8,7 +8,7 @@ module.exports = {
             return;
         }
 
-        if (newState.channelId !== "922111171962748938") return;
+        if (newState.channelId !== "929170092435054643") return;
 
         const { guild, user, voice, id } = newState.member;
 
