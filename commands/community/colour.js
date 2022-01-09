@@ -80,9 +80,9 @@ module.exports = {
                         value: "vanilla"
                     },
                     {
-                        label: "purple",
+                        label: "cosmic",
                         emoji: "929779253069873152",
-                        value: "purple"
+                        value: "cosmic"
                     }
                 ]
             );
