@@ -78,6 +78,11 @@ module.exports = {
                         label: "vanilla",
                         emoji: "923215493333131285",
                         value: "vanilla"
+                    },
+                    {
+                        label: "purple",
+                        emoji: "929779253069873152",
+                        value: "purple"
                     }
                 ]
             );
