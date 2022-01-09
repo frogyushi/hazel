@@ -51,7 +51,7 @@ module.exports = {
                 [
                     {
                         label: "baby blue",
-                        emoji: "923215493484134420",
+                        emoji: "929780363436380172",
                         value: "baby blue"
                     },
                     {
