@@ -5,7 +5,7 @@ A discord bot using @discord.js and mongoose. Used for music, moderation, and en
 
 - Music ― supporting YouTube, Spotify and SoundCloud playback
 - Moderation
-- Entertainment ― inc. leaderboard system ranked by most active members
+- Entertainment 
 
 ## Setup
 
