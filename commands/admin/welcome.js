@@ -102,10 +102,16 @@ module.exports = {
                 timestamp: interaction.options.getBoolean("timestamp")
             };
 
-            if (!client.isHexColor(embed.color)) {
+            for (const prop in embed) {
+                if (!embed[prop]) {
+                    template[prop] = embed[prop];
+                }
+            }
+
+            if (!Object.keys(embed).length) {
                 await interaction.reply(
                     {
-                        content: "color option must represent a hex color value",
+                        content: "cannot create/update welcome message since no options were given",
                         ephemeral: true
                     }
                 );
@@ -113,16 +119,10 @@ module.exports = {
                 return;
             }
 
-            for (const prop in embed) {
-                if (!embed[prop]) {
-                    template[prop] = embed[prop];
-                }
-            }
-
-            if (!embed) {
+            if (color && !client.isHexColor(embed.color)) {
                 await interaction.reply(
                     {
-                        content: "cannot create/update welcome message since no options were given",
+                        content: "color option must represent a hex color value",
                         ephemeral: true
                     }
                 );
