@@ -1,9 +1,10 @@
+const { sync } = require("glob");
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 const { DisTube } = require("distube");
 const { SpotifyPlugin } = require('@distube/spotify');
 const { Client, Intents, Collection } = require("discord.js");
-const { sync } = require("glob");
+const permissionSchema = require("../models/permissionSchema");
 
 class Hazel extends Client {
     constructor() {
@@ -71,7 +72,7 @@ class Hazel extends Client {
     async setSlashPermissions() {
         const commands = await this.application.commands.fetch();
 
-        for (const { roles, id } of this.guilds.cache.values()) {
+        for (const guild of this.guilds.cache.values()) {
 
             const fullPermissions = [];
             for (const { id, name } of commands.values()) {
@@ -81,21 +82,41 @@ class Hazel extends Client {
 
                 let permissions = [];
                 for (const perm of perms) {
-                    const role = roles.cache.find((role) => role.name === perm)?.id;
+                    const schema = await permissionSchema.findOne({ guildId: guild.id });
 
-                    if (!role) continue;
-
-                    permissions.push(
-                        {
-                            id: role,
-                            type: 1,
-                            permission: true
-                        }
-                    );
-
-                    fullPermissions.push({ id, permissions });
+                    if (perm === "owner") {
+                        permissions.push(
+                            {
+                                id: guild.ownerId,
+                                type: 2,
+                                permission: true
+                            }
+                        );
+                    } else if (perm === "admin") {
+                        permissions.push(
+                            {
+                                id: schema.admin,
+                                type: 1,
+                                permission: true
+                            }
+                        );
+                    } else if (perm === "moderator") {
+                        permissions.push(
+                            {
+                                id: schema.moderator,
+                                type: 1,
+                                permission: true
+                            }
+                        );
+                    }
                 }
+
+                console.log({ id, permissions });
+
+                fullPermissions.push({ id, permissions });
             }
+
+            console.log(fullPermissions);
 
             await this.REST.put(
                 Routes.guildApplicationCommandsPermissions(this.id, id),

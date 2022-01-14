@@ -3,7 +3,7 @@ const welcomeSchema = require("../../models/welcomeSchema");
 module.exports = {
     name: "welcome",
     description: "set up your welcome message",
-    permissions: ["owner"],
+    permissions: ["admin"],
     options: [
         {
             type: 1,
@@ -83,7 +83,7 @@ module.exports = {
             };
 
             for (const prop in options) {
-                if (options[prop] !== null) {
+                if (options[prop] !== null && options[prop] !== undefined) {
                     template[prop] = options[prop];
                 }
             }

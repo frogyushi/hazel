@@ -3,7 +3,7 @@ const joinToCreateSchema = require("../../models/joinToCreateSchema");
 module.exports = {
     name: "jointocreate",
     description: "set a join to create voice channel",
-    permissions: ["owner"],
+    permissions: ["admin"],
     options: [
         {
             type: 7,
