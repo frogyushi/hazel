@@ -32,7 +32,6 @@ module.exports = {
                     type: 3,
                     name: "description",
                     description: "set a description",
-                    required: true
                 },
                 {
                     type: 3,
@@ -83,6 +82,16 @@ module.exports = {
             if (image) newEmbed.image = image;
             if (footer) newEmbed.footer = footer;
             if (timestamp) newEmbed.timestamp = timestamp;
+
+            if (!Object.keys(newEmbed).length) {
+                await interaction.reply({ content: "cannot create welcome message without set option", ephemeral: true });
+                return;
+            }
+
+            if (newEmbed.description || newEmbed.title || newEmbed.image) {
+                await interaction.reply({ content: "welcome message must have a description, title, or image", ephemeral: true });
+                return;
+            }
 
             if (!data) {
                 const schema = await welcomeSchema.create(

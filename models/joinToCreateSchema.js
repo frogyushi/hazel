@@ -4,7 +4,7 @@ const schema = new mongoose.Schema(
     {
         guildId: { type: String, required: true, unique: true },
         channelId: { type: String },
-        enabled: { type: Boolean }
+        enabled: { type: Boolean, default: false }
     }
 );
 
