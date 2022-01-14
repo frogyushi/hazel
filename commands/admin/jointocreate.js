@@ -33,7 +33,9 @@ module.exports = {
             }
         }
 
-        if (!Object.keys(options).length) {
+        console.log(template);
+
+        if (!Object.keys(template).length) {
             await interaction.reply(
                 {
                     content: "cannot set join to create voice channel since no options were provided",
@@ -60,12 +62,10 @@ module.exports = {
             );
 
             schema.save();
-
-            await interaction.reply("join to create voice channel has been created");
-            return;
+        } else {
+            await joinToCreateSchema.findOneAndUpdate({ guildId: interaction.guildId }, template);
         }
 
-        await joinToCreateSchema.findOneAndUpdate({ guildId: interaction.guildId }, template);
         await interaction.reply("settings have been updated");
     },
 };
