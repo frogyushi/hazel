@@ -6,7 +6,7 @@ module.exports = {
     async execute(client, oldState, newState) {
         const schema = await joinToCreateSchema.findOne({ guildId: oldState.guild.id || newState.guild.id });
 
-        if (!schema.enabled) return;
+        if (!schema?.enabled) return;
 
         if (newState?.channelId === schema?.channelId) {
             const { guild, user, voice, id } = newState.member;
