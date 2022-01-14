@@ -96,16 +96,12 @@ class Hazel extends Client {
         const rest = new REST({ version: "9" }).setToken(this.token);
 
         if (this.global === "true") {
-            const guild = this.guilds.cache.get(this.guildId);
-
             await rest.put(
                 Routes.applicationCommands(this.id),
                 {
                     body: this.slashCommands
                 },
             );
-
-            guild.commands.set([]);
 
             console.log("registered slash commands as global");
         } else {
