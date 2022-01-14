@@ -6,7 +6,7 @@ module.exports = {
     async execute(client, message) {
         if (message.author.bot) return;
 
-        let data = await memberSchema.findOne({ guildId: message.guild.id, guildId: message.guild.id });
+        let data = await memberSchema.findOne({ guildId: message.guild.id, userId: message.author.id });
 
         if (!data) {
             const member = await memberSchema.create(
@@ -24,7 +24,7 @@ module.exports = {
         }
 
         if (data) {
-            await memberSchema.findOneAndUpdate({ userId: message.author.id, guildId: message.guild.id },
+            await memberSchema.findOneAndUpdate({ guildId: message.guild.id, userId: message.author.id },
                 {
                     userTag: message.author.tag,
                     $inc: { messages: 1 }

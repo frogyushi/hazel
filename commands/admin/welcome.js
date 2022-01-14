@@ -26,7 +26,7 @@ module.exports = {
         {
             type: 1,
             name: "message",
-            description: "configure welcome message",
+            description: "configure welcome message. write {member} to display joined member's name and {guild} for guild name",
             options: [
                 {
                     type: 3,
