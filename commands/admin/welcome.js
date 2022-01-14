@@ -130,7 +130,7 @@ module.exports = {
                 return;
             }
 
-            if (!description && !title && !image) {
+            if (!embed.description && !embed.title && !embed.image) {
                 await interaction.reply(
                     {
                         content: "welcome message must include one description, title, or image",
