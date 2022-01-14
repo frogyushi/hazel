@@ -19,7 +19,7 @@ module.exports = {
                 {
                     type: 5,
                     name: "enabled",
-                    description: "enable/disable welcome messages",
+                    description: "Enable/disable welcome messages",
                 },
             ]
         },
@@ -37,7 +37,7 @@ module.exports = {
                 {
                     type: 3,
                     name: "color",
-                    description: "set a color"
+                    description: "set a color using hex value e.g #000000"
                 },
                 {
                     type: 3,
@@ -68,14 +68,21 @@ module.exports = {
         const data = await welcomeSchema.findOne({ guildId: interaction.guildId });
 
         if (subcommand === "message") {
-            const config = {
-                color: interaction.options.getString("color") || "",
-                title: interaction.options.getString("title") || "",
-                description: interaction.options.getString("description") || "",
-                image: interaction.options.getString("image") || "",
-                footer: interaction.options.getString("footer") || "",
-                timestamp: interaction.options.getBoolean("timestamp") || false,
-            };
+            const color = interaction.options.getString("color");
+            const title = interaction.options.getString("title");
+            const description = interaction.options.getString("description");
+            const image = interaction.options.getString("image");
+            const footer = interaction.options.getString("footer");
+            const timestamp = interaction.options.getBoolean("timestamp");
+
+            const newEmbed = {};
+
+            if (color) newEmbed.color = color;
+            if (title) newEmbed.title = title;
+            if (description) newEmbed.description = description;
+            if (image) newEmbed.image = image;
+            if (footer) newEmbed.footer = footer;
+            if (timestamp) newEmbed.timestamp = timestamp;
 
             if (!data) {
                 const schema = await welcomeSchema.create(
@@ -83,7 +90,7 @@ module.exports = {
                         guildId: interaction.guildId,
                         channelId: "",
                         enabled: true,
-                        ...config
+                        ...newEmbed
                     }
                 );
 
@@ -94,7 +101,7 @@ module.exports = {
             }
 
             if (data) {
-                await welcomeSchema.findOneAndUpdate({ guildId: interaction.guildId }, config);
+                await welcomeSchema.findOneAndUpdate({ guildId: interaction.guildId }, newEmbed);
                 await interaction.reply("welcome message has been updated");
                 return;
             }

@@ -10,7 +10,7 @@ const schema = new mongoose.Schema(
         description: { type: String },
         image: { type: String },
         footer: { type: String },
-        timestamp: { type: Boolean },
+        timestamp: { type: Boolean, default: false },
     }
 );
 
