@@ -82,12 +82,12 @@ module.exports = {
             };
 
             for (const prop in options) {
-                if (options[prop]) {
+                if (options[prop] !== null) {
                     template[prop] = options[prop];
                 }
             }
 
-            if (!options.channelId && !options.enabled) {
+            if (!options.channelId && options.enabled === null) {
                 await interaction.reply(
                     {
                         content: "no option has been selected",
@@ -120,7 +120,7 @@ module.exports = {
             };
 
             for (const prop in options) {
-                if (options[prop]) {
+                if (options[prop] !== null) {
                     template[prop] = options[prop];
                 }
             }
