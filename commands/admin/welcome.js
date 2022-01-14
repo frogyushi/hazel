@@ -67,17 +67,17 @@ module.exports = {
         const data = await welcomeSchema.findOne({ guildId: interaction.guildId });
 
         if (subcommand === "settings") {
+            if (!data) {
+                await interaction.reply("cannot access settings if welcome message is not created yet");
+                return;
+            }
+
             const template = {};
 
             const options = {
                 channel: interaction.options.getChannel("channel"),
                 enabled: interaction.options.getBoolean("enabled")
             };
-
-            if (!data) {
-                await interaction.reply("cannot access settings if welcome message is not created yet");
-                return;
-            }
 
             for (const prop in options) {
                 if (options[prop]) {
