@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema(
     {
-        guildId: { type: String, required: true, unique: true },
+        guildId: { type: String, required: true },
         userId: { type: String, required: true },
         userTag: { type: String, required: true },
         messages: { type: Number, default: 0 }
