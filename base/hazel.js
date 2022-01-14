@@ -93,8 +93,6 @@ class Hazel extends Client {
     async registerSlashCommands() {
         const rest = new REST({ version: "9" }).setToken(this.token);
 
-        console.log(this.global === "true");
-
         if (this.global === "true") {
             await rest.put(
                 Routes.applicationCommands(this.id),

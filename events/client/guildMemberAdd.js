@@ -7,7 +7,7 @@ module.exports = {
     async execute(client, member) {
         const schema = await welcomeSchema.findOne({ guildId: member.guild.id });
 
-        if (!schema || !schema.enabled) return;
+        if (!schema?.enabled) return;
 
         const channel = member.guild.channels.cache.get(schema.channelId);
 
