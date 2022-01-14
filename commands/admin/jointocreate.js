@@ -49,6 +49,8 @@ module.exports = {
             return;
         }
 
+        const data = await welcomeSchema.findOne({ guildId: interaction.guildId });
+
         if (!data) {
             const schema = await joinToCreateSchema.create(
                 {
