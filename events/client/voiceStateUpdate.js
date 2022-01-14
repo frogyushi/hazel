@@ -8,11 +8,6 @@ module.exports = {
 
         if (!schema.enabled) return;
 
-        if (client.temporaryVoiceChannels.get(oldState.channelId) && !oldState.channel.members.size) {
-            oldState.channel.delete();
-            return;
-        }
-
         if (newState?.channelId === schema?.channelId) {
             const { guild, user, voice, id } = newState.member;
 
@@ -35,6 +30,11 @@ module.exports = {
             client.temporaryVoiceChannels.set(vc.id, newState.member);
             voice.setChannel(vc.id);
         };
+
+        if (client.temporaryVoiceChannels.get(oldState.channelId) && !oldState.channel.members.size) {
+            oldState.channel.delete();
+            return;
+        }
     }
 };
 
