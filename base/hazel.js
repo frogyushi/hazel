@@ -74,6 +74,9 @@ class Hazel extends Client {
             for (const { name, id } of data.values()) {
                 const { permissions: perms } = this.commands.get(name);
 
+                console.log(this.commands.get(name));
+                console.log(perms);
+
                 if (!perms) continue;
 
                 const permissions = perms.map((perm) => {
