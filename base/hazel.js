@@ -26,8 +26,7 @@ class Hazel extends Client {
 
         this.REST = new REST({ version: "9" }).setToken(this.token);
 
-        this.distube = new DisTube(
-            this,
+        this.distube = new DisTube(this,
             {
                 searchSongs: 1,
                 searchCooldown: 30,
@@ -74,15 +73,16 @@ class Hazel extends Client {
 
         for (const { roles, id } of this.guilds.cache.values()) {
             const fullPermissions = [];
-            for (const command of commands.values()) {
-                const { permissions: perms } = await this.commands.get(command.name);
+            for (const { id, name } of commands.values()) {
+                const { permissions: perms } = await this.commands.get(name);
 
                 if (!perms) continue;
 
                 let permissions = [];
                 for (const perm of perms) {
-                    const role = roles.cache.find((role) => role.name === perm)?.id || roles.cache.get(perm);
+                    const role = roles.cache.find((role) => role.name === perm)?.id;
                     if (!role) continue;
+
                     permissions.push(
                         {
                             id: role,
@@ -91,15 +91,13 @@ class Hazel extends Client {
                         }
                     );
 
-                    fullPermissions.push({ id: command.id, permissions });
+                    fullPermissions.push({ id, permissions });
                 }
             }
 
             await this.REST.put(
                 Routes.guildApplicationCommandsPermissions(this.id, id),
-                {
-                    body: fullPermissions
-                },
+                { body: fullPermissions },
             );
         }
     }
@@ -107,16 +105,12 @@ class Hazel extends Client {
     async registerSlashCommands() {
         await this.REST.put(
             Routes.applicationCommands(this.id),
-            {
-                body: this.globalCommands
-            },
+            { body: this.globalCommands },
         );
 
         await this.REST.put(
             Routes.applicationGuildCommands(this.id, this.guildId),
-            {
-                body: this.guildCommands
-            }
+            { body: this.guildCommands }
         );
 
         console.log("registered slash commands");
@@ -125,6 +119,10 @@ class Hazel extends Client {
     getRandomArrayElement(array) {
         return array[Math.floor(Math.random() * array.length)];
     };
+
+    isHexColor(color) {
+        return /^#[0-9A-F]{6}$/i.test(color);
+    }
 }
 
 module.exports = Hazel;

@@ -42,10 +42,7 @@ module.exports = {
             return;
         }
 
-        const currentQueue = {
-            current: "",
-            queued: []
-        };
+        const currentQueue = { queued: [] };
 
         for (const [id, song] of queue.songs.entries()) {
             if (!id) {

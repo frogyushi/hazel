@@ -39,9 +39,7 @@ module.exports = {
                 )
             );
 
-
         let object = { embeds: [embed] };
-
         if (member) object = { ...object, content: `<@${member.id}>` };
 
         await interaction.reply(object);

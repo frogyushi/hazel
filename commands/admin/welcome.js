@@ -64,40 +64,81 @@ module.exports = {
 
     async execute(client, interaction) {
         const subcommand = interaction.options.getSubcommand();
+
         const data = await welcomeSchema.findOne({ guildId: interaction.guildId });
 
-        if (subcommand === "message") {
-            const color = interaction.options.getString("color") || "";
-            const title = interaction.options.getString("title") || "";
-            const description = interaction.options.getString("description") || "";
-            const image = interaction.options.getString("image") || "";
-            const footer = interaction.options.getString("footer") || "";
-            const timestamp = interaction.options.getBoolean("timestamp") || false;
+        if (subcommand === "settings") {
+            const channel = interaction.options.getChannel("channel");
 
-            const updateEmbed = {};
-
-            if (color) {
-                if (!(/^#[0-9A-F]{6}$/i.test(color))) {
-                    await interaction.reply({ content: "color option must represent a hex color value", ephemeral: true });
-                    return;
-                }
-
-                updateEmbed.color = color;
+            if (!data) {
+                await interaction.reply("cannot access settings if welcome message is not created yet");
+                return;
             }
 
-            if (title) updateEmbed.title = title;
-            if (description) updateEmbed.description = description;
-            if (image) updateEmbed.image = image;
-            if (footer) updateEmbed.footer = footer;
-            if (timestamp) updateEmbed.timestamp = timestamp;
+            if (channel.type !== "GUILD_TEXT") {
+                await interaction.reply("specified channel has to be a text channel");
+                return;
+            };
 
-            if (!Object.keys(updateEmbed).length) {
-                await interaction.reply({ content: "cannot create/update welcome message since no options were given", ephemeral: true });
+            await welcomeSchema.findOneAndUpdate({ guildId: interaction.guildId },
+                {
+                    channelId: channel.id,
+                    enabled: interaction.options.getBoolean("enabled") || true
+                }
+            );
+
+            await interaction.reply("settings have been updated");
+        }
+
+        if (subcommand === "message") {
+            const embed = {};
+
+            const color = interaction.options.getString("color");
+            const title = interaction.options.getString("title");
+            const description = interaction.options.getString("description");
+            const image = interaction.options.getString("image");
+            const footer = interaction.options.getString("footer");
+            const timestamp = interaction.options.getBoolean("timestamp");
+
+            if (client.isHexColor(color)) {
+                embed.color = color;
+            } else {
+                await interaction.reply(
+                    {
+                        content: "color option must represent a hex color value",
+                        ephemeral: true
+                    }
+                );
+
+                return;
+            }
+
+            if (color) embed.color = color;
+            if (title) embed.title = title;
+            if (description) embed.description = description;
+            if (image) embed.image = image;
+            if (footer) embed.footer = footer;
+            if (timestamp) embed.timestamp = timestamp;
+
+            if (!embed) {
+                await interaction.reply(
+                    {
+                        content: "cannot create/update welcome message since no options were given",
+                        ephemeral: true
+                    }
+                );
+
                 return;
             }
 
             if (!description && !title && !image) {
-                await interaction.reply({ content: "welcome message must have a description, title, or image", ephemeral: true });
+                await interaction.reply(
+                    {
+                        content: "welcome message must include one description, title, or image",
+                        ephemeral: true
+                    }
+                );
+
                 return;
             }
 
@@ -105,14 +146,7 @@ module.exports = {
                 const schema = await welcomeSchema.create(
                     {
                         guildId: interaction.guildId,
-                        channelId: "",
-                        enabled: true,
-                        color,
-                        title,
-                        description,
-                        image,
-                        footer,
-                        timestamp
+                        enabled: true
                     }
                 );
 
@@ -122,36 +156,8 @@ module.exports = {
                 return;
             }
 
-            if (data) {
-                await welcomeSchema.findOneAndUpdate({ guildId: interaction.guildId }, updateEmbed);
-                await interaction.reply("welcome message has been updated");
-                return;
-            }
-        }
-
-        if (subcommand === "settings") {
-            if (!data) {
-                await interaction.reply("cannot access settings if welcome message is not created yet");
-                return;
-            }
-
-            if (data) {
-                const channel = interaction.options.getChannel("channel");
-
-                if (channel.type !== "GUILD_TEXT") {
-                    await interaction.reply("specified channel has to be a text channel");
-                    return;
-                };
-
-                await welcomeSchema.findOneAndUpdate({ guildId: interaction.guildId },
-                    {
-                        channelId: channel.id,
-                        enabled: interaction.options.getBoolean("enabled") || true
-                    }
-                );
-
-                await interaction.reply("settings have been updated");
-            }
+            await welcomeSchema.findOneAndUpdate({ guildId: interaction.guildId }, embed);
+            await interaction.reply("welcome message has been updated");
         }
     }
 };

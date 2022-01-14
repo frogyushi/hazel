@@ -9,12 +9,10 @@ module.exports = {
         const schemas = await memberSchema.find({ guildId: interaction.guildId });
         const memberData = schemas.sort(({ messages: a }, { messages: b }) => b - a).entries();
 
-        const entries = {
-            tags: [],
-            messages: []
-        };
+        const entries = { tags: [], messages: [] };
 
-        for (const [index, { userTag, messages }] of memberData) {
+        for (const [index, value] of memberData) {
+            const { userTag, messages } = value;
             entries.tags.push(`**${index + 1}** - ${userTag}`);
             entries.messages.push(messages);
         }
