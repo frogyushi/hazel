@@ -128,7 +128,7 @@ module.exports = {
             if (!Object.keys(options).length) {
                 await interaction.reply(
                     {
-                        content: "cannot create/update welcome message since no options were given",
+                        content: "cannot create/update welcome message since no options were provided",
                         ephemeral: true
                     }
                 );
