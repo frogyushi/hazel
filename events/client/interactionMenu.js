@@ -8,9 +8,9 @@ module.exports = {
             return;
         };
 
-        if (interaction.customId === "colour") {
+        if (interaction.customId === "color") {
             const selectedRole = interaction.values[0];
-            const roles = Object.values(menuOptions.colour);
+            const roles = Object.values(menuOptions.color);
 
             for (const [id] of interaction.member.roles.cache) {
                 if (!roles.includes(id)) continue;
@@ -19,7 +19,7 @@ module.exports = {
                 interaction.member.roles.remove(userRole);
             }
 
-            const role = interaction.guild.roles.cache.get(menuOptions.colour[selectedRole]);
+            const role = interaction.guild.roles.cache.get(menuOptions.color[selectedRole]);
             interaction.member.roles.add(role);
 
             await interaction.reply(

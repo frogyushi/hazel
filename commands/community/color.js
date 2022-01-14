@@ -2,17 +2,17 @@ const { MessageActionRow, MessageSelectMenu } = require("discord.js");
 const options = require("../../menu-options.json");
 
 module.exports = {
-    name: "colour",
-    description: "manage user's colour role",
+    name: "color",
+    description: "manage user's color role",
     options: [
         {
             name: "add",
-            description: "set a colour role",
+            description: "set a color role",
             type: 1
         },
         {
             name: "remove",
-            description: "remove user's colour role",
+            description: "remove user's color role",
             type: 1
         }
     ],
@@ -21,7 +21,7 @@ module.exports = {
         const subcommand = interaction.options.getSubcommand();
 
         if (subcommand === "remove") {
-            const roles = Object.values(options.colour);
+            const roles = Object.values(options.color);
             let isRoleFound = false;
 
             for (const [id] of interaction.member.roles.cache) {
@@ -32,7 +32,7 @@ module.exports = {
                 await interaction.member.roles.remove(userRole);
             }
 
-            const replyContent = isRoleFound ? "colour role has been removed from role list" : "no colour roles found to remove";
+            const replyContent = isRoleFound ? "color role has been removed from role list" : "no color roles found to remove";
 
             await interaction.reply(
                 {
@@ -44,8 +44,8 @@ module.exports = {
 
         if (subcommand === "add") {
             const selectMenu = new MessageSelectMenu()
-                .setCustomId("colour")
-                .setPlaceholder("no colour selected");
+                .setCustomId("color")
+                .setPlaceholder("no color selected");
 
             selectMenu.addOptions(
                 [
@@ -91,7 +91,7 @@ module.exports = {
 
             await interaction.reply(
                 {
-                    content: "select a colour to be added to your role list",
+                    content: "select a color to be added to your role list",
                     components: [row],
                     ephemeral: true
                 }

@@ -37,10 +37,6 @@ module.exports = {
             .setColor("#8b81a5")
             .setTimestamp();
 
-        await interaction.reply(
-            {
-                embeds: [embed]
-            }
-        );
+        await interaction.reply({ embeds: [embed] });
     },
 };

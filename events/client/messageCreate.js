@@ -9,7 +9,7 @@ module.exports = {
         let data = await memberSchema.findOne({ userId: message.author.id });
 
         if (!data) {
-            let member = await memberSchema.create(
+            const member = await memberSchema.create(
                 {
                     userId: message.author.id,
                     guildId: message.guild.id,

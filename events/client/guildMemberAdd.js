@@ -1,19 +1,31 @@
+const welcomeSchema = require("../../models/welcomeSchema");
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
     name: "guildMemberAdd",
 
     async execute(client, member) {
-        const channel = member.guild.channels.cache.get("785928459980767293");
+        const schema = await welcomeSchema.findOne({ guildId: member.guild.id });
 
-        const embed = new MessageEmbed()
-            .setColor("#8b81a5")
-            .setTitle(`welcome to ${member.guild.name}`)
-            .setDescription(`<@${member.user.id}> has entered the server!`)
-            .setImage("https://i.imgur.com/ZRqdVlz.png")
-            .setFooter("any questions? ask yushi")
-            .setTimestamp();
+        if (!schema || !schema.enabled) return;
 
-        channel.send({ embeds: [embed] });
+        const channel = member.guild.channels.cache.get(schema.channelId);
+
+        if (!channel) return;
+
+        try {
+            const embed = new MessageEmbed();
+
+            if (schema.color) embed.setColor(schema.color);
+            if (schema.title) embed.setTitle(schema.title);
+            if (schema.description) embed.setDescription(schema.description);
+            if (schema.image) embed.setImage(schema.image);
+            if (schema.footer) embed.setFooter(schema.footer);
+            if (schema.timestamp) embed.setTimestamp();
+
+            channel.send({ embeds: [embed] });
+        } catch (e) {
+            console.log(e);
+        }
     }
 };

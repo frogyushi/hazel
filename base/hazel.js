@@ -98,6 +98,8 @@ class Hazel extends Client {
                 body: this.slashCommands
             }
         );
+
+        console.log("registered slash commands");
     }
 
     getRandomArrayElement(array) {
