@@ -67,14 +67,14 @@ module.exports = {
         const data = await welcomeSchema.findOne({ guildId: interaction.guildId });
 
         if (subcommand === "message") {
-            const color = interaction.options.getString("color");
-            const title = interaction.options.getString("title");
-            const description = interaction.options.getString("description");
-            const image = interaction.options.getString("image");
-            const footer = interaction.options.getString("footer");
-            const timestamp = interaction.options.getBoolean("timestamp");
+            const color = interaction.options.getString("color") || "";
+            const title = interaction.options.getString("title") || "";
+            const description = interaction.options.getString("description") || "";
+            const image = interaction.options.getString("image") || "";
+            const footer = interaction.options.getString("footer") || "";
+            const timestamp = interaction.options.getBoolean("timestamp") || false;
 
-            const newEmbed = {};
+            const updateEmbed = {};
 
             if (color) {
                 if (!(/^#[0-9A-F]{6}$/i.test(color))) {
@@ -82,16 +82,16 @@ module.exports = {
                     return;
                 }
 
-                newEmbed.color = color;
+                updateEmbed.color = color;
             }
 
-            if (title) newEmbed.title = title;
-            if (description) newEmbed.description = description;
-            if (image) newEmbed.image = image;
-            if (footer) newEmbed.footer = footer;
-            if (timestamp) newEmbed.timestamp = timestamp;
+            if (title) updateEmbed.title = title;
+            if (description) updateEmbed.description = description;
+            if (image) updateEmbed.image = image;
+            if (footer) updateEmbed.footer = footer;
+            if (timestamp) updateEmbed.timestamp = timestamp;
 
-            if (!Object.keys(newEmbed).length) {
+            if (!Object.keys(updateEmbed).length) {
                 await interaction.reply({ content: "cannot create/update welcome message since no options were given", ephemeral: true });
                 return;
             }
@@ -107,7 +107,12 @@ module.exports = {
                         guildId: interaction.guildId,
                         channelId: "",
                         enabled: true,
-                        ...newEmbed
+                        color,
+                        title,
+                        description,
+                        image,
+                        footer,
+                        timestamp
                     }
                 );
 
@@ -118,7 +123,7 @@ module.exports = {
             }
 
             if (data) {
-                await welcomeSchema.findOneAndUpdate({ guildId: interaction.guildId }, newEmbed);
+                await welcomeSchema.findOneAndUpdate({ guildId: interaction.guildId }, updateEmbed);
                 await interaction.reply("welcome message has been updated");
                 return;
             }
