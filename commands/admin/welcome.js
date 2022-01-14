@@ -74,8 +74,10 @@ module.exports = {
 
             const template = {};
 
+            const channel = interaction.options.getChannel("channel");
+
             const options = {
-                channel: interaction.options.getChannel("channel"),
+                channelId: channel?.id,
                 enabled: interaction.options.getBoolean("enabled")
             };
 
@@ -85,7 +87,7 @@ module.exports = {
                 }
             }
 
-            if (!options.channel && !options.enabled) {
+            if (!options.channelId && !options.enabled) {
                 await interaction.reply(
                     {
                         content: "no option has been selected",
@@ -96,7 +98,7 @@ module.exports = {
                 return;
             }
 
-            if (options.channel && options.channel.type !== "GUILD_TEXT") {
+            if (options.channelId && channel.type !== "GUILD_TEXT") {
                 await interaction.reply("specified channel has to be a text channel");
                 return;
             }
