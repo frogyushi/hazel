@@ -89,10 +89,13 @@ class Hazel extends Client {
                     };
                 });
 
+                console.log({ id, permissions });
+                console.log({ commands, roles });
+
                 fullPermissions.push({ id, permissions });
             }
 
-            console.log(fullPermissions);
+            console.log({ fullPermissions });
 
             commands.permissions.set({ fullPermissions });
         }
