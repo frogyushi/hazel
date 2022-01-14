@@ -33,6 +33,7 @@ module.exports = {
 
         if (client.temporaryVoiceChannels.get(oldState.channelId) && !oldState.channel.members.size) {
             oldState.channel.delete();
+
             return;
         }
     }

@@ -46,6 +46,7 @@ module.exports = {
 
         if (options.channelId && channel.type !== "GUILD_VOICE") {
             await interaction.reply("specified channel has to be a voice channel");
+
             return;
         }
 

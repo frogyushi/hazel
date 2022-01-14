@@ -29,6 +29,7 @@ module.exports = {
 
         if (!queue) {
             await interaction.reply("no queue available to use this command");
+
             return;
         }
 

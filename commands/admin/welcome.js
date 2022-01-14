@@ -69,6 +69,7 @@ module.exports = {
         if (subcommand === "settings") {
             if (!data) {
                 await interaction.reply("cannot access settings if welcome message is not created yet");
+
                 return;
             }
 
@@ -100,6 +101,7 @@ module.exports = {
 
             if (options.channelId && channel.type !== "GUILD_TEXT") {
                 await interaction.reply("specified channel has to be a text channel");
+
                 return;
             }
 
@@ -170,6 +172,7 @@ module.exports = {
                 schema.save();
 
                 await interaction.reply("welcome message has been created");
+
                 return;
             }
 

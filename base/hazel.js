@@ -72,6 +72,7 @@ class Hazel extends Client {
         const commands = await this.application.commands.fetch();
 
         for (const { roles, id } of this.guilds.cache.values()) {
+
             const fullPermissions = [];
             for (const { id, name } of commands.values()) {
                 const { permissions: perms } = await this.commands.get(name);
@@ -81,6 +82,7 @@ class Hazel extends Client {
                 let permissions = [];
                 for (const perm of perms) {
                     const role = roles.cache.find((role) => role.name === perm)?.id;
+
                     if (!role) continue;
 
                     permissions.push(

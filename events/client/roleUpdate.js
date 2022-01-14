@@ -18,7 +18,9 @@ module.exports = {
             let permissions = [];
             for (const perm of perms) {
                 const role = roles.cache.find((role) => role.name === perm)?.id || roles.cache.get(perm);
+
                 if (!role) continue;
+
                 permissions.push(
                     {
                         id: role,
@@ -33,9 +35,7 @@ module.exports = {
 
         await client.REST.put(
             Routes.guildApplicationCommandsPermissions(client.id, id),
-            {
-                body: fullPermissions
-            },
+            { body: fullPermissions },
         );
     }
 };

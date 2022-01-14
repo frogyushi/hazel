@@ -39,6 +39,7 @@ module.exports = {
 
         if (!queue) {
             await interaction.reply("no queue available to use this command");
+
             return;
         }
 
@@ -70,11 +71,7 @@ module.exports = {
             .setFooter(`page ${page || 1}/${maxSongs || 1} - ${queue.songs.length - 1 || "no"} songs in queue - ${queue.formattedDuration}`)
             .setTimestamp();
 
-        await interaction.reply(
-            {
-                embeds: [embed]
-            }
-        );
+        await interaction.reply({ embeds: [embed] });
     }
 };
 
