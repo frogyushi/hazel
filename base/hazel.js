@@ -71,15 +71,14 @@ class Hazel extends Client {
     async setSlashPermissions() {
         const commands = await this.application.commands.fetch();
 
-        const fullPermissions = [];
-        for (const command of commands.values()) {
-            const { permissions: perms } = await this.commands.get(command.name);
+        for (const { roles, id } of this.guilds.cache.values()) {
+            const fullPermissions = [];
+            for (const command of commands.values()) {
+                const { permissions: perms } = await this.commands.get(command.name);
 
-            if (!perms) continue;
+                if (!perms) continue;
 
-            for (const { roles } of this.guilds.cache.values()) {
                 let permissions = [];
-
                 for (const perm of perms) {
                     const role = roles.cache.find((role) => role.name === perm)?.id || roles.cache.get(perm);
                     if (!role) continue;
@@ -90,18 +89,18 @@ class Hazel extends Client {
                             permission: true
                         }
                     );
+
+                    fullPermissions.push({ id: command.id, permissions });
                 }
-
-                fullPermissions.push({ id: command.id, permissions });
             }
-        }
 
-        await this.REST.put(
-            Routes.guildApplicationCommandsPermissions(this.id, this.guildId),
-            {
-                body: fullPermissions
-            },
-        );
+            await this.REST.put(
+                Routes.guildApplicationCommandsPermissions(this.id, id),
+                {
+                    body: fullPermissions
+                },
+            );
+        }
     }
 
     async registerSlashCommands() {
