@@ -19,7 +19,7 @@ module.exports = {
                 {
                     type: 5,
                     name: "enabled",
-                    description: "Enable/disable welcome messages",
+                    description: "enable/disable welcome messages",
                 },
             ]
         },
@@ -84,7 +84,7 @@ module.exports = {
             if (timestamp) newEmbed.timestamp = timestamp;
 
             if (!Object.keys(newEmbed).length) {
-                await interaction.reply({ content: "cannot create welcome message without set option", ephemeral: true });
+                await interaction.reply({ content: "cannot create/update welcome message since no options were given", ephemeral: true });
                 return;
             }
 
