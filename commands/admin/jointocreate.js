@@ -33,8 +33,6 @@ module.exports = {
             }
         }
 
-        console.log(template);
-
         if (!Object.keys(template).length) {
             await interaction.reply(
                 {
