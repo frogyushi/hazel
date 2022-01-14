@@ -93,6 +93,8 @@ class Hazel extends Client {
     async registerSlashCommands() {
         const rest = new REST({ version: "9" }).setToken(this.token);
 
+        console.log(this.global === true);
+
         if (this.global) {
             await rest.put(
                 Routes.applicationCommands(this.id),
@@ -100,6 +102,8 @@ class Hazel extends Client {
                     body: this.slashCommands
                 },
             );
+
+            console.log("registered slash commands as global");
         } else {
             await rest.put(
                 Routes.applicationGuildCommands(this.id, this.guildId),
@@ -107,9 +111,9 @@ class Hazel extends Client {
                     body: this.slashCommands
                 }
             );
-        }
 
-        console.log("registered slash commands");
+            console.log("registered slash commands as guild");
+        }
     }
 
     getRandomArrayElement(array) {
