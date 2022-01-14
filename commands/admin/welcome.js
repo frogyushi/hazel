@@ -145,7 +145,8 @@ module.exports = {
                 const schema = await welcomeSchema.create(
                     {
                         guildId: interaction.guildId,
-                        enabled: true
+                        enabled: true,
+                        ...template
                     }
                 );
 
@@ -155,7 +156,7 @@ module.exports = {
                 return;
             }
 
-            await welcomeSchema.findOneAndUpdate({ guildId: interaction.guildId }, embed);
+            await welcomeSchema.findOneAndUpdate({ guildId: interaction.guildId }, template);
             await interaction.reply("welcome message has been updated");
         }
     }
