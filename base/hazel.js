@@ -67,8 +67,8 @@ class Hazel extends Client {
     }
 
     async setSlashPermissions() {
-        for (const guild of this.guilds.cache.values()) {
-            const { commands, roles } = guild;
+        for (const [id] of this.guilds.cache) {
+            const { commands, roles } = this.guilds.cache.get(id);
             const data = await commands.fetch();
 
             const fullPermissions = [];
@@ -88,7 +88,7 @@ class Hazel extends Client {
                 fullPermissions.push({ id, permissions });
             }
 
-            guild.commands.permissions.set({ fullPermissions });
+            commands.permissions.set({ fullPermissions });
         }
     }
 
