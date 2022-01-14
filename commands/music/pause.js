@@ -12,6 +12,7 @@ module.exports = {
                     ephemeral: true
                 }
             );
+
             return;
         }
 
@@ -22,6 +23,7 @@ module.exports = {
                     ephemeral: true
                 }
             );
+
             return;
         }
 
