@@ -120,7 +120,7 @@ module.exports = {
             };
 
             for (const prop in options) {
-                if (options[prop] !== null) {
+                if (options[prop] !== null && options[prop] !== undefined) {
                     template[prop] = options[prop];
                 }
             }
