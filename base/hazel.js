@@ -88,7 +88,7 @@ class Hazel extends Client {
                 fullPermissions.push({ id, permissions });
             }
 
-            await guild.commands.permissions.set({ fullPermissions });
+            guild.commands.permissions.set({ fullPermissions });
         }
     }
 
