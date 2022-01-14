@@ -13,8 +13,7 @@ module.exports = {
                 {
                     type: 7,
                     name: "channel",
-                    description: "set welcome channel",
-                    required: true
+                    description: "set welcome channel"
                 },
                 {
                     type: 5,
@@ -69,9 +68,15 @@ module.exports = {
 
         if (subcommand === "settings") {
             const channel = interaction.options.getChannel("channel");
+            const isEnabled = interaction.options.getBoolean("enabled");
 
             if (!data) {
                 await interaction.reply("cannot access settings if welcome message is not created yet");
+                return;
+            }
+
+            if (!channel && !isEnabled) {
+                await interaction.reply("no option has been selected");
                 return;
             }
 
@@ -83,7 +88,7 @@ module.exports = {
             await welcomeSchema.findOneAndUpdate({ guildId: interaction.guildId },
                 {
                     channelId: channel.id,
-                    enabled: interaction.options.getBoolean("enabled") || true
+                    enabled: isEnabled || true
                 }
             );
 
