@@ -13,16 +13,19 @@ module.exports = {
 
         if (!channel) return;
 
-        function setMentions(string) {
-            return (string.replace(/{guild}/gi, member.guild.name)).replace(/{member}/gi, `<@${member.user.id}>`);
-        }
-
         try {
             const embed = new MessageEmbed();
 
             if (schema.color) embed.setColor(schema.color);
-            if (schema.title) embed.setTitle(setMentions(schema.title));
-            if (schema.description) embed.setDescription(setMentions(schema.description));
+
+            if (schema.title) {
+                embed.setTitle((schema.title.replace(/{member}/gi, member.user.tag)).replace(/{guild}/gi, member.guild.name));
+            }
+
+            if (schema.description) {
+                embed.setDescription((schema.description.replace(/{member}/gi, `<@${member.user.id}>`).replace(/{guild}/gi, member.guild.name)));
+            }
+
             if (schema.image) embed.setImage(schema.image);
             if (schema.footer) embed.setFooter(schema.footer);
             if (schema.timestamp) embed.setTimestamp();

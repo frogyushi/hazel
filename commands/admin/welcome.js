@@ -76,7 +76,15 @@ module.exports = {
 
             const newEmbed = {};
 
-            if (color) newEmbed.color = color;
+            if (color) {
+                if (!(/^#[0-9A-F]{6}$/i.test(color))) {
+                    await interaction.reply({ content: "color option must represent a hex color value", ephemeral: true });
+                    return;
+                }
+
+                newEmbed.color = color;
+            }
+
             if (title) newEmbed.title = title;
             if (description) newEmbed.description = description;
             if (image) newEmbed.image = image;
