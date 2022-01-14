@@ -22,6 +22,7 @@ class Hazel extends Client {
         this.id = process.env.CLIENT_ID;
         this.guildId = process.env.GUILD_ID;
         this.mongoURI = process.env.MONGO_URI;
+        this.global = process.env.GLOBAL_BOOL;
 
         this.distube = new DisTube(
             this,
@@ -92,12 +93,21 @@ class Hazel extends Client {
     async registerSlashCommands() {
         const rest = new REST({ version: "9" }).setToken(this.token);
 
-        await rest.put(
-            Routes.applicationGuildCommands(this.id, this.guildId),
-            {
-                body: this.slashCommands
-            }
-        );
+        if (this.global) {
+            await rest.put(
+                Routes.applicationCommands(this.id),
+                {
+                    body: this.slashCommands
+                },
+            );
+        } else {
+            await rest.put(
+                Routes.applicationGuildCommands(this.id, this.guildId),
+                {
+                    body: this.slashCommands
+                }
+            );
+        }
 
         console.log("registered slash commands");
     }
