@@ -96,7 +96,7 @@ module.exports = {
                 return;
             }
 
-            if (newEmbed.description || newEmbed.title || newEmbed.image) {
+            if (!description || !title || !image) {
                 await interaction.reply({ content: "welcome message must have a description, title, or image", ephemeral: true });
                 return;
             }
