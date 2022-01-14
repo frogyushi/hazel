@@ -91,18 +91,18 @@ module.exports = {
         }
 
         if (subcommand === "message") {
-            const embed = {};
+            const template = {};
 
-            const color = interaction.options.getString("color");
-            const title = interaction.options.getString("title");
-            const description = interaction.options.getString("description");
-            const image = interaction.options.getString("image");
-            const footer = interaction.options.getString("footer");
-            const timestamp = interaction.options.getBoolean("timestamp");
+            const embed = {
+                color: interaction.options.getString("color"),
+                title: interaction.options.getString("title"),
+                description: interaction.options.getString("description"),
+                image: interaction.options.getString("image"),
+                footer: interaction.options.getString("footer"),
+                timestamp: interaction.options.getBoolean("timestamp")
+            };
 
-            if (client.isHexColor(color)) {
-                embed.color = color;
-            } else {
+            if (!client.isHexColor(embed.color)) {
                 await interaction.reply(
                     {
                         content: "color option must represent a hex color value",
@@ -113,12 +113,11 @@ module.exports = {
                 return;
             }
 
-            if (color) embed.color = color;
-            if (title) embed.title = title;
-            if (description) embed.description = description;
-            if (image) embed.image = image;
-            if (footer) embed.footer = footer;
-            if (timestamp) embed.timestamp = timestamp;
+            for (const prop in embed) {
+                if (!embed[prop]) {
+                    template[prop] = embed[prop];
+                }
+            }
 
             if (!embed) {
                 await interaction.reply(
