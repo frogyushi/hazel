@@ -24,6 +24,8 @@ class Hazel extends Client {
         this.mongoURI = process.env.MONGO_URI;
         this.global = process.env.GLOBAL_BOOL;
 
+        this.REST = new REST({ version: "9" }).setToken(this.token);
+
         this.distube = new DisTube(
             this,
             {
@@ -67,48 +69,44 @@ class Hazel extends Client {
     }
 
     async setSlashPermissions() {
-        for (const { commands, roles } of this.guilds.cache.values()) {
-            const data = await commands.fetch();
+        const commands = await this.application.commands.fetch();
 
-            const fullPermissions = [];
-            for (const { name, id } of data.values()) {
-                const { permissions: perms } = this.commands.get(name);
+        const fullPermissions = [];
+        for (const command of commands.values()) {
+            const { permissions: perms } = await this.commands.get(command.name);
 
-                console.log(this.commands.get(name));
-                console.log(perms);
+            if (!perms) continue;
 
-                if (!perms) continue;
+            for (const { roles } of this.guilds.cache.values()) {
+                let permissions = [];
 
-                const permissions = perms.map((perm) => {
+                for (const perm of perms) {
                     const role = roles.cache.find((role) => role.name === perm)?.id || roles.cache.get(perm);
-                    return role ? {
-                        id: role,
-                        type: 1,
-                        permission: true
-                    } : {
-                        id: perm,
-                        type: 2,
-                        permission: true
-                    };
-                });
+                    if (!role) continue;
+                    permissions.push(
+                        {
+                            id: role,
+                            type: 1,
+                            permission: true
+                        }
+                    );
+                }
 
-                console.log({ id, permissions });
-                console.log({ commands, roles });
-
-                fullPermissions.push({ id, permissions });
+                fullPermissions.push({ id: command.id, permissions });
             }
-
-            console.log({ fullPermissions });
-
-            commands.permissions.set({ fullPermissions });
         }
+
+        await this.REST.put(
+            Routes.guildApplicationCommandsPermissions(this.id, this.guildId),
+            {
+                body: fullPermissions
+            },
+        );
     }
 
     async registerSlashCommands() {
-        const rest = new REST({ version: "9" }).setToken(this.token);
-
         if (this.global === "true") {
-            await rest.put(
+            await this.REST.put(
                 Routes.applicationCommands(this.id),
                 {
                     body: this.slashCommands
@@ -117,7 +115,7 @@ class Hazel extends Client {
 
             console.log("registered slash commands as global");
         } else {
-            await rest.put(
+            await this.REST.put(
                 Routes.applicationGuildCommands(this.id, this.guildId),
                 {
                     body: this.slashCommands
