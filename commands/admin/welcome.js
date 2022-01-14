@@ -119,7 +119,7 @@ module.exports = {
                 return;
             }
 
-            if (color && !client.isHexColor(embed.color)) {
+            if (embed.color && !client.isHexColor(embed.color)) {
                 await interaction.reply(
                     {
                         content: "color option must represent a hex color value",
