@@ -38,7 +38,7 @@ module.exports = {
         if (!Object.keys(template).length) {
             await interaction.reply(
                 {
-                    content: "cannot set join to create voice channel since no options were provided",
+                    content: "cannot create/update settings since no options were provided",
                     ephemeral: true
                 }
             );
