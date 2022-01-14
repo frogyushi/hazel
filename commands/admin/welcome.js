@@ -2,7 +2,7 @@ const welcomeSchema = require("../../models/welcomeSchema");
 
 module.exports = {
     name: "welcome",
-    description: "settings for welcome message",
+    description: "set up your welcome message",
     permissions: ["owner"],
     options: [
         {
@@ -65,10 +65,9 @@ module.exports = {
 
     async execute(client, interaction) {
         const subcommand = interaction.options.getSubcommand();
+        const data = await welcomeSchema.findOne({ guildId: interaction.guildId });
 
         if (subcommand === "message") {
-            let data = await welcomeSchema.findOne({ guildId: interaction.guildId });
-
             const config = {
                 color: interaction.options.getString("color") || "",
                 title: interaction.options.getString("title") || "",
@@ -102,8 +101,6 @@ module.exports = {
         }
 
         if (subcommand === "settings") {
-            let data = await welcomeSchema.findOne({ guildId: interaction.guildId });
-
             if (!data) {
                 await interaction.reply("cannot access settings if welcome message is not created yet");
                 return;
@@ -112,7 +109,7 @@ module.exports = {
             if (data) {
                 const channel = interaction.options.getChannel("channel");
 
-                if (!channel || channel.type !== "GUILD_TEXT") {
+                if (channel.type !== "GUILD_TEXT") {
                     await interaction.reply("specified channel has to be a text channel");
                     return;
                 };
