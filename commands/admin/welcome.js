@@ -67,38 +67,48 @@ module.exports = {
         const data = await welcomeSchema.findOne({ guildId: interaction.guildId });
 
         if (subcommand === "settings") {
-            const channel = interaction.options.getChannel("channel");
-            const isEnabled = interaction.options.getBoolean("enabled");
+            const template = {};
+
+            const options = {
+                channel: interaction.options.getChannel("channel"),
+                enabled: interaction.options.getBoolean("enabled")
+            };
 
             if (!data) {
                 await interaction.reply("cannot access settings if welcome message is not created yet");
                 return;
             }
 
-            if (!channel && !isEnabled) {
-                await interaction.reply("no option has been selected");
+            for (const prop in options) {
+                if (options[prop]) {
+                    template[prop] = options[prop];
+                }
+            }
+
+            if (!options.channel && !options.enabled) {
+                await interaction.reply(
+                    {
+                        content: "no option has been selected",
+                        ephemeral: true
+                    }
+                );
+
                 return;
             }
 
-            if (channel.type !== "GUILD_TEXT") {
+            if (options.channel && options.channel.type !== "GUILD_TEXT") {
                 await interaction.reply("specified channel has to be a text channel");
                 return;
-            };
+            }
 
-            await welcomeSchema.findOneAndUpdate({ guildId: interaction.guildId },
-                {
-                    channelId: channel.id,
-                    enabled: isEnabled || true
-                }
-            );
-
+            await welcomeSchema.findOneAndUpdate({ guildId: interaction.guildId }, template);
             await interaction.reply("settings have been updated");
         }
 
         if (subcommand === "message") {
             const template = {};
 
-            const embed = {
+            const options = {
                 color: interaction.options.getString("color"),
                 title: interaction.options.getString("title"),
                 description: interaction.options.getString("description"),
@@ -107,13 +117,13 @@ module.exports = {
                 timestamp: interaction.options.getBoolean("timestamp")
             };
 
-            for (const prop in embed) {
-                if (embed[prop]) {
-                    template[prop] = embed[prop];
+            for (const prop in options) {
+                if (options[prop]) {
+                    template[prop] = options[prop];
                 }
             }
 
-            if (!Object.keys(embed).length) {
+            if (!Object.keys(options).length) {
                 await interaction.reply(
                     {
                         content: "cannot create/update welcome message since no options were given",
@@ -124,7 +134,7 @@ module.exports = {
                 return;
             }
 
-            if (embed.color && !client.isHexColor(embed.color)) {
+            if (options.color && !client.isHexColor(options.color)) {
                 await interaction.reply(
                     {
                         content: "color option must represent a hex color value",
@@ -135,7 +145,7 @@ module.exports = {
                 return;
             }
 
-            if (!embed.description && !embed.title && !embed.image) {
+            if (!options.description && !options.title && !options.image) {
                 await interaction.reply(
                     {
                         content: "welcome message must include one description, title, or image",
