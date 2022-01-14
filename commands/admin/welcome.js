@@ -103,7 +103,7 @@ module.exports = {
             };
 
             for (const prop in embed) {
-                if (!embed[prop]) {
+                if (embed[prop]) {
                     template[prop] = embed[prop];
                 }
             }
