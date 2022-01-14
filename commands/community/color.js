@@ -4,6 +4,7 @@ const options = require("../../menu-options.json");
 module.exports = {
     name: "color",
     description: "manage user's color role",
+    guildOnly: true,
     options: [
         {
             name: "add",

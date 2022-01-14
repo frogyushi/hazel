@@ -40,7 +40,8 @@ class Hazel extends Client {
             }
         );
 
-        this.slashCommands = [];
+        this.globalCommands = [];
+        this.guildCommands = [];
         this.commands = new Collection();
         this.temporaryVoiceChannels = new Collection();
     }
@@ -49,7 +50,7 @@ class Hazel extends Client {
         for (const file of sync("./commands/**/*.js")) {
             const command = require(`.${file}`);
             if (command.permissions) command.default_permission = false;
-            this.slashCommands.push(command);
+            this[command.guildOnly ? "guildCommands" : "globalCommands"].push(command);
             this.commands.set(command.name, command);
         }
     }
@@ -104,25 +105,21 @@ class Hazel extends Client {
     }
 
     async registerSlashCommands() {
-        if (this.global === "true") {
-            await this.REST.put(
-                Routes.applicationCommands(this.id),
-                {
-                    body: this.slashCommands
-                },
-            );
+        await this.REST.put(
+            Routes.applicationCommands(this.id),
+            {
+                body: this.globalCommands
+            },
+        );
 
-            console.log("registered slash commands as global");
-        } else {
-            await this.REST.put(
-                Routes.applicationGuildCommands(this.id, this.guildId),
-                {
-                    body: this.slashCommands
-                }
-            );
+        await this.REST.put(
+            Routes.applicationGuildCommands(this.id, this.guildId),
+            {
+                body: this.guildCommands
+            }
+        );
 
-            console.log("registered slash commands as guild");
-        }
+        console.log("registered slash commands");
     }
 
     getRandomArrayElement(array) {
