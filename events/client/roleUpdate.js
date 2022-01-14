@@ -3,10 +3,11 @@ module.exports = {
 
     async execute(client, oldRole, newRole) {
         const commands = await client.application.commands.fetch();
+        const guild = oldRole.guild.cache || newRole.guild.cache;
 
-        const { roles, id } = (oldRole.guild.cache || newRole.guild.cache)?.values();
+        if (!guild) return;
 
-        if (!roles) return;
+        const { roles, id } = guild.values();
 
         const fullPermissions = [];
         for (const command of commands.values()) {
