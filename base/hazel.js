@@ -68,58 +68,62 @@ class Hazel extends Client {
         }
     }
 
-    async setSlashPermissions() {
+    async setSlashPermissionsGuild(guild) {
         const commands = await this.application.commands.fetch();
+        const fullPermissions = [];
+        const permissions = [];
 
-        for (const guild of this.guilds.cache.values()) {
-            const fullPermissions = [];
+        for (const { id, name } of commands.values()) {
+            const schema = await permissionSchema.find(
+                {
+                    guildId: guild.id,
+                    command: name
+                }
+            );
 
-            for (const { id, name: command } of commands.values()) {
-                const commands = await permissionSchema.find({ guildId: guild.id, command });
-                const { ownerOnly } = await this.commands.get(command);
+            const { ownerOnly } = await this.commands.get(name);
 
-                if (!ownerOnly) continue;
+            if (ownerOnly) {
+                permissions.push(
+                    {
+                        id: guild.ownerId,
+                        type: 2,
+                        permission: true
+                    }
+                );
+            };
 
-                if (commands.length) {
-                    for (const { role } of commands) {
-                        fullPermissions.push(
+            if (schema.length) {
+                for (const { role, enabled } of schema) {
+                    if (role) {
+                        permissions.push(
                             {
-                                id,
-                                permissions: [
-                                    {
-                                        id: guild.ownerId,
-                                        type: 2,
-                                        permission: true
-                                    },
-                                    {
-                                        id: role,
-                                        type: 1,
-                                        permission: true
-                                    }
-                                ]
+                                id: role,
+                                type: 1,
+                                permission: enabled
                             }
                         );
-                    }
-                } else {
-                    fullPermissions.push(
-                        {
-                            id,
-                            permissions: [
-                                {
-                                    id: guild.ownerId,
-                                    type: 2,
-                                    permission: true
-                                }
-                            ]
-                        }
-                    );
+                    };
                 }
             }
 
-            await this.REST.put(
-                Routes.guildApplicationCommandsPermissions(this.id, guild.id),
-                { body: fullPermissions },
+            fullPermissions.push(
+                {
+                    id,
+                    permissions
+                }
             );
+        }
+
+        await this.REST.put(
+            Routes.guildApplicationCommandsPermissions(this.id, guild.id),
+            { body: fullPermissions },
+        );
+    }
+
+    async setSlashPermissionsGlobal() {
+        for (const guild of this.guilds.cache.values()) {
+            this.setSlashPermissionsGuild(guild);
         }
     }
 

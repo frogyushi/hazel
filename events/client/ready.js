@@ -4,7 +4,7 @@ module.exports = {
     async execute(client) {
         client.user.setActivity('Valorant', { type: 'COMPETING' });
 
-        client.setSlashPermissions();
+        client.setSlashPermissionsGlobal();
         client.registerSlashCommands();
         client.loadDistubeEvents();
 
