@@ -44,8 +44,6 @@ module.exports = {
             return;
         }
 
-        const command = await client.commands.get(options.command);
-
         if (!options.role) {
             await interaction.reply(
                 {
@@ -56,6 +54,8 @@ module.exports = {
 
             return;
         }
+
+        const command = await client.commands.get(options.command);
 
         if (!command) {
             await interaction.reply(
@@ -91,5 +91,54 @@ module.exports = {
         schema.save();
 
         await interaction.reply("settings have been updated");
+
+        const fullPermissions = [];
+
+        const schemas = await permissionSchema.find({ guildId: interaction.guildId, command: options.name });
+        const { id: commandId } = await client.application.commands.cache.find(({ name }) => name === command.name);
+
+        if (!command?.ownerOnly) return;
+
+        if (!schemas.length) {
+            fullPermissions.push(
+                {
+                    commandId,
+                    permissions: [
+                        {
+                            id: interaction.guild.ownerId,
+                            type: 2,
+                            permission: true
+                        }
+                    ]
+                }
+            );
+
+            return;
+        }
+
+        for (const { role } of schemas) {
+            fullPermissions.push(
+                {
+                    commandId,
+                    permissions: [
+                        {
+                            id: interaction.guild.ownerId,
+                            type: 2,
+                            permission: true
+                        },
+                        {
+                            id: role,
+                            type: 1,
+                            permission: true
+                        }
+                    ]
+                }
+            );
+        }
+
+        await client.REST.put(
+            Routes.guildApplicationCommandsPermissions(client.id, interaction.guildId),
+            { body: fullPermissions },
+        );
     }
 };

@@ -76,6 +76,26 @@ class Hazel extends Client {
 
             for (const { id, name } of commands.values()) {
                 const schemas = await permissionSchema.find({ guildId: guild.id, command: name });
+                const command = await this.commands.get(name);
+
+                if (!command?.ownerOnly) continue;
+
+                if (!schemas.length) {
+                    fullPermissions.push(
+                        {
+                            id,
+                            permissions: [
+                                {
+                                    id: guild.ownerId,
+                                    type: 2,
+                                    permission: true
+                                }
+                            ]
+                        }
+                    );
+
+                    continue;
+                }
 
                 for (const { role } of schemas) {
                     fullPermissions.push(
