@@ -74,13 +74,33 @@ class Hazel extends Client {
         for (const guild of this.guilds.cache.values()) {
             const fullPermissions = [];
 
-            for (const { id, name } of commands.values()) {
-                const schemas = await permissionSchema.find({ guildId: guild.id, command: name });
-                const command = await this.commands.get(name);
+            for (const { id, name: command } of commands.values()) {
+                const commands = await permissionSchema.find({ guildId: guild.id, command });
+                const { ownerOnly } = await this.commands.get(command);
 
-                if (!command?.ownerOnly) continue;
+                if (!ownerOnly) continue;
 
-                if (!schemas.length) {
+                if (commands.length) {
+                    for (const { role } of commands) {
+                        fullPermissions.push(
+                            {
+                                id,
+                                permissions: [
+                                    {
+                                        id: guild.ownerId,
+                                        type: 2,
+                                        permission: true
+                                    },
+                                    {
+                                        id: role,
+                                        type: 1,
+                                        permission: true
+                                    }
+                                ]
+                            }
+                        );
+                    }
+                } else {
                     fullPermissions.push(
                         {
                             id,
@@ -88,28 +108,6 @@ class Hazel extends Client {
                                 {
                                     id: guild.ownerId,
                                     type: 2,
-                                    permission: true
-                                }
-                            ]
-                        }
-                    );
-
-                    continue;
-                }
-
-                for (const { role } of schemas) {
-                    fullPermissions.push(
-                        {
-                            id,
-                            permissions: [
-                                {
-                                    id: guild.ownerId,
-                                    type: 2,
-                                    permission: true
-                                },
-                                {
-                                    id: role,
-                                    type: 1,
                                     permission: true
                                 }
                             ]

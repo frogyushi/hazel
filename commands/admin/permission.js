@@ -6,20 +6,48 @@ module.exports = {
     ownerOnly: true,
     options: [
         {
-            name: "command",
-            description: "provide command name",
-            type: 3,
-            required: true
+            name: "set",
+            description: "permit role to use command",
+            type: 1,
+            options: [
+                {
+                    name: "command",
+                    description: "provide command name",
+                    type: 3,
+                    required: true
+                },
+                {
+                    type: 8,
+                    name: "role",
+                    description: "provide a role to add",
+                    required: true
+                },
+            ]
         },
         {
-            type: 8,
-            name: "role",
-            description: "provide a role to whitelist",
-            required: true
+            name: "remove",
+            description: "remove permission from role",
+            type: 1,
+            options: [
+                {
+                    name: "command",
+                    description: "provide command name",
+                    type: 3,
+                    required: true
+                },
+                {
+                    type: 8,
+                    name: "role",
+                    description: "provide a role to remove",
+                    required: true
+                },
+            ]
         },
     ],
 
     async execute(client, interaction) {
+        const subcommand = interaction.options.getSubcommand();
+
         const template = {};
 
         const options = {
@@ -36,7 +64,7 @@ module.exports = {
         if (!Object.keys(template).length) {
             await interaction.reply(
                 {
-                    content: "cannot set/update permissions since no options were provided",
+                    content: "cannot update permissions since no options were provided",
                     ephemeral: true
                 }
             );
@@ -47,7 +75,7 @@ module.exports = {
         if (!options.role) {
             await interaction.reply(
                 {
-                    content: "provided role is not found",
+                    content: "provided role doesn't exist",
                     ephemeral: true
                 }
             );
@@ -60,7 +88,7 @@ module.exports = {
         if (!command) {
             await interaction.reply(
                 {
-                    content: "provided command is not found",
+                    content: "provided command doesn't exist",
                     ephemeral: true
                 }
             );
@@ -68,77 +96,76 @@ module.exports = {
             return;
         }
 
-        const data = await permissionSchema.findOne({ command: options.command, role: options.role });
+        if (subcommand === "set") {
+            const data = await permissionSchema.findOne({ guildId: interaction.guildId, command: options.command, role: options.role });
 
-        if (data) {
-            await interaction.reply(
-                {
-                    content: "role has already been whitelisted on this command",
-                    ephemeral: true
+            if (data) {
+                await interaction.reply(
+                    {
+                        content: "role already has permission on this command",
+                        ephemeral: true
+                    }
+                );
+
+                return;
+            };
+
+            const schema = await permissionSchema.create({ guildId: interaction.guildId, ...template });
+            schema.save();
+
+            const fullPermissions = [];
+
+            const commands = await permissionSchema.find({ guildId: interaction.guildId, command: options.command });
+            const { id } = await client.application.commands.cache.find(({ name }) => name === command.name);
+
+            if (!command?.ownerOnly) return;
+
+            if (commands.length) {
+                for (const { role } of commands) {
+                    fullPermissions.push(
+                        {
+                            commandId: id,
+                            permissions: [
+                                {
+                                    id: interaction.guild.ownerId,
+                                    type: 2,
+                                    permission: true
+                                },
+                                {
+                                    id: role,
+                                    type: 1,
+                                    permission: true
+                                }
+                            ]
+                        }
+                    );
                 }
-            );
-
-            return;
-        };
-
-        const schema = await permissionSchema.create(
-            {
-                guildId: interaction.guildId,
-                ...template
+            } else {
+                fullPermissions.push(
+                    {
+                        commandId: id,
+                        permissions: [
+                            {
+                                id: interaction.guild.ownerId,
+                                type: 2,
+                                permission: true
+                            }
+                        ]
+                    }
+                );
             }
-        );
 
-        schema.save();
-
-        await interaction.reply("settings have been updated");
-
-        const fullPermissions = [];
-
-        const schemas = await permissionSchema.find({ guildId: interaction.guildId, command: options.name });
-        const { id: commandId } = await client.application.commands.cache.find(({ name }) => name === command.name);
-
-        if (!command?.ownerOnly) return;
-
-        if (!schemas.length) {
-            fullPermissions.push(
-                {
-                    commandId,
-                    permissions: [
-                        {
-                            id: interaction.guild.ownerId,
-                            type: 2,
-                            permission: true
-                        }
-                    ]
-                }
+            await client.REST.put(
+                Routes.guildApplicationCommandsPermissions(client.id, interaction.guildId),
+                { body: fullPermissions },
             );
 
-            return;
+            await interaction.reply("permissions have been set");
         }
 
-        for (const { role } of schemas) {
-            fullPermissions.push(
-                {
-                    commandId,
-                    permissions: [
-                        {
-                            id: interaction.guild.ownerId,
-                            type: 2,
-                            permission: true
-                        },
-                        {
-                            id: role,
-                            type: 1,
-                            permission: true
-                        }
-                    ]
-                }
-            );
+        if (subcommand === "remove") {
+            await permissionSchema.findOneAndDelete({ guildId: interaction.guildId, command: options.command, role: options.role });
+            await interaction.reply("provided role has no more permission to use this command");
         }
-
-        await client.REST.put(
-            Routes.guildApplicationCommandsPermissions(client.id, interaction.guildId),
-            { body: fullPermissions },
-        );
     }
 };
