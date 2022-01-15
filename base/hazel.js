@@ -23,7 +23,6 @@ class Hazel extends Client {
         this.id = process.env.CLIENT_ID;
         this.guildId = process.env.GUILD_ID;
         this.mongoURI = process.env.MONGO_URI;
-        this.global = process.env.GLOBAL_BOOL;
 
         this.REST = new REST({ version: "9" }).setToken(this.token);
 
@@ -49,7 +48,7 @@ class Hazel extends Client {
     loadCommands() {
         for (const file of sync("./commands/**/*.js")) {
             const command = require(`.${file}`);
-            if (command.permissions) command.default_permission = false;
+            if (command.ownerOnly) command.default_permission = false;
             this[command.guildOnly ? "guildCommands" : "globalCommands"].push(command);
             this.commands.set(command.name, command);
         }
@@ -73,53 +72,34 @@ class Hazel extends Client {
         const commands = await this.application.commands.fetch();
 
         for (const guild of this.guilds.cache.values()) {
-
             const fullPermissions = [];
+
             for (const { id, name } of commands.values()) {
-                const { permissions: perms } = await this.commands.get(name);
+                const schemas = await permissionSchema.find({ guildId: guild.id, command: name });
 
-                if (!perms) continue;
-
-                let permissions = [];
-                for (const perm of perms) {
-                    const schema = await permissionSchema.findOne({ guildId: guild.id });
-
-                    if (perm === "owner") {
-                        permissions.push(
-                            {
-                                id: guild.ownerId,
-                                type: 2,
-                                permission: true
-                            }
-                        );
-                    } else if (perm === "admin") {
-                        permissions.push(
-                            {
-                                id: schema.admin,
-                                type: 1,
-                                permission: true
-                            }
-                        );
-                    } else if (perm === "moderator") {
-                        permissions.push(
-                            {
-                                id: schema.moderator,
-                                type: 1,
-                                permission: true
-                            }
-                        );
-                    }
+                for (const { role } of schemas) {
+                    fullPermissions.push(
+                        {
+                            id,
+                            permissions: [
+                                {
+                                    id: guild.ownerId,
+                                    type: 2,
+                                    permission: true
+                                },
+                                {
+                                    id: role,
+                                    type: 1,
+                                    permission: true
+                                }
+                            ]
+                        }
+                    );
                 }
-
-                console.log({ id, permissions });
-
-                fullPermissions.push({ id, permissions });
             }
 
-            console.log(fullPermissions);
-
             await this.REST.put(
-                Routes.guildApplicationCommandsPermissions(this.id, id),
+                Routes.guildApplicationCommandsPermissions(this.id, guild.id),
                 { body: fullPermissions },
             );
         }

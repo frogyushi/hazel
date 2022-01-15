@@ -1,7 +1,7 @@
 module.exports = {
     name: "clear",
     description: "removes a specified amount of messages",
-    permissions: ["admin", "moderator"],
+    ownerOnly: true,
     options: [
         {
             name: "number",

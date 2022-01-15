@@ -1,7 +1,7 @@
 module.exports = {
     name: "echo",
     description: "echoes a message",
-    permissions: ["admin"],
+    ownerOnly: true,
     options: [
         {
             name: "text",

@@ -3,7 +3,7 @@ const welcomeSchema = require("../../models/welcomeSchema");
 module.exports = {
     name: "welcome",
     description: "set up your welcome message",
-    permissions: ["admin"],
+    ownerOnly: true,
     options: [
         {
             type: 1,

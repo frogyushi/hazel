@@ -1,64 +1,95 @@
+const permissionSchema = require("../../models/permissionSchema");
+
 module.exports = {
-    name: "welcome",
-    description: "set up your welcome message",
-    permissions: ["owner"],
+    name: "permission",
+    description: "configure permissions for commands",
+    ownerOnly: true,
     options: [
         {
-            type: 1,
-            name: "settings",
-            description: "configure welcome message settings",
-            options: [
-                {
-                    type: 7,
-                    name: "channel",
-                    description: "set welcome channel"
-                },
-                {
-                    type: 5,
-                    name: "enabled",
-                    description: "enable/disable welcome messages",
-                },
-            ]
+            name: "command",
+            description: "provide command name",
+            type: 3,
+            required: true
         },
         {
-            type: 1,
-            name: "message",
-            description: "configure welcome message. write {member} to display joined member's name and {guild} for guild name",
-            options: [
-                {
-                    type: 3,
-                    name: "description",
-                    description: "set a description",
-                },
-                {
-                    type: 3,
-                    name: "color",
-                    description: "set a color using hex value e.g #000000"
-                },
-                {
-                    type: 3,
-                    name: "title",
-                    description: "set a title"
-                },
-                {
-                    type: 3,
-                    name: "image",
-                    description: "set an image using an imgur url"
-                },
-                {
-                    type: 3,
-                    name: "footer",
-                    description: "set a footer"
-                },
-                {
-                    type: 5,
-                    name: "timestamp",
-                    description: "set a timestamp"
-                }
-            ]
-        }
+            type: 8,
+            name: "role",
+            description: "provide a role to whitelist",
+            required: true
+        },
     ],
 
     async execute(client, interaction) {
+        const template = {};
+
+        const options = {
+            command: interaction.options.getString("command"),
+            role: interaction.options.getRole("role")?.id,
+        };
+
+        for (const prop in options) {
+            if (options[prop] !== null && options[prop] !== undefined) {
+                template[prop] = options[prop];
+            }
+        }
+
+        if (!Object.keys(template).length) {
+            await interaction.reply(
+                {
+                    content: "cannot set/update permissions since no options were provided",
+                    ephemeral: true
+                }
+            );
+
+            return;
+        }
+
+        const command = await client.commands.get(options.command);
+
+        if (!options.role) {
+            await interaction.reply(
+                {
+                    content: "provided role is not found",
+                    ephemeral: true
+                }
+            );
+
+            return;
+        }
+
+        if (!command) {
+            await interaction.reply(
+                {
+                    content: "provided command is not found",
+                    ephemeral: true
+                }
+            );
+
+            return;
+        }
+
+        const data = await permissionSchema.findOne({ command: options.command, role: options.role });
+
+        if (data) {
+            await interaction.reply(
+                {
+                    content: "role has already been whitelisted on this command",
+                    ephemeral: true
+                }
+            );
+
+            return;
+        };
+
+        const schema = await permissionSchema.create(
+            {
+                guildId: interaction.guildId,
+                ...template
+            }
+        );
+
+        schema.save();
+
+        await interaction.reply("settings have been updated");
     }
 };

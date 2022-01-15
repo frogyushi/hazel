@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema(
     {
-        guildId: { type: String, required: true, unique: true },
-        admin: { type: String },
-        moderator: { type: String },
+        guildId: { type: String, required: true },
+        command: { type: String },
+        role: { type: String },
     }
 );
 
