@@ -10,11 +10,6 @@ module.exports = {
             name: "set",
             description: "set a color role",
             type: 1
-        },
-        {
-            name: "remove",
-            description: "remove user's color role",
-            type: 1
         }
     ],
 
@@ -30,6 +25,7 @@ module.exports = {
                 [
                     {
                         label: "remove color role",
+                        emoji: "❌",
                         value: "remove"
                     },
                     {
