@@ -71,9 +71,10 @@ class Hazel extends Client {
     async setSlashPermissionsGuild(guild) {
         const commands = await this.application.commands.fetch();
         const fullPermissions = [];
-        const permissions = [];
 
         for (const { id, name } of commands.values()) {
+            const permissions = [];
+
             const schema = await permissionSchema.find(
                 {
                     guildId: guild.id,
@@ -95,15 +96,13 @@ class Hazel extends Client {
 
             if (schema.length) {
                 for (const { role, enabled } of schema) {
-                    if (role) {
-                        permissions.push(
-                            {
-                                id: role,
-                                type: 1,
-                                permission: enabled
-                            }
-                        );
-                    };
+                    permissions.push(
+                        {
+                            id: role,
+                            type: 1,
+                            permission: enabled
+                        }
+                    );
                 }
             }
 
