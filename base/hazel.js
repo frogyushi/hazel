@@ -124,6 +124,8 @@ class Hazel extends Client {
         for (const guild of this.guilds.cache.values()) {
             this.setSlashPermissionsGuild(guild);
         }
+
+        console.log("registered permissions");
     }
 
     async registerSlashCommands() {
