@@ -70,9 +70,8 @@ module.exports = {
 
             await interaction.reply(
                 {
-                    content: "select a color to be added to your role list",
-                    components: [row],
-                    ephemeral: true
+                    content: "select a color to be added",
+                    components: [row]
                 }
             );
         }
