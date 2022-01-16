@@ -15,6 +15,6 @@ module.exports = {
         await interaction.deferReply();
         await interaction.deleteReply();
 
-        interaction.channel.send(interaction.options.getString("text"));
+        interaction.channel.send(interaction.options.getString("message"));
     },
 };

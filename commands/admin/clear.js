@@ -12,7 +12,7 @@ module.exports = {
     ],
 
     async execute(client, interaction) {
-        const amount = interaction.options.getNumber("number");
+        const amount = interaction.options.getNumber("amount");
 
         if (amount < 1) {
             await interaction.reply(
