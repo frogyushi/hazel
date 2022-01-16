@@ -4,12 +4,10 @@ module.exports = {
     name: "interactionCreate",
 
     async execute(client, interaction) {
-        if (!interaction.isSelectMenu()) {
-            return;
-        };
+        if (!interaction.isSelectMenu()) return;
 
         if (interaction.customId === "color") {
-            const selectedRole = interaction.values[0];
+            const role = interaction.values[0];
             const roles = Object.values(menuOptions.color);
 
             for (const [id] of interaction.member.roles.cache) {
@@ -29,12 +27,12 @@ module.exports = {
                 return;
             }
 
-            const role = interaction.guild.roles.cache.get(menuOptions.color[selectedRole]);
-            interaction.member.roles.add(role);
+            const roleId = interaction.guild.roles.cache.get(menuOptions.color[role]);
+            interaction.member.roles.add(roleId);
 
             await interaction.reply(
                 {
-                    content: `added role \`${selectedRole}\` to your role list`,
+                    content: `added role \`${role}\` to your role list`,
                     ephemeral: true
                 }
             );

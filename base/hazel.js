@@ -141,8 +141,8 @@ class Hazel extends Client {
         return array[Math.floor(Math.random() * array.length)];
     };
 
-    isHexColor(color) {
-        return /^#[0-9A-F]{6}$/i.test(color);
+    isHex(arg) {
+        return /^#[0-9A-F]{6}$/i.test(arg);
     }
 }
 

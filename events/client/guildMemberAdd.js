@@ -1,4 +1,5 @@
 const welcomeSchema = require("../../models/welcomeSchema");
+const welcomeRoleSchema = require("../../models/welcomeRoleSchema");
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
@@ -13,26 +14,25 @@ module.exports = {
 
         if (!channel) return;
 
-        try {
-            const embed = new MessageEmbed();
+        const embed = new MessageEmbed();
 
-            if (schema.color) embed.setColor(schema.color);
+        if (schema.color) embed.setColor(schema.color);
 
-            if (schema.title) {
-                embed.setTitle((schema.title.replace(/{member}/gi, member.user.tag)).replace(/{guild}/gi, member.guild.name));
-            }
-
-            if (schema.description) {
-                embed.setDescription((schema.description.replace(/{member}/gi, `<@${member.user.id}>`).replace(/{guild}/gi, member.guild.name)));
-            }
-
-            if (schema.image) embed.setImage(schema.image);
-            if (schema.footer) embed.setFooter(schema.footer);
-            if (schema.timestamp) embed.setTimestamp();
-
-            channel.send({ embeds: [embed] });
-        } catch (e) {
-            console.log(e);
+        if (schema.title) {
+            embed.setTitle((schema.title.replace(/{member}/gi, member.user.tag)).replace(/{guild}/gi, member.guild.name));
         }
+
+        if (schema.description) {
+            embed.setDescription((schema.description.replace(/{member}/gi, `<@${member.user.id}>`).replace(/{guild}/gi, member.guild.name)));
+        }
+
+        if (schema.image) embed.setImage(schema.image);
+        if (schema.footer) embed.setFooter(schema.footer);
+        if (schema.timestamp) embed.setTimestamp();
+
+        channel.send({ embeds: [embed] });
+
+        const roles = await welcomeRoleSchema.find({ guildId: member.guild.id });
+        member.roles.add(roles.map(({ role }) => role));
     }
 };
