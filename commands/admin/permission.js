@@ -88,7 +88,6 @@ module.exports = {
             await interaction.reply(`set permission of role to \`${options.enabled}\` for \`${options.command}\` command`);
 
             client.setSlashPermissionsGuild(interaction.guild);
-            console.log("registered new permissions");
         }
     }
 };

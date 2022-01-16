@@ -32,10 +32,6 @@ module.exports = {
             .setTimestamp()
             .setColor("#8b81a5");
 
-        queue.textChannel.send(
-            {
-                embeds: [embed]
-            }
-        );
+        queue.textChannel.send({ embeds: [embed] });
     }
 };

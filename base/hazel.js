@@ -106,12 +106,7 @@ class Hazel extends Client {
                 }
             }
 
-            fullPermissions.push(
-                {
-                    id,
-                    permissions
-                }
-            );
+            fullPermissions.push({ id, permissions });
         }
 
         await this.REST.put(

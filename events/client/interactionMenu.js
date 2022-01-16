@@ -14,7 +14,6 @@ module.exports = {
 
             for (const [id] of interaction.member.roles.cache) {
                 if (!roles.includes(id)) continue;
-
                 const userRole = await interaction.guild.roles.cache.get(id);
                 interaction.member.roles.remove(userRole);
             }

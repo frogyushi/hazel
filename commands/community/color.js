@@ -27,12 +27,14 @@ module.exports = {
 
             for (const [id] of interaction.member.roles.cache) {
                 if (!roles.includes(id)) continue;
-                isRoleFound = true;
                 const userRole = await interaction.guild.roles.cache.get(id);
+                isRoleFound = true;
                 await interaction.member.roles.remove(userRole);
             }
 
-            const replyContent = isRoleFound ? "color role has been removed from role list" : "no color roles found to remove";
+            const replyContent = isRoleFound ?
+                "color role has been removed from role list" :
+                "no color roles found to remove";
 
             await interaction.reply(
                 {

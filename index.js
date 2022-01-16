@@ -1,8 +1,7 @@
-const mongoose = require("mongoose");
-const Hazel = require("./base/hazel");
-
 require('dotenv').config();
 
+const mongoose = require("mongoose");
+const Hazel = require("./base/hazel");
 const client = new Hazel();
 
 client.loadCommands();
