@@ -4,7 +4,7 @@ module.exports = {
     ownerOnly: true,
     options: [
         {
-            name: "text",
+            name: "message",
             description: "specify a message to be echoed",
             type: 3,
             required: true

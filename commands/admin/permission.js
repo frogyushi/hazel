@@ -24,7 +24,7 @@ module.exports = {
                 },
                 {
                     type: 5,
-                    name: "enabled",
+                    name: "permission",
                     description: "enable/disable permission",
                     required: true
                 },
@@ -38,7 +38,7 @@ module.exports = {
         const options = {
             command: interaction.options.getString("command"),
             role: interaction.options.getRole("role").id,
-            enabled: interaction.options.getBoolean("enabled")
+            permission: interaction.options.getBoolean("permission")
         };
 
         const command = await client.commands.get(options.command);
@@ -69,7 +69,7 @@ module.exports = {
                         guildId: interaction.guildId,
                         command: options.command,
                         role: options.role,
-                        enabled: options.enabled
+                        permission: options.permission
                     }
                 );
 
@@ -81,11 +81,11 @@ module.exports = {
                         command: options.command,
                         role: options.role,
                     },
-                    { enabled: options.enabled }
+                    { permission: options.permission }
                 );
             }
 
-            await interaction.reply(`set permission of role to \`${options.enabled}\` for \`${options.command}\` command`);
+            await interaction.reply(`set permission of role to \`${options.permission}\` for \`${options.command}\` command`);
 
             client.setSlashPermissionsGuild(interaction.guild);
         }

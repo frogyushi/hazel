@@ -4,7 +4,7 @@ module.exports = {
     ownerOnly: true,
     options: [
         {
-            name: "number",
+            name: "amount",
             description: "specify an amount of messages to be removed",
             type: 10,
             required: true

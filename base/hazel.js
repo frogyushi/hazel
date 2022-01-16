@@ -95,12 +95,12 @@ class Hazel extends Client {
             };
 
             if (schema.length) {
-                for (const { role, enabled } of schema) {
+                for (const { role, permission } of schema) {
                     permissions.push(
                         {
                             id: role,
                             type: 1,
-                            permission: enabled
+                            permission: permission
                         }
                     );
                 }

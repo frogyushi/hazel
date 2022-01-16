@@ -7,7 +7,7 @@ module.exports = {
     guildOnly: true,
     options: [
         {
-            name: "add",
+            name: "set",
             description: "set a color role",
             type: 1
         },
@@ -21,36 +21,17 @@ module.exports = {
     async execute(client, interaction) {
         const subcommand = interaction.options.getSubcommand();
 
-        if (subcommand === "remove") {
-            const roles = Object.values(options.color);
-            let isRoleFound = false;
-
-            for (const [id] of interaction.member.roles.cache) {
-                if (!roles.includes(id)) continue;
-                const userRole = await interaction.guild.roles.cache.get(id);
-                isRoleFound = true;
-                await interaction.member.roles.remove(userRole);
-            }
-
-            const replyContent = isRoleFound ?
-                "color role has been removed from role list" :
-                "no color roles found to remove";
-
-            await interaction.reply(
-                {
-                    content: replyContent,
-                    ephemeral: true
-                }
-            );
-        }
-
-        if (subcommand === "add") {
+        if (subcommand === "set") {
             const selectMenu = new MessageSelectMenu()
                 .setCustomId("color")
                 .setPlaceholder("no color selected");
 
             selectMenu.addOptions(
                 [
+                    {
+                        label: "remove color role",
+                        value: "remove"
+                    },
                     {
                         label: "baby blue",
                         emoji: "929780363436380172",

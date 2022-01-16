@@ -18,6 +18,17 @@ module.exports = {
                 interaction.member.roles.remove(userRole);
             }
 
+            if (selectedRole === "remove") {
+                await interaction.reply(
+                    {
+                        content: "roles have been removed",
+                        ephemeral: true
+                    }
+                );
+
+                return;
+            }
+
             const role = interaction.guild.roles.cache.get(menuOptions.color[selectedRole]);
             interaction.member.roles.add(role);
 

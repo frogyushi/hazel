@@ -29,6 +29,11 @@ module.exports = {
             options: [
                 {
                     type: 3,
+                    name: "title",
+                    description: "set a title"
+                },
+                {
+                    type: 3,
                     name: "description",
                     description: "set a description",
                 },
@@ -36,11 +41,6 @@ module.exports = {
                     type: 3,
                     name: "color",
                     description: "set a color using hex value e.g #000000"
-                },
-                {
-                    type: 3,
-                    name: "title",
-                    description: "set a title"
                 },
                 {
                     type: 3,

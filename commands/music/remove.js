@@ -3,7 +3,7 @@ module.exports = {
     description: "removes a song from queue",
     options: [
         {
-            name: "number",
+            name: "index",
             description: "specify index of song to remove",
             type: 10,
             required: true

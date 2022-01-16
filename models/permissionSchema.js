@@ -5,7 +5,7 @@ const schema = new mongoose.Schema(
         guildId: { type: String, required: true },
         command: { type: String },
         role: { type: String },
-        enabled: { type: Boolean }
+        permission: { type: Boolean }
     }
 );
 
