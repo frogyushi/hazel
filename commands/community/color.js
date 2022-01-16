@@ -71,7 +71,7 @@ module.exports = {
 
             await interaction.reply(
                 {
-                    content: "select a color to be added",
+                    content: "select a role to be added",
                     components: [row]
                 }
             );
