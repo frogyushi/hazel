@@ -16,6 +16,7 @@ module.exports = {
             type: 5,
             name: "enabled",
             description: "enable/disable welcome messages",
+            required: true
         },
     ],
 
