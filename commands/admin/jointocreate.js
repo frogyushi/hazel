@@ -24,6 +24,7 @@ module.exports = {
         const temp = {};
 
         const options = {
+            channel: channel?.name,
             channelId: channel?.id,
             enabled: interaction.options.getBoolean("enabled")
         };
@@ -60,10 +61,7 @@ module.exports = {
 
         const newSchema = await joinToCreateSchema.findOneAndUpdate(
             { guildId: interaction.guildId },
-            {
-                channel: channel.name,
-                ...temp
-            },
+            { ...temp },
             {
                 upsert: true,
                 new: true,
