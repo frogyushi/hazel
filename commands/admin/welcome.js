@@ -100,7 +100,7 @@ module.exports = {
                 },
                 {
                     type: 1,
-                    name: "roles",
+                    name: "list",
                     description: "show set roles on welcome"
                 }
             ]
