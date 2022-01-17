@@ -116,7 +116,7 @@ module.exports = {
 
         if (subcommandGroup === "message") {
             if (subcommand === "embed") {
-                const embed = {};
+                const temp = {};
 
                 const options = {
                     title: interaction.options.getString("title"),
@@ -129,11 +129,11 @@ module.exports = {
 
                 for (const opt in options) {
                     if (options[opt] !== null && options[opt] !== undefined) {
-                        embed[opt] = options[opt];
+                        temp[opt] = options[opt];
                     }
                 }
 
-                if (!Object.keys(embed).length) {
+                if (!Object.keys(temp).length) {
                     await interaction.reply(
                         {
                             content: "cannot create/update embed, no options were provided",
@@ -174,7 +174,7 @@ module.exports = {
                         {
                             guildId: interaction.guildId,
                             enabled: true,
-                            ...embed
+                            ...temp
                         }
                     );
 
@@ -185,7 +185,7 @@ module.exports = {
                     return;
                 }
 
-                await welcomeSchema.findOneAndUpdate({ guildId: interaction.guildId }, embed);
+                await welcomeSchema.findOneAndUpdate({ guildId: interaction.guildId }, temp);
 
                 await interaction.reply("embed has been updated");
             }
@@ -197,7 +197,7 @@ module.exports = {
                     return;
                 }
 
-                const embed = {};
+                const temp = {};
 
                 const channel = interaction.options.getChannel("text_channel");
 
@@ -208,7 +208,7 @@ module.exports = {
 
                 for (const opt in options) {
                     if (options[opt] !== null && options[opt] !== undefined) {
-                        embed[opt] = options[opt];
+                        temp[opt] = options[opt];
                     }
                 }
 
@@ -234,7 +234,7 @@ module.exports = {
                     return;
                 }
 
-                await welcomeSchema.findOneAndUpdate({ guildId: interaction.guildId }, embed);
+                await welcomeSchema.findOneAndUpdate({ guildId: interaction.guildId }, temp);
 
                 await interaction.reply("settings have been updated");
             }
