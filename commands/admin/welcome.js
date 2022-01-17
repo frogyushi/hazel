@@ -233,7 +233,7 @@ module.exports = {
             if (subcommand === "add") {
                 const role = interaction.options.getRole("role");
 
-                const welcomeRole = await welcomeRoleSchema.findOne({ guildId: interaction.guildId, role: role });
+                const welcomeRole = await welcomeRoleSchema.findOne({ guildId: interaction.guildId, role: role.id });
 
                 if (!welcomeRole) {
                     await welcomeRoleSchema.create(
