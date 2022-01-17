@@ -68,9 +68,9 @@ module.exports = {
             }
         );
 
-        const { name } = interaction.guild.channels.cache.get(newSchema.channelId);
+        const guildChannel = interaction.guild.channels.cache.get(newSchema.channelId);
 
-        if (!name) {
+        if (!guildChannel?.name) {
             await interaction.reply(
                 {
                     content: "provided voice channel doesn't exist anymore",
@@ -81,6 +81,6 @@ module.exports = {
             return;
         }
 
-        await interaction.reply(`voice channel \`${name}\` has been updated and set as \`${newSchema.enabled}\``);
+        await interaction.reply(`voice channel \`${guildChannel.name}\` has been updated and set as \`${newSchema.enabled}\``);
     },
 };
