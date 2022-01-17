@@ -15,7 +15,6 @@ module.exports = {
             [
                 {
                     label: "none",
-                    emoji: "❌",
                     value: "remove"
                 },
                 {
@@ -61,7 +60,8 @@ module.exports = {
         await interaction.reply(
             {
                 content: "select a role to be added",
-                components: [row]
+                components: [row],
+                ephemeral: true
             }
         );
     },
