@@ -1,5 +1,4 @@
 const { MessageActionRow, MessageSelectMenu } = require("discord.js");
-const options = require("../../menu-options.json");
 
 module.exports = {
     name: "color",
