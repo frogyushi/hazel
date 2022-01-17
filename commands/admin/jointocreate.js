@@ -9,6 +9,7 @@ module.exports = {
             type: 7,
             name: "voice_channel",
             description: "set a join to create voice channel",
+            channelTypes: ["GUILD_VOICE"]
         },
         {
             type: 5,
