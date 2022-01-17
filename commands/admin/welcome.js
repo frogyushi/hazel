@@ -63,7 +63,7 @@ module.exports = {
                             type: 7,
                             name: "text_channel",
                             description: "set a welcome channel",
-                            channelTypes: ["GUILD_TEXT"]
+                            channel_types: [0]
                         }
                     ]
                 }
