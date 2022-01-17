@@ -25,7 +25,7 @@ module.exports = {
 
         const options = {
             channelId: channel?.id,
-            enabled: interaction.options.getBoolean("enabled")
+            isEnabled: interaction.options.getBoolean("enabled")
         };
 
         for (const opt in options) {
@@ -34,7 +34,7 @@ module.exports = {
             }
         }
 
-        if (!options.channelId && options.enabled === null) {
+        if (!options.channelId && options.isEnabled === null) {
             await interaction.reply(
                 {
                     content: "no options were provided",
@@ -47,7 +47,7 @@ module.exports = {
 
         const schema = await joinToCreateSchema.findOne({ guildId: interaction.guildId });
 
-        if (!schema?.channelId && options.enabled) {
+        if (!schema?.channelId && options.isEnabled) {
             await interaction.reply(
                 {
                     content: "cannot update/change setting, no voice channel set",
@@ -81,6 +81,6 @@ module.exports = {
             return;
         }
 
-        await interaction.reply(`voice channel \`${guildChannel.name}\` has been updated and set as \`${newSchema.enabled}\``);
+        await interaction.reply(`voice channel \`${guildChannel.name}\` has been updated and set as \`${newSchema.isEnabled}\``);
     },
 };

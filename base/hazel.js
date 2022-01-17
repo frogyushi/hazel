@@ -78,7 +78,7 @@ class Hazel extends Client {
             const schema = await permissionSchema.find(
                 {
                     guildId: guild.id,
-                    command: name
+                    commandName: name
                 }
             );
 
@@ -95,12 +95,12 @@ class Hazel extends Client {
             };
 
             if (schema.length) {
-                for (const { role, permission } of schema) {
+                for (const { roleId, hasPermission } of schema) {
                     permissions.push(
                         {
-                            id: role,
+                            id: roleId,
                             type: 1,
-                            permission: permission
+                            permission: hasPermission
                         }
                     );
                 }

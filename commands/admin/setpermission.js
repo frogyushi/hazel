@@ -26,15 +26,13 @@ module.exports = {
     ],
 
     async execute(client, interaction) {
-        const subcommand = interaction.options.getSubcommand();
-
         const options = {
-            command: interaction.options.getString("command_name"),
-            role: interaction.options.getRole("role").id,
-            permission: interaction.options.getBoolean("permission")
+            commandName: interaction.options.getString("command_name"),
+            roleId: interaction.options.getRole("role").id,
+            hasPermission: interaction.options.getBoolean("permission")
         };
 
-        const command = await client.commands.get(options.command);
+        const command = await client.commands.get(options.commandName);
 
         if (!command) {
             await interaction.reply(
@@ -50,8 +48,8 @@ module.exports = {
         const data = await permissionSchema.findOne(
             {
                 guildId: interaction.guildId,
-                command: options.command,
-                role: options.role
+                commandName: options.commandName,
+                roleId: options.roleId
             }
         );
 
@@ -59,9 +57,9 @@ module.exports = {
             const schema = await permissionSchema.create(
                 {
                     guildId: interaction.guildId,
-                    command: options.command,
-                    role: options.role,
-                    permission: options.permission
+                    commandName: options.commandName,
+                    roleId: options.roleId,
+                    hasPermission: options.hasPermission
                 }
             );
 
@@ -70,14 +68,14 @@ module.exports = {
             await permissionSchema.findOneAndUpdate(
                 {
                     guildId: interaction.guildId,
-                    command: options.command,
-                    role: options.role,
+                    commandName: options.commandName,
+                    roleId: options.roleId,
                 },
-                { permission: options.permission }
+                { hasPermission: options.hasPermission }
             );
         }
 
-        await interaction.reply(`set permission of role to \`${options.permission}\` for \`${options.command}\` command`);
+        await interaction.reply(`set permission of role to \`${options.hasPermission}\` for \`${options.commandName}\` command`);
 
         client.setSlashPermissionsGuild(interaction.guild);
     }

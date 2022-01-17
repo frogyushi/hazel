@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const schema = new mongoose.Schema(
     {
         guildId: { type: String, required: true },
-        role: { type: String }
+        roleId: { type: String }
     }
 );
 

@@ -1,4 +1,4 @@
-const welcomeSchema = require("../../models/welcomeSchema");
+const welcomeMessageSchema = require("../../models/welcomeMessageSchema");
 const welcomeRoleSchema = require("../../models/welcomeRoleSchema");
 const { MessageEmbed } = require("discord.js");
 
@@ -112,7 +112,7 @@ module.exports = {
     async execute(client, interaction) {
         const subcommandGroup = interaction.options.getSubcommandGroup();
         const subcommand = interaction.options.getSubcommand();
-        const welcome = await welcomeSchema.findOne({ guildId: interaction.guildId });
+        const welcomeMessage = await welcomeMessageSchema.findOne({ guildId: interaction.guildId });
 
         if (subcommandGroup === "message") {
             if (subcommand === "embed") {
@@ -156,8 +156,8 @@ module.exports = {
                 }
 
                 if (
-                    !options.description && !welcome.description ||
-                    !options.title && !welcome.title
+                    !options.description && !welcomeMessage?.embed?.description ||
+                    !options.title && !welcomeMessage?.embed?.title
                 ) {
                     await interaction.reply(
                         {
@@ -169,12 +169,12 @@ module.exports = {
                     return;
                 }
 
-                if (!welcome) {
-                    const schema = await welcomeSchema.create(
+                if (!welcomeMessage) {
+                    const schema = await welcomeMessageSchema.create(
                         {
                             guildId: interaction.guildId,
-                            enabled: true,
-                            ...temp
+                            isEnabled: true,
+                            embed: { ...temp }
                         }
                     );
 
@@ -185,13 +185,13 @@ module.exports = {
                     return;
                 }
 
-                await welcomeSchema.findOneAndUpdate({ guildId: interaction.guildId }, temp);
+                await welcomeMessageSchema.findOneAndUpdate({ guildId: interaction.guildId }, { embed: { ...temp } });
 
                 await interaction.reply("embed has been updated");
             }
 
             if (subcommand === "channel") {
-                if (!welcome) {
+                if (!welcomeMessage) {
                     await interaction.reply("no setting available, missing embed");
 
                     return;
@@ -203,7 +203,7 @@ module.exports = {
 
                 const options = {
                     channelId: channel?.id,
-                    enabled: interaction.options.getBoolean("enabled")
+                    isEnabled: interaction.options.getBoolean("enabled")
                 };
 
                 for (const opt in options) {
@@ -212,7 +212,7 @@ module.exports = {
                     }
                 }
 
-                if (!options.channelId && options.enabled === null) {
+                if (!options.channelId && options.isEnabled === null) {
                     await interaction.reply(
                         {
                             content: "no options were provided",
@@ -223,7 +223,7 @@ module.exports = {
                     return;
                 }
 
-                await welcomeSchema.findOneAndUpdate({ guildId: interaction.guildId }, temp);
+                await welcomeMessageSchema.findOneAndUpdate({ guildId: interaction.guildId }, temp);
 
                 await interaction.reply("settings have been updated");
             }
@@ -233,13 +233,13 @@ module.exports = {
             if (subcommand === "add") {
                 const role = interaction.options.getRole("role");
 
-                const welcomeRole = await welcomeRoleSchema.findOne({ guildId: interaction.guildId, role: role.id });
+                const welcomeRole = await welcomeRoleSchema.findOne({ guildId: interaction.guildId, roleId: role.id });
 
                 if (!welcomeRole) {
                     await welcomeRoleSchema.create(
                         {
                             guildId: interaction.guildId,
-                            role: role.id,
+                            roleId: role.id,
                         }
                     );
 
@@ -256,15 +256,15 @@ module.exports = {
 
             if (subcommand === "remove") {
                 const role = interaction.options.getRole("role");
-                await welcomeRoleSchema.findOneAndDelete({ guildId: interaction.guildId, role: role.id });
+                await welcomeRoleSchema.findOneAndDelete({ guildId: interaction.guildId, roleId: role.id });
 
                 await interaction.reply(`removed role \`${role.name}\` from welcome roles`);
             }
 
             if (subcommand === "roles") {
-                const roles = await welcomeRoleSchema.find({ guildId: interaction.guildId });
+                const welcomeRoles = await welcomeRoleSchema.find({ guildId: interaction.guildId });
 
-                if (!roles.length) {
+                if (!welcomeRoles.length) {
                     await interaction.reply("no welcome roles set");
 
                     return;
@@ -272,8 +272,8 @@ module.exports = {
 
                 const roleNames = [];
 
-                for (const { role } of roles) {
-                    const roleName = await interaction.member.guild.roles.cache.get(role);
+                for (const { roleId } of welcomeRoles) {
+                    const roleName = await interaction.member.guild.roles.cache.get(roleId);
                     roleNames.push(roleName);
                 }
 
