@@ -189,9 +189,9 @@ module.exports = {
                 await interaction.reply("embed has been updated");
             }
 
-            if (subcommand === "settings") {
+            if (subcommand === "channel") {
                 if (!welcome) {
-                    await interaction.reply("no settings available, missing embed");
+                    await interaction.reply("no setting available, missing embed");
 
                     return;
                 }
