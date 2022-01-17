@@ -51,7 +51,7 @@ module.exports = {
                 },
                 {
                     type: 1,
-                    name: "settings",
+                    name: "channel",
                     description: "customize settings",
                     options: [
                         {
