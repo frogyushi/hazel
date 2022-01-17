@@ -47,7 +47,7 @@ module.exports = {
 
         const schema = await joinToCreateSchema.findOne({ guildId: interaction.guildId });
 
-        if (!schema?.channelId && options.isEnabled) {
+        if (!schema?.channelId && options.isEnabled && !options.channelId) {
             await interaction.reply(
                 {
                     content: "cannot update/change setting, no voice channel set",
