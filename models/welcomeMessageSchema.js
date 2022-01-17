@@ -16,6 +16,6 @@ const schema = new mongoose.Schema(
     }
 );
 
-const model = mongoose.model("welcomeSchema", schema);
+const model = mongoose.model("welcomeMessageSchema", schema);
 
 module.exports = model;
