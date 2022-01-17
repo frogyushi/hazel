@@ -45,6 +45,19 @@ module.exports = {
             return;
         }
 
+        const find = await joinToCreateSchema.findOne({ guildId: interaction.guildId, channelId: options.channelId });
+
+        if (!find && !options.channelId) {
+            await interaction.reply(
+                {
+                    content: "cannot update/change setting, no voice channel set",
+                    ephemeral: true
+                }
+            );
+
+            return;
+        }
+
         await joinToCreateSchema.findOneAndUpdate({ guildId: interaction.guildId }, temp);
 
         await interaction.reply(`voice channel \`${channel.name}\` has been updated as join to create`);
