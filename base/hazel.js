@@ -82,9 +82,9 @@ class Hazel extends Client {
                 }
             );
 
-            const { ownerOnly } = await this.commands.get(name);
+            const command = await this.commands.get(name);
 
-            if (ownerOnly) {
+            if (command?.ownerOnly) {
                 permissions.push(
                     {
                         id: guild.ownerId,
