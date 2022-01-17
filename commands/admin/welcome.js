@@ -52,7 +52,7 @@ module.exports = {
                 {
                     type: 1,
                     name: "channel",
-                    description: "customize settings",
+                    description: "set a welcome message channel",
                     options: [
                         {
                             type: 5,
