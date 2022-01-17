@@ -24,7 +24,6 @@ module.exports = {
         const temp = {};
 
         const options = {
-            channel: channel?.name,
             channelId: channel?.id,
             enabled: interaction.options.getBoolean("enabled")
         };
@@ -69,6 +68,8 @@ module.exports = {
             }
         );
 
-        await interaction.reply(`voice channel \`${newSchema.channel}\` has been updated and set as \`${newSchema.enabled}\``);
+        const { name } = interaction.guild.channels.cache.get(newSchema.channelId);
+
+        await interaction.reply(`voice channel \`${name}\` has been updated and set as \`${newSchema.enabled}\``);
     },
 };
