@@ -6,27 +6,27 @@ module.exports = {
     name: "guildMemberAdd",
 
     async execute(client, member) {
-        const welcome = await welcomeMessageSchema.findOne({ guildId: member.guild.id });
-        if (!welcome?.isEnabled) return;
+        const welcomeMessage = await welcomeMessageSchema.findOne({ guildId: member.guild.id });
+        if (!welcomeMessage?.isEnabled) return;
 
-        const channel = member.guild.channels.cache.get(welcome.channelId);
+        const channel = member.guild.channels.cache.get(welcomeMessage.channelId);
         if (!channel) return;
 
         const embed = new MessageEmbed();
 
-        if (welcome.embed.color) embed.setColor(welcome.embed.color);
+        if (welcomeMessage.embed.color) embed.setColor(welcomeMessage.embed.color);
 
-        if (welcome.embed.title) {
-            embed.setTitle((welcome.embed.title.replace(/{member}/gi, member.user.tag)).replace(/{guild}/gi, member.guild.name));
+        if (welcomeMessage.embed.title) {
+            embed.setTitle((welcomeMessage.embed.title.replace(/{member}/gi, member.user.tag)).replace(/{guild}/gi, member.guild.name));
         }
 
-        if (welcome.embed.description) {
-            embed.setDescription((welcome.description.replace(/{member}/gi, `<@${member.user.id}>`).replace(/{guild}/gi, member.guild.name)));
+        if (welcomeMessage.embed.description) {
+            embed.setDescription((welcomeMessage.embed.description.replace(/{member}/gi, `<@${member.user.id}>`).replace(/{guild}/gi, member.guild.name)));
         }
 
-        if (welcome.embed.image) embed.setImage(welcome.embed.image);
-        if (welcome.embed.footer) embed.setFooter(welcome.embed.footer);
-        if (welcome.embed.timestamp) embed.setTimestamp();
+        if (welcomeMessage.embed.image) embed.setImage(welcomeMessage.embed.image);
+        if (welcomeMessage.embed.footer) embed.setFooter(welcomeMessage.embed.footer);
+        if (welcomeMessage.embed.timestamp) embed.setTimestamp();
 
         channel.send({ embeds: [embed] });
 
