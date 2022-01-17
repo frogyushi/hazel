@@ -1,7 +1,7 @@
 const permissionSchema = require("../../models/permissionSchema");
 
 module.exports = {
-    name: "setpermission",
+    name: "permission",
     description: "set permissions for commands",
     ownerOnly: true,
     options: [

@@ -2,7 +2,7 @@ const { MessageActionRow, MessageSelectMenu } = require("discord.js");
 const options = require("../../menu-options.json");
 
 module.exports = {
-    name: "setcolor",
+    name: "color",
     description: "manage user's color role",
     guildOnly: true,
     options: [],
