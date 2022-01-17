@@ -15,8 +15,7 @@ module.exports = {
         selectMenu.addOptions(
             [
                 {
-                    label: "remove",
-                    description: "remove color from roles",
+                    label: "none",
                     emoji: "❌",
                     value: "remove"
                 },
