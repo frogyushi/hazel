@@ -25,7 +25,7 @@ module.exports = {
 
         const options = {
             channelId: channel?.id,
-            enabled: interaction.options.getBoolean("enabled") || true
+            enabled: interaction.options.getBoolean("enabled")
         };
 
         for (const opt in options) {

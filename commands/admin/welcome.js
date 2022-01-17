@@ -223,17 +223,6 @@ module.exports = {
                     return;
                 }
 
-                if (options.channelId && channel.type !== "GUILD_TEXT") {
-                    await interaction.reply(
-                        {
-                            content: "provided channel must be of type text",
-                            ephemeral: true
-                        }
-                    );
-
-                    return;
-                }
-
                 await welcomeSchema.findOneAndUpdate({ guildId: interaction.guildId }, temp);
 
                 await interaction.reply("settings have been updated");
