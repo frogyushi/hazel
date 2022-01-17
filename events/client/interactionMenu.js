@@ -16,7 +16,7 @@ module.exports = {
                 interaction.member.roles.remove(userRole);
             }
 
-            if (selectedRole === "remove") {
+            if (role === "remove") {
                 await interaction.reply(
                     {
                         content: "roles have been removed",
