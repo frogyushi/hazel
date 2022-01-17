@@ -34,23 +34,21 @@ module.exports = {
                 {
                     guildId: interaction.guildId,
                     channelId: options.channelId,
-                    enabled: options.enabled || true
+                    enabled: options.enabled
                 }
             );
 
             schema.save();
         } else {
-            const enabled = options.enabled ? { enabled: options.enabled } : {};
-
             await joinToCreateSchema.findOneAndUpdate(
                 { guildId: interaction.guildId },
                 {
                     channelId: options.channelId,
-                    ...enabled
+                    enabled: options.enabled
                 }
             );
         }
 
-        await interaction.reply("settings have been updated");
+        await interaction.reply(`voice channel \`${channel.name}\` has been updated as join to create`);
     },
 };
