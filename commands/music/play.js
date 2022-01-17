@@ -3,7 +3,7 @@ module.exports = {
     description: "plays a song",
     options: [
         {
-            name: "text",
+            name: "query",
             description: "youtube, spotify",
             type: 3,
             required: true
@@ -11,7 +11,7 @@ module.exports = {
     ],
 
     async execute(client, interaction) {
-        const query = interaction.options.getString("text");
+        const query = interaction.options.getString("query");
 
         if (!interaction.member.voice.channel) {
             await interaction.reply(

@@ -6,7 +6,7 @@ module.exports = {
     ownerOnly: true,
     options: [
         {
-            name: "command",
+            name: "command_name",
             description: "provide command name",
             type: 3,
             required: true
@@ -29,7 +29,7 @@ module.exports = {
         const subcommand = interaction.options.getSubcommand();
 
         const options = {
-            command: interaction.options.getString("command"),
+            command: interaction.options.getString("command_name"),
             role: interaction.options.getRole("role").id,
             permission: interaction.options.getBoolean("permission")
         };

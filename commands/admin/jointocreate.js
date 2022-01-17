@@ -7,7 +7,7 @@ module.exports = {
     options: [
         {
             type: 7,
-            name: "channel",
+            name: "voice_channel",
             description: "set a join to create voice channel",
         },
         {
@@ -20,7 +20,7 @@ module.exports = {
     async execute(client, interaction) {
         const template = {};
 
-        const channel = interaction.options.getChannel("channel");
+        const channel = interaction.options.getChannel("voice_channel");
 
         const options = {
             channelId: channel?.id,

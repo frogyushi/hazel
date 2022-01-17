@@ -61,7 +61,7 @@ module.exports = {
                         },
                         {
                             type: 7,
-                            name: "channel",
+                            name: "voice_channel",
                             description: "set a welcome channel"
                         }
                     ]
@@ -198,7 +198,7 @@ module.exports = {
 
                 const embed = {};
 
-                const channel = interaction.options.getChannel("channel");
+                const channel = interaction.options.getChannel("voice_channel");
 
                 const options = {
                     channelId: channel?.id,
