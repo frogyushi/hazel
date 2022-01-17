@@ -60,6 +60,6 @@ module.exports = {
 
         const newSchema = await joinToCreateSchema.findOneAndUpdate({ guildId: interaction.guildId }, temp, { upsert: true, new: true, setDefaultsOnInsert: true });
 
-        await interaction.reply(`voice channel \`${channel.name}\` has been updated and set as \`${newSchema.enabled}\``);
+        await interaction.reply(`voice channel \`${newSchema.channelId}\` has been updated and set as \`${newSchema.enabled}\``);
     },
 };
