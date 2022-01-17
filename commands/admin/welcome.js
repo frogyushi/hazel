@@ -1,5 +1,6 @@
 const welcomeSchema = require("../../models/welcomeSchema");
 const welcomeRoleSchema = require("../../models/welcomeRoleSchema");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
     name: "welcome",
@@ -51,7 +52,7 @@ module.exports = {
                 {
                     type: 1,
                     name: "settings",
-                    description: "update a setting",
+                    description: "customize settings",
                     options: [
                         {
                             type: 5,
@@ -100,7 +101,7 @@ module.exports = {
                 },
                 {
                     type: 1,
-                    name: "list",
+                    name: "roles",
                     description: "show set roles on welcome"
                 }
             ]
@@ -265,7 +266,6 @@ module.exports = {
 
             if (subcommand === "remove") {
                 const role = interaction.options.getRole("role");
-
                 await welcomeRoleSchema.findOneAndDelete({ guildId: interaction.guildId, role: role.id });
 
                 await interaction.reply(`removed role \`${role.name}\` from welcome roles`);
@@ -284,10 +284,15 @@ module.exports = {
 
                 for (const { role } of roles) {
                     const roleName = await interaction.member.guild.roles.cache.get(role);
-                    roleNames.push(roleName.name);
+                    roleNames.push(roleName);
                 }
 
-                await interaction.reply(roleNames.join(", "));
+                const embed = new MessageEmbed()
+                    .setTitle("welcome roles")
+                    .setDescription(roleNames.join(" "))
+                    .setColor("#8b81a5");
+
+                await interaction.reply({ embeds: [embed] });
             }
         }
     }
