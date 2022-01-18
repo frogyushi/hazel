@@ -98,7 +98,7 @@ class Hazel extends Client {
     }
 
     async setSlashPermissionsGlobal() {
-        this.guilds.cache.every((guild) => this.setSlashPermissionsGuild(guild));
+        this.guilds.cache.forEach((guild) => this.setSlashPermissionsGuild(guild));
         console.log("registered permissions");
     }
 
