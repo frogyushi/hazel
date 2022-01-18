@@ -14,7 +14,10 @@ module.exports = {
             return;
         }
 
-        if (!interaction.member.voice.channel.members.has(client.id) && client.voice.adapters.get(interaction.guildId)) {
+        if (
+            !interaction.member.voice.channel.members.has(client.id) &&
+            client.voice.adapters.get(interaction.guildId)
+        ) {
             await interaction.reply({
                 content: "u cannot use this command if you're not in the same voice channel as hazel",
                 ephemeral: true
