@@ -19,13 +19,11 @@ module.exports = {
             .setColor("#8b81a5")
             .setDescription(`<@${interaction.member.id}> has punched <@${member.id}>`)
             .setImage(
-                client.getRandomArrayElement(
-                    [
-                        "https://media.giphy.com/media/dLFdh0a92fhxoTgZVf/giphy.gif",
-                        "https://media.giphy.com/media/vtjMER18uH2bX4VUHq/giphy.gif",
-                        "https://media.giphy.com/media/xVMLgxUrQR1inwGpem/giphy.gif",
-                    ]
-                )
+                client.getRandomArrayElement([
+                    "https://media.giphy.com/media/dLFdh0a92fhxoTgZVf/giphy.gif",
+                    "https://media.giphy.com/media/vtjMER18uH2bX4VUHq/giphy.gif",
+                    "https://media.giphy.com/media/xVMLgxUrQR1inwGpem/giphy.gif",
+                ])
             );
 
         await interaction.reply({ content: `<@${member.id}>`, embeds: [embed] });
