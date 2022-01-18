@@ -14,34 +14,28 @@ module.exports = {
         const query = interaction.options.getString("query");
 
         if (!interaction.member.voice.channel) {
-            await interaction.reply(
-                {
-                    content: "this command can only be used inside a voice channel",
-                    ephemeral: true
-                }
-            );
+            await interaction.reply({
+                content: "this command can only be used inside a voice channel",
+                ephemeral: true
+            });
 
             return;
         }
 
         if (!interaction.member.voice.channel.members.has(client.id) && client.voice.adapters.get(interaction.guildId)) {
-            await interaction.reply(
-                {
-                    content: "u cannot use this command if you're not in the same voice channel as hazel",
-                    ephemeral: true
-                }
-            );
+            await interaction.reply({
+                content: "u cannot use this command if you're not in the same voice channel as hazel",
+                ephemeral: true
+            });
 
             return;
         }
 
-        client.distube.playVoiceChannel(interaction.member.voice.channel, query,
-            {
-                textChannel: interaction.channel,
-                member: interaction.member,
-                skip: true
-            }
-        );
+        client.distube.playVoiceChannel(interaction.member.voice.channel, query, {
+            textChannel: interaction.channel,
+            member: interaction.member,
+            skip: true
+        });
 
         await interaction.reply(`searching: \`${query}\``);
     }

@@ -15,34 +15,28 @@ module.exports = {
         const amount = interaction.options.getNumber("amount");
 
         if (amount < 1) {
-            await interaction.reply(
-                {
-                    content: "specified amount cannot be negative",
-                    ephemeral: true
-                }
-            );
+            await interaction.reply({
+                content: "specified amount cannot be negative",
+                ephemeral: true
+            });
 
             return;
         }
 
         if (amount > 100) {
-            await interaction.reply(
-                {
-                    content: "specified amount cannot be greater than 100",
-                    ephemeral: true
-                }
-            );
+            await interaction.reply({
+                content: "specified amount cannot be greater than 100",
+                ephemeral: true
+            });
 
             return;
         }
 
         await interaction.channel.bulkDelete(amount, true);
 
-        await interaction.reply(
-            {
-                content: `i have deleted \`${amount}\` messages`,
-                ephemeral: true
-            }
-        );
+        await interaction.reply({
+            content: `i have deleted \`${amount}\` messages`,
+            ephemeral: true
+        });
     },
 };

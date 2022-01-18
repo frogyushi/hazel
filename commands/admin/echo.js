@@ -12,9 +12,11 @@ module.exports = {
     ],
 
     async execute(client, interaction) {
+        const message = interaction.options.getString("message");
+
         await interaction.deferReply();
         await interaction.deleteReply();
 
-        interaction.channel.send(interaction.options.getString("message"));
+        interaction.channel.send(message);
     },
 };

@@ -134,23 +134,19 @@ module.exports = {
                 }
 
                 if (!Object.keys(temp).length) {
-                    await interaction.reply(
-                        {
-                            content: "cannot create/update embed, no options were provided",
-                            ephemeral: true
-                        }
-                    );
+                    await interaction.reply({
+                        content: "cannot create/update embed, no options were provided",
+                        ephemeral: true
+                    });
 
                     return;
                 }
 
                 if (options.color && !client.isHex(options.color)) {
-                    await interaction.reply(
-                        {
-                            content: "provided color must represent a hex value",
-                            ephemeral: true
-                        }
-                    );
+                    await interaction.reply({
+                        content: "provided color must represent a hex value",
+                        ephemeral: true
+                    });
 
                     return;
                 }
@@ -159,24 +155,20 @@ module.exports = {
                     !options.description && !welcomeMessage?.embed?.description ||
                     !options.title && !welcomeMessage?.embed?.title
                 ) {
-                    await interaction.reply(
-                        {
-                            content: "u must provide a description or title",
-                            ephemeral: true
-                        }
-                    );
+                    await interaction.reply({
+                        content: "u must provide a description or title",
+                        ephemeral: true
+                    });
 
                     return;
                 }
 
                 if (!welcomeMessage) {
-                    const schema = await welcomeMessageSchema.create(
-                        {
-                            guildId: interaction.guildId,
-                            isEnabled: true,
-                            embed: { ...temp }
-                        }
-                    );
+                    const schema = await welcomeMessageSchema.create({
+                        guildId: interaction.guildId,
+                        isEnabled: true,
+                        embed: { ...temp }
+                    });
 
                     schema.save();
 
@@ -213,12 +205,10 @@ module.exports = {
                 }
 
                 if (!options.channelId && options.isEnabled === null) {
-                    await interaction.reply(
-                        {
-                            content: "no options were provided",
-                            ephemeral: true
-                        }
-                    );
+                    await interaction.reply({
+                        content: "no options were provided",
+                        ephemeral: true
+                    });
 
                     return;
                 }
@@ -232,26 +222,23 @@ module.exports = {
         if (subcommandGroup === "role") {
             if (subcommand === "add") {
                 const role = interaction.options.getRole("role");
-
                 const welcomeRole = await welcomeRoleSchema.findOne({ guildId: interaction.guildId, roleId: role.id });
 
-                if (!welcomeRole) {
-                    await welcomeRoleSchema.create(
-                        {
-                            guildId: interaction.guildId,
-                            roleId: role.id,
-                        }
-                    );
+                if (welcomeRole) {
+                    await interaction.reply({
+                        content: `provided role \`${role.name}\` is already added`,
+                        ephemeral: true
+                    });
 
-                    await interaction.reply(`added role \`${role.name}\` to welcome roles`);
-                } else {
-                    await interaction.reply(
-                        {
-                            content: `provided role \`${role.name}\` is already added`,
-                            ephemeral: true
-                        }
-                    );
+                    return
                 }
+
+                await welcomeRoleSchema.create({
+                    guildId: interaction.guildId,
+                    roleId: role.id,
+                });
+
+                await interaction.reply(`added role \`${role.name}\` to welcome roles`);
             }
 
             if (subcommand === "remove") {
@@ -279,8 +266,8 @@ module.exports = {
 
                 const embed = new MessageEmbed()
                     .setTitle("welcome roles")
-                    .setDescription(roleNames.join(" "))
-                    .setColor("#8b81a5");
+                    .setColor("#8b81a5")
+                    .setDescription(roleNames.join(" "));
 
                 await interaction.reply({ embeds: [embed] });
             }

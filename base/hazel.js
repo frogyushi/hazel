@@ -8,16 +8,14 @@ const permissionSchema = require("../models/permissionSchema");
 
 class Hazel extends Client {
     constructor() {
-        super(
-            {
-                intents: [
-                    Intents.FLAGS.GUILDS,
-                    Intents.FLAGS.GUILD_MESSAGES,
-                    Intents.FLAGS.GUILD_MEMBERS,
-                    Intents.FLAGS.GUILD_VOICE_STATES
-                ]
-            }
-        );
+        super({
+            intents: [
+                Intents.FLAGS.GUILDS,
+                Intents.FLAGS.GUILD_MESSAGES,
+                Intents.FLAGS.GUILD_MEMBERS,
+                Intents.FLAGS.GUILD_VOICE_STATES
+            ]
+        });
 
         this.token = process.env.CLIENT_TOKEN;
         this.id = process.env.CLIENT_ID;
@@ -26,18 +24,16 @@ class Hazel extends Client {
 
         this.REST = new REST({ version: "9" }).setToken(this.token);
 
-        this.distube = new DisTube(this,
-            {
-                searchSongs: 1,
-                searchCooldown: 30,
-                leaveOnEmpty: true,
-                emptyCooldown: 60,
-                leaveOnFinish: false,
-                leaveOnStop: false,
-                plugins: [new SpotifyPlugin({ emitEventsAfterFetching: true })],
-                youtubeCookie: process.env.COOKIES
-            }
-        );
+        this.distube = new DisTube(this, {
+            searchSongs: 1,
+            searchCooldown: 30,
+            leaveOnEmpty: true,
+            emptyCooldown: 60,
+            leaveOnFinish: false,
+            leaveOnStop: false,
+            plugins: [new SpotifyPlugin({ emitEventsAfterFetching: true })],
+            youtubeCookie: process.env.COOKIES
+        });
 
         this.globalCommands = [];
         this.guildCommands = [];
@@ -69,41 +65,29 @@ class Hazel extends Client {
     }
 
     async setSlashPermissionsGuild(guild) {
-        const commands = await this.application.commands.fetch();
         const fullPermissions = [];
+        const commands = await this.application.commands.fetch();
 
         for (const { id, name } of commands.values()) {
-            const permissions = [];
+            const permissionSchemas = await permissionSchema.find({ guildId: guild.id, commandName: name });
+            const { ownerOnly = false } = await this.commands.get(name);
 
-            const schema = await permissionSchema.find(
-                {
-                    guildId: guild.id,
-                    commandName: name
-                }
-            );
+            const permissions = ownerOnly ? [{
+                id: guild.ownerId,
+                type: 2,
+                permission: true
+            }] : [];
 
-            const command = await this.commands.get(name);
+            if (permissionSchemas.length) {
+                const perms = permissionSchemas.map(({ roleId, hasPermission }) => {
+                    return {
+                        id: roleId,
+                        type: 1,
+                        permission: hasPermission
+                    };
+                });
 
-            if (command?.ownerOnly) {
-                permissions.push(
-                    {
-                        id: guild.ownerId,
-                        type: 2,
-                        permission: true
-                    }
-                );
-            };
-
-            if (schema.length) {
-                for (const { roleId, hasPermission } of schema) {
-                    permissions.push(
-                        {
-                            id: roleId,
-                            type: 1,
-                            permission: hasPermission
-                        }
-                    );
-                }
+                permissions.push(...perms);
             }
 
             fullPermissions.push({ id, permissions });
@@ -116,10 +100,7 @@ class Hazel extends Client {
     }
 
     async setSlashPermissionsGlobal() {
-        for (const guild of this.guilds.cache.values()) {
-            this.setSlashPermissionsGuild(guild);
-        }
-
+        this.guilds.cache.every((guild) => this.setSlashPermissionsGuild(guild));
         console.log("registered permissions");
     }
 
@@ -141,8 +122,8 @@ class Hazel extends Client {
         return array[Math.floor(Math.random() * array.length)];
     };
 
-    isHex(arg) {
-        return /^#[0-9A-F]{6}$/i.test(arg);
+    isHex(string) {
+        return /^#[0-9A-F]{6}$/i.test(string);
     }
 }
 

@@ -10,7 +10,6 @@ module.exports = {
 
         if (newState?.channelId === schema?.channelId) {
             const { guild, user, voice, id } = newState.member;
-
             const parent = newState.channel?.parentId;
             const parentId = parent ? { parent } : {};
 

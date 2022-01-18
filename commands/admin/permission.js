@@ -35,45 +35,41 @@ module.exports = {
         const command = await client.commands.get(options.commandName);
 
         if (!command) {
-            await interaction.reply(
-                {
-                    content: "provided command doesn't exist, please check for a valid command",
-                    ephemeral: true
-                }
-            );
+            await interaction.reply({
+                content: "provided command doesn't exist, please check for a valid command",
+                ephemeral: true
+            });
 
             return;
         }
 
-        const data = await permissionSchema.findOne(
+        const data = await permissionSchema.findOne({
+            guildId: interaction.guildId,
+            commandName: options.commandName,
+            roleId: options.roleId
+        });
+
+        if (!data) {
+            const schema = await permissionSchema.create({
+                guildId: interaction.guildId,
+                commandName: options.commandName,
+                roleId: options.roleId,
+                hasPermission: options.hasPermission
+            });
+
+            schema.save();
+
+            return;
+        }
+
+        await permissionSchema.findOneAndUpdate(
             {
                 guildId: interaction.guildId,
                 commandName: options.commandName,
-                roleId: options.roleId
-            }
+                roleId: options.roleId,
+            },
+            { hasPermission: options.hasPermission }
         );
-
-        if (!data) {
-            const schema = await permissionSchema.create(
-                {
-                    guildId: interaction.guildId,
-                    commandName: options.commandName,
-                    roleId: options.roleId,
-                    hasPermission: options.hasPermission
-                }
-            );
-
-            schema.save();
-        } else {
-            await permissionSchema.findOneAndUpdate(
-                {
-                    guildId: interaction.guildId,
-                    commandName: options.commandName,
-                    roleId: options.roleId,
-                },
-                { hasPermission: options.hasPermission }
-            );
-        }
 
         await interaction.reply(`set permission of role to \`${options.hasPermission}\` for \`${options.commandName}\` command`);
 
