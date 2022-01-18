@@ -7,6 +7,7 @@ require('dotenv').config();
 client.loadCommands();
 client.loadEvents();
 
-mongoose.connect(client.mongoURI, { keepAlive: true }).then(() => console.log("connected to the database"));
+mongoose.connect(client.mongoURI, { keepAlive: true })
+    .then(() => console.log("connected to the database"));
 
 client.login(client.token);

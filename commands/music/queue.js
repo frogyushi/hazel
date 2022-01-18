@@ -70,7 +70,9 @@ module.exports = {
             .setFooter(`page ${page || 1}/${maxSongs || 1} - ${queue.songs.length - 1 || "no"} songs in queue - ${queue.formattedDuration}`)
             .setTimestamp();
 
-        await interaction.reply({ embeds: [embed] });
+        await interaction.reply({
+            embeds: [embed]
+        });
     }
 };
 

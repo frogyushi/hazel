@@ -39,14 +39,32 @@ module.exports = {
         const embed = new MessageEmbed()
             .setTitle(song.name)
             .setFields(
-                { name: "channel", value: song.uploader.name, inline: true },
-                { name: "song duration", value: `${queue.formattedCurrentTime}/${song.formattedDuration}`, inline: true },
-                { name: "requested by", value: song.user.username, inline: true },
-                { name: "next up", value: queue.songs[1]?.name || "none", inline: true }
+                {
+                    name: "channel",
+                    value: song.uploader.name,
+                    inline: true
+                },
+                {
+                    name: "song duration",
+                    value: `${queue.formattedCurrentTime}/${song.formattedDuration}`,
+                    inline: true
+                },
+                {
+                    name: "requested by",
+                    value: song.user.username,
+                    inline: true
+                },
+                {
+                    name: "next up",
+                    value: queue.songs[1]?.name || "none",
+                    inline: true
+                }
             )
             .setTimestamp()
             .setColor("#8b81a5");
 
-        await interaction.reply({ embeds: [embed] });
+        await interaction.reply({
+            embeds: [embed]
+        });
     }
 };

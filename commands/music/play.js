@@ -34,12 +34,10 @@ module.exports = {
             return;
         }
 
-        client.distube.playVoiceChannel(interaction.member.voice.channel, query,
-            {
-                textChannel: interaction.channel,
-                member: interaction.member
-            }
-        );
+        client.distube.playVoiceChannel(interaction.member.voice.channel, query, {
+            textChannel: interaction.channel,
+            member: interaction.member
+        });
 
         await interaction.reply(`searching: \`${query}\``);
     }

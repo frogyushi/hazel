@@ -4,7 +4,9 @@ module.exports = {
     name: "voiceStateUpdate",
 
     async execute(client, oldState, newState) {
-        const schema = await joinToCreateSchema.findOne({ guildId: oldState.guild.id || newState.guild.id });
+        const schema = await joinToCreateSchema.findOne({
+            guildId: oldState.guild.id || newState.guild.id
+        });
 
         if (!schema?.isEnabled) return;
 
@@ -30,7 +32,10 @@ module.exports = {
             voice.setChannel(vc.id);
         };
 
-        if (client.temporaryVoiceChannels.get(oldState.channelId) && !oldState.channel.members.size) {
+        if (
+            client.temporaryVoiceChannels.get(oldState.channelId) &&
+            !oldState.channel.members.size
+        ) {
             oldState.channel.delete();
 
             return;

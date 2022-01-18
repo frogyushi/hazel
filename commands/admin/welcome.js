@@ -112,7 +112,10 @@ module.exports = {
     async execute(client, interaction) {
         const subcommandGroup = interaction.options.getSubcommandGroup();
         const subcommand = interaction.options.getSubcommand();
-        const welcomeMessage = await welcomeMessageSchema.findOne({ guildId: interaction.guildId });
+
+        const welcomeMessage = await welcomeMessageSchema.findOne({
+            guildId: interaction.guildId
+        });
 
         if (subcommandGroup === "message") {
             if (subcommand === "embed") {
@@ -177,7 +180,10 @@ module.exports = {
                     return;
                 }
 
-                await welcomeMessageSchema.findOneAndUpdate({ guildId: interaction.guildId }, { embed: { ...temp } });
+                await welcomeMessageSchema.findOneAndUpdate(
+                    { guildId: interaction.guildId },
+                    { embed: { ...temp } }
+                );
 
                 await interaction.reply("embed has been updated");
             }
@@ -213,7 +219,9 @@ module.exports = {
                     return;
                 }
 
-                await welcomeMessageSchema.findOneAndUpdate({ guildId: interaction.guildId }, temp);
+                await welcomeMessageSchema.findOneAndUpdate({
+                    guildId: interaction.guildId
+                }, temp);
 
                 await interaction.reply("settings have been updated");
             }
@@ -222,7 +230,11 @@ module.exports = {
         if (subcommandGroup === "role") {
             if (subcommand === "add") {
                 const role = interaction.options.getRole("role");
-                const welcomeRole = await welcomeRoleSchema.findOne({ guildId: interaction.guildId, roleId: role.id });
+
+                const welcomeRole = await welcomeRoleSchema.findOne({
+                    guildId: interaction.guildId,
+                    roleId: role.id
+                });
 
                 if (welcomeRole) {
                     await interaction.reply({
@@ -230,7 +242,7 @@ module.exports = {
                         ephemeral: true
                     });
 
-                    return
+                    return;
                 }
 
                 await welcomeRoleSchema.create({
@@ -243,13 +255,19 @@ module.exports = {
 
             if (subcommand === "remove") {
                 const role = interaction.options.getRole("role");
-                await welcomeRoleSchema.findOneAndDelete({ guildId: interaction.guildId, roleId: role.id });
+
+                await welcomeRoleSchema.findOneAndDelete({
+                    guildId: interaction.guildId,
+                    roleId: role.id
+                });
 
                 await interaction.reply(`removed role \`${role.name}\` from welcome roles`);
             }
 
             if (subcommand === "roles") {
-                const welcomeRoles = await welcomeRoleSchema.find({ guildId: interaction.guildId });
+                const welcomeRoles = await welcomeRoleSchema.find({
+                    guildId: interaction.guildId
+                });
 
                 if (!welcomeRoles.length) {
                     await interaction.reply("no welcome roles set");
@@ -269,7 +287,9 @@ module.exports = {
                     .setColor("#8b81a5")
                     .setDescription(roleNames.join(" "));
 
-                await interaction.reply({ embeds: [embed] });
+                await interaction.reply({
+                    embeds: [embed]
+                });
             }
         }
     }

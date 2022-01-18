@@ -42,7 +42,9 @@ module.exports = {
             return;
         }
 
-        const schema = await joinToCreateSchema.findOne({ guildId: interaction.guildId });
+        const schema = await joinToCreateSchema.findOne({
+            guildId: interaction.guildId
+        });
 
         if (!schema?.channelId && options.isEnabled && !options.channelId) {
             await interaction.reply({

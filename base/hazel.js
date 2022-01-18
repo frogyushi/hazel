@@ -69,8 +69,12 @@ class Hazel extends Client {
         const commands = await this.application.commands.fetch();
 
         for (const { id, name } of commands.values()) {
-            const permissionSchemas = await permissionSchema.find({ guildId: guild.id, commandName: name });
             const { ownerOnly = false } = await this.commands.get(name);
+
+            const permissionSchemas = await permissionSchema.find({
+                guildId: guild.id,
+                commandName: name
+            });
 
             const permissions = ownerOnly ? [{
                 id: guild.ownerId,

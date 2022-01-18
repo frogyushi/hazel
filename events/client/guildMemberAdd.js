@@ -8,8 +8,11 @@ module.exports = {
     async execute(client, member) {
         const welcomeMessage = await welcomeMessageSchema.findOne({ guildId: member.guild.id });
         const channel = member.guild.channels.cache.get(welcomeMessage.channelId);
-        const roles = await welcomeRoleSchema.find({ guildId: member.guild.id });
         const embed = new MessageEmbed();
+
+        const roles = await welcomeRoleSchema.find({
+            guildId: member.guild.id
+        });
 
         if (!welcomeMessage?.isEnabled || !channel) return;
 
