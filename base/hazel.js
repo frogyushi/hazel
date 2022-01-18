@@ -79,13 +79,11 @@ class Hazel extends Client {
             }] : [];
 
             if (permissionSchemas.length) {
-                const perms = permissionSchemas.map(({ roleId, hasPermission }) => {
-                    return {
-                        id: roleId,
-                        type: 1,
-                        permission: hasPermission
-                    };
-                });
+                const perms = permissionSchemas.map(({ roleId, hasPermission }) => ({
+                    id: roleId,
+                    type: 1,
+                    permission: hasPermission
+                }));
 
                 permissions.push(...perms);
             }
