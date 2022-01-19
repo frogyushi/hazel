@@ -3,7 +3,7 @@ const { MessageActionRow, MessageSelectMenu } = require("discord.js");
 module.exports = {
     name: "color",
     description: "manage user's color role",
-    guild: true,
+    guildOnly: true,
 
     async execute(client, interaction) {
         const selectMenu = new MessageSelectMenu()
