@@ -4,7 +4,6 @@ module.exports = {
     name: "color",
     description: "manage user's color role",
     guild: true,
-    options: [],
 
     async execute(client, interaction) {
         const selectMenu = new MessageSelectMenu()
