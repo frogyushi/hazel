@@ -275,17 +275,15 @@ module.exports = {
                     return;
                 }
 
-                const roleNames = [];
-
-                for (const { roleId } of welcomeRoles) {
-                    const roleName = await interaction.member.guild.roles.cache.get(roleId);
-                    roleNames.push(roleName);
-                }
+                const roleNames = welcomeRoles.map(async ({ roleId }) => {
+                    const { name } = await interaction.member.guild.roles.cache.get(roleId);
+                    return name;
+                });
 
                 const embed = new MessageEmbed()
                     .setTitle("welcome roles")
                     .setColor("#8b81a5")
-                    .setDescription(roleNames.join(" "));
+                    .setDescription(`\`${roleNames.join(", ")}\``);
 
                 await interaction.reply({
                     embeds: [embed]
