@@ -10,9 +10,7 @@ module.exports = {
 			guildId: member.guild.id,
 		});
 
-		const channel = member.guild.channels.cache.get(
-			welcomeMessage.channelId
-		);
+		const channel = member.guild.channels.cache.get(welcomeMessage.channelId);
 
 		const embed = new MessageEmbed();
 

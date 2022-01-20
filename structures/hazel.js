@@ -101,7 +101,7 @@ module.exports = class Hazel extends Client {
 				});
 			}
 
-			await this.guilds.cache.get(guild.id)?.commands.permissions.set({ fullPermissions });
+			await guild.commands.permissions.set({ fullPermissions });
 		});
 	}
 

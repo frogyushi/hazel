@@ -76,6 +76,8 @@ module.exports = {
 			return;
 		}
 
-		await interaction.reply(`voice channel \`${guildChannel.name}\` has been updated and set as \`${updatedSchema.isEnabled}\``);
+		await interaction.reply(
+			`voice channel \`${guildChannel.name}\` has been updated and set as \`${updatedSchema.isEnabled}\``
+		);
 	},
 };
