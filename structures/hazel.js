@@ -74,39 +74,35 @@ module.exports = class Hazel extends Client {
 	}
 
 	async setSlashPermsGuild(guild) {
-		const fullPermissions = [];
-		const commands = await this.application.commands.fetch();
-		for (const { id, name } of commands.values()) {
-			const { ownerOnly = false } = await this.commands.get(name);
-			const permissionSchemas = await permissionSchema.find({
-				guildId: guild.id,
-				commandName: name,
-			});
+		this.application.commands.fetch().then(async (commands) => {
+			const fullPermissions = [];
+			for (const [id, { name }] of commands) {
+				const schemas = await permissionSchema.find({
+					guildId: guild.id,
+					commandName: name,
+				});
 
-			const permissions = ownerOnly
-				? [
-						{
-							id: guild.ownerId,
-							type: 2,
-							permission: true,
-						},
-				  ]
-				: [];
-
-			if (permissionSchemas.length) {
-				const perms = permissionSchemas.map(({ roleId, hasPermission }) => ({
+				const permissions = schemas.map(({ roleId, hasPermission }) => ({
 					id: roleId,
 					type: 1,
 					permission: hasPermission,
 				}));
 
-				permissions.push(...perms);
+				fullPermissions.push({
+					id,
+					permissions: [
+						{
+							id: guild.ownerId,
+							type: 2,
+							permission: true,
+						},
+						...permissions,
+					],
+				});
 			}
 
-			fullPermissions.push({ id, permissions });
-		}
-
-		await this.guilds.cache.get(guild.id)?.commands.permissions.set({ fullPermissions });
+			await this.guilds.cache.get(guild.id)?.commands.permissions.set({ fullPermissions });
+		});
 	}
 
 	async setSlashPerms() {
