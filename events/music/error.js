@@ -1,7 +1,7 @@
 module.exports = {
-    name: "error",
+	name: "error",
 
-    async execute(client, channel, error) {
-        console.log(error);
-    }
-}
+	async execute(client, channel, error) {
+		console.log(error);
+	},
+};

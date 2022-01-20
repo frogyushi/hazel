@@ -3,53 +3,59 @@ const welcomeRoleSchema = require("../../models/welcomeRoleSchema");
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-    name: "guildMemberAdd",
+	name: "guildMemberAdd",
 
-    async execute(client, member) {
-        const welcomeMessage = await welcomeMessageSchema.findOne({ guildId: member.guild.id });
-        const channel = member.guild.channels.cache.get(welcomeMessage.channelId);
-        const embed = new MessageEmbed();
+	async execute(client, member) {
+		const welcomeMessage = await welcomeMessageSchema.findOne({
+			guildId: member.guild.id,
+		});
 
-        const roles = await welcomeRoleSchema.find({
-            guildId: member.guild.id
-        });
+		const channel = member.guild.channels.cache.get(
+			welcomeMessage.channelId
+		);
 
-        if (!welcomeMessage?.isEnabled || !channel) return;
+		const embed = new MessageEmbed();
 
-        if (welcomeMessage.embed.color) {
-            embed.setColor(welcomeMessage.embed.color);
-        };
+		const roles = await welcomeRoleSchema.find({
+			guildId: member.guild.id,
+		});
 
-        if (welcomeMessage.embed.title) {
-            const title = welcomeMessage.embed.title
-                .replace(/{member}/gi, member.user.tag)
-                .replace(/{guild}/gi, member.guild.name);
+		if (!welcomeMessage?.isEnabled || !channel) return;
 
-            embed.setTitle(title);
-        }
+		if (welcomeMessage.embed.color) {
+			embed.setColor(welcomeMessage.embed.color);
+		}
 
-        if (welcomeMessage.embed.description) {
-            const description = welcomeMessage.embed.description
-                .replace(/{member}/gi, `<@${member.user.id}>`)
-                .replace(/{guild}/gi, member.guild.name);
+		if (welcomeMessage.embed.title) {
+			const title = welcomeMessage.embed.title
+				.replace(/{member}/gi, member.user.tag)
+				.replace(/{guild}/gi, member.guild.name);
 
-            embed.setDescription(description);
-        }
+			embed.setTitle(title);
+		}
 
-        if (welcomeMessage.embed.image) {
-            embed.setImage(welcomeMessage.embed.image);
-        };
+		if (welcomeMessage.embed.description) {
+			const description = welcomeMessage.embed.description
+				.replace(/{member}/gi, `<@${member.user.id}>`)
+				.replace(/{guild}/gi, member.guild.name);
 
-        if (welcomeMessage.embed.footer) {
-            embed.setFooter(welcomeMessage.embed.footer);
-        };
+			embed.setDescription(description);
+		}
 
-        if (welcomeMessage.embed.timestamp) {
-            embed.setTimestamp();
-        };
+		if (welcomeMessage.embed.image) {
+			embed.setImage(welcomeMessage.embed.image);
+		}
 
-        channel.send({ embeds: [embed] });
+		if (welcomeMessage.embed.footer) {
+			embed.setFooter(welcomeMessage.embed.footer);
+		}
 
-        member.roles.add(roles.map(({ roleId }) => roleId));
-    }
+		if (welcomeMessage.embed.timestamp) {
+			embed.setTimestamp();
+		}
+
+		channel.send({ embeds: [embed] });
+
+		member.roles.add(roles.map(({ roleId }) => roleId));
+	},
 };

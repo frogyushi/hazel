@@ -1,45 +1,45 @@
 module.exports = {
-    name: "pause",
-    description: "pause a song in current queue",
+	name: "pause",
+	description: "pause a song in current queue",
 
-    async execute(client, interaction) {
-        const queue = client.distube.getQueue(interaction.guildId);
+	async execute(client, interaction) {
+		const queue = client.distube.getQueue(interaction.guildId);
 
-        if (!interaction.member.voice.channel) {
-            await interaction.reply({
-                content: "this command can only be used inside a voice channel",
-                ephemeral: true
-            });
+		if (!interaction.member.voice.channel) {
+			await interaction.reply({
+				content: "this command can only be used inside a voice channel",
+				ephemeral: true,
+			});
 
-            return;
-        }
+			return;
+		}
 
-        if (
-            !interaction.member.voice.channel.members.has(client.id) &&
-            client.voice.adapters.get(interaction.guildId)
-        ) {
-            await interaction.reply({
-                content: "u cannot use this command if you're not in the same voice channel as hazel",
-                ephemeral: true
-            });
+		if (
+			!interaction.member.voice.channel.members.has(client.id) &&
+			client.voice.adapters.get(interaction.guildId)
+		) {
+			await interaction.reply({
+				content: "u cannot use this command if you're not in the same voice channel as hazel",
+				ephemeral: true,
+			});
 
-            return;
-        }
+			return;
+		}
 
-        if (!queue) {
-            await interaction.reply("no queue available to use this command");
+		if (!queue) {
+			await interaction.reply("no queue available to use this command");
 
-            return;
-        }
+			return;
+		}
 
-        if (queue.paused) {
-            await interaction.reply("queue is already paused");
+		if (queue.paused) {
+			await interaction.reply("queue is already paused");
 
-            return;
-        }
+			return;
+		}
 
-        queue.pause();
+		queue.pause();
 
-        await interaction.reply("queue has been paused");
-    }
+		await interaction.reply("queue has been paused");
+	},
 };

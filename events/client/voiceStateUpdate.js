@@ -1,45 +1,39 @@
 const joinToCreateSchema = require("../../models/joinToCreateSchema");
 
 module.exports = {
-    name: "voiceStateUpdate",
+	name: "voiceStateUpdate",
 
-    async execute(client, oldState, newState) {
-        const schema = await joinToCreateSchema.findOne({
-            guildId: oldState.guild.id || newState.guild.id
-        });
+	async execute(client, oldState, newState) {
+		const schema = await joinToCreateSchema.findOne({
+			guildId: oldState.guild.id || newState.guild.id,
+		});
 
-        if (!schema?.isEnabled) return;
+		if (!schema?.isEnabled) return;
 
-        if (newState?.channelId === schema?.channelId) {
-            const { guild, user, voice, id } = newState.member;
-            const parent = newState.channel?.parentId;
-            const parentId = parent ? { parent } : {};
+		if (newState?.channelId === schema?.channelId) {
+			const { guild, user, voice, id } = newState.member;
+			const parent = newState.channel?.parentId;
+			const parentId = parent ? { parent } : {};
 
-            const vc = await guild.channels.create(`${user.username}'s channel`,
-                {
-                    type: "GUILD_VOICE",
-                    ...parentId,
-                    permissionOverwrites: [
-                        {
-                            id: id,
-                            allow: ['MANAGE_CHANNELS'],
-                        }
-                    ]
-                }
-            );
+			const vc = await guild.channels.create(`${user.username}'s channel`, {
+				type: "GUILD_VOICE",
+				...parentId,
+				permissionOverwrites: [
+					{
+						id: id,
+						allow: ["MANAGE_CHANNELS"],
+					},
+				],
+			});
 
-            client.temporaryVoiceChannels.set(vc.id, newState.member);
-            voice.setChannel(vc.id);
-        };
+			client.temp.set(vc.id, newState.member);
+			voice.setChannel(vc.id);
+		}
 
-        if (
-            client.temporaryVoiceChannels.get(oldState.channelId) &&
-            !oldState.channel.members.size
-        ) {
-            oldState.channel.delete();
+		if (client.temp.get(oldState.channelId) && !oldState.channel.members.size) {
+			oldState.channel.delete();
 
-            return;
-        }
-    }
+			return;
+		}
+	},
 };
-
