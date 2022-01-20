@@ -65,11 +65,11 @@ module.exports = {
 				value: currentQueue.queued.slice(0 + pageDisplay, 10 + pageDisplay).join("\n\n") || "none",
 			})
 			.setColor("#8b81a5")
-			.setFooter(
-				`page ${page || 1}/${maxSongs || 1} - ${queue.songs.length - 1 || "no"} songs in queue - ${
+			.setFooter({
+				text: `page ${page || 1}/${maxSongs || 1} - ${queue.songs.length - 1 || "no"} songs in queue - ${
 					queue.formattedDuration
-				}`
-			)
+				}`,
+			})
 			.setTimestamp();
 
 		await interaction.reply({

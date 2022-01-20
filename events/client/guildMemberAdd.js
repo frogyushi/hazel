@@ -29,7 +29,7 @@ module.exports = {
 				.replace(/{member}/gi, member.user.tag)
 				.replace(/{guild}/gi, member.guild.name);
 
-			embed.setTitle(title);
+			embed.setTitle({ name: title });
 		}
 
 		if (welcomeMessage.embed.description) {
@@ -45,7 +45,7 @@ module.exports = {
 		}
 
 		if (welcomeMessage.embed.footer) {
-			embed.setFooter(welcomeMessage.embed.footer);
+			embed.setFooter({ text: welcomeMessage.embed.footer });
 		}
 
 		if (welcomeMessage.embed.timestamp) {

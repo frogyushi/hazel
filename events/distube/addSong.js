@@ -5,7 +5,7 @@ module.exports = {
 
 	async execute(client, queue, song) {
 		const embed = new MessageEmbed()
-			.setAuthor("added to queue")
+			.setAuthor({ name: "added to queue" })
 			.setTitle(song.name)
 			.setFields(
 				{

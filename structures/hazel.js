@@ -27,7 +27,7 @@ module.exports = class Hazel extends Client {
 			youtubeCookie: process.env.COOKIES,
 		});
 
-		this.id = process.env.CLIENT_TOKEN;
+		this.id = process.env.CLIENT_ID;
 		this.commands = new Collection();
 		this.temp = new Collection();
 		this.slash = [];
