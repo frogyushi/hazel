@@ -27,6 +27,7 @@ module.exports = class Hazel extends Client {
 			youtubeCookie: process.env.COOKIES,
 		});
 
+		this.id = process.env.CLIENT_TOKEN;
 		this.commands = new Collection();
 		this.temp = new Collection();
 		this.slash = [];
@@ -110,5 +111,13 @@ module.exports = class Hazel extends Client {
 
 	async registerSlashCommands() {
 		await this.application.commands.set(this.slash);
+	}
+
+	getRandomArrayElement(array) {
+		return array[Math.floor(Math.random() * array.length)];
+	}
+
+	isHexColor(color) {
+		return /^#[0-9A-F]{6}$/i.test(color);
 	}
 };
