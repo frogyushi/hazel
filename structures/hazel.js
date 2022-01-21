@@ -37,7 +37,7 @@ module.exports = class Hazel extends Client {
 			},
 		});
 
-		this.color = "#2F3136";
+		this.color = "#8b81a5";
 		this.id = process.env.CLIENT_ID;
 		this.commands = new Collection();
 		this.temp = new Collection();
