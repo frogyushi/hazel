@@ -225,7 +225,7 @@ module.exports = {
 					{
 						guildId: interaction.guildId,
 					},
-					temp
+					{ $set: temp }
 				);
 
 				await interaction.reply("Welcome message channel have been updated");
