@@ -155,8 +155,8 @@ module.exports = {
 				}
 
 				if (
-					(!options.description && !welcomeMessage?.embed?.description) ||
-					(!options.title && !welcomeMessage?.embed?.title)
+					(!options.description && !welcomeMessage?.description) ||
+					(!options.title && !welcomeMessage?.title)
 				) {
 					await interaction.reply({
 						content: "There must be at least one description or title inside the welcome message embed",
