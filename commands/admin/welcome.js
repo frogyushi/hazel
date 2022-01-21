@@ -180,7 +180,10 @@ module.exports = {
 					return;
 				}
 
-				await welcomeMessageSchema.findOneAndUpdate({ guildId: interaction.guildId }, { embed: { ...temp } });
+				await welcomeMessageSchema.findOneAndUpdate(
+					{ guildId: interaction.guildId },
+					{ $set: { embed: { ...temp } } }
+				);
 
 				await interaction.reply("Welcome message embed has been updated");
 			}
