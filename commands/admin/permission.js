@@ -2,25 +2,25 @@ const permissionSchema = require("../../models/permissionSchema");
 
 module.exports = {
 	name: "permission",
-	description: "set permissions for commands",
+	description: "Enable/disable command usage for a given role",
 	ownerOnly: true,
 	options: [
 		{
 			name: "command_name",
-			description: "provide command name",
+			description: "Provide a command name",
 			type: 3,
 			required: true,
 		},
 		{
 			type: 8,
 			name: "role",
-			description: "provide a role to add",
+			description: "Provide a role",
 			required: true,
 		},
 		{
 			type: 5,
 			name: "permission",
-			description: "enable/disable permission",
+			description: "Enable/disable permission to use command",
 			required: true,
 		},
 	],
@@ -36,7 +36,7 @@ module.exports = {
 
 		if (!command) {
 			await interaction.reply({
-				content: "provided command doesn't exist, please check for a valid command",
+				content: "Command with provided command name does not exist",
 				ephemeral: true,
 			});
 
@@ -72,7 +72,7 @@ module.exports = {
 		);
 
 		await interaction.reply(
-			`set permission of role to \`${options.hasPermission}\` for \`${options.commandName}\` command`
+			`Role's permission for command usage is set to \`${options.hasPermission}\` for command \`${options.commandName}\``
 		);
 
 		client.setSlashPermissionsGuild(interaction.guild);

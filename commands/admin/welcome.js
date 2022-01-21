@@ -4,66 +4,66 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
 	name: "welcome",
-	description: "set an event on welcome",
+	description: "Set up a welcome message when a user is invited to this server",
 	ownerOnly: true,
 	options: [
 		{
 			type: 2,
 			name: "message",
-			description: "set a welcome message",
+			description: "Set up a welcome message",
 			options: [
 				{
 					type: 1,
 					name: "embed",
-					description: "create/update embed",
+					description: "Create/update embed",
 					options: [
 						{
 							type: 3,
 							name: "title",
-							description: "set a title",
+							description: "Title",
 						},
 						{
 							type: 3,
 							name: "description",
-							description: "set a description",
+							description: "Description",
 						},
 						{
 							type: 3,
 							name: "color",
-							description: "set a color using hex values",
+							description: "Provide a hex value",
 						},
 						{
 							type: 3,
 							name: "image",
-							description: "set an image using imgur",
+							description: "Provide an Imgur URL",
 						},
 						{
 							type: 3,
 							name: "footer",
-							description: "set a footer",
+							description: "Footer",
 						},
 						{
 							type: 5,
 							name: "timestamp",
-							description: "set a timestamp",
+							description: "Timestamp",
 						},
 					],
 				},
 				{
 					type: 1,
 					name: "channel",
-					description: "set a welcome message channel",
+					description: "Provide a channel where welcome messages are sent",
 					options: [
-						{
-							type: 5,
-							name: "enabled",
-							description: "enable/disable welcome messages",
-						},
 						{
 							type: 7,
 							name: "text_channel",
-							description: "set a welcome channel",
+							description: "Provide a text channel",
 							channel_types: [0],
+						},
+						{
+							type: 5,
+							name: "enabled",
+							description: "Enable/disable welcome messages",
 						},
 					],
 				},
@@ -72,17 +72,17 @@ module.exports = {
 		{
 			type: 2,
 			name: "role",
-			description: "set a welcome role",
+			description: "Set up roles to be added to invited users alongside welcome messages",
 			options: [
 				{
 					type: 1,
 					name: "add",
-					description: "provide a role to add",
+					description: "Provide a role to be listed",
 					options: [
 						{
 							type: 8,
 							name: "role",
-							description: "provide a role",
+							description: "Provide a role",
 							required: true,
 						},
 					],
@@ -90,12 +90,12 @@ module.exports = {
 				{
 					type: 1,
 					name: "remove",
-					description: "provide a role to remove",
+					description: "Provide a role to removed from the list",
 					options: [
 						{
 							type: 8,
 							name: "role",
-							description: "provide a role",
+							description: "Provide a role",
 							required: true,
 						},
 					],
@@ -103,7 +103,7 @@ module.exports = {
 				{
 					type: 1,
 					name: "roles",
-					description: "show set roles on welcome",
+					description: "Display configured welcome roles",
 				},
 			],
 		},
@@ -138,7 +138,7 @@ module.exports = {
 
 				if (!Object.keys(temp).length) {
 					await interaction.reply({
-						content: "cannot create/update embed, no options were provided",
+						content: "Cannot create/update embed since no options were provided",
 						ephemeral: true,
 					});
 
@@ -147,7 +147,7 @@ module.exports = {
 
 				if (options.color && !client.isHex(options.color)) {
 					await interaction.reply({
-						content: "provided color must represent a hex value",
+						content: "Provided color must represent a hex value",
 						ephemeral: true,
 					});
 
@@ -159,7 +159,7 @@ module.exports = {
 					(!options.title && !welcomeMessage?.embed?.title)
 				) {
 					await interaction.reply({
-						content: "u must provide a description or title",
+						content: "There must be at least one description or title inside the welcome message embed",
 						ephemeral: true,
 					});
 
@@ -175,19 +175,21 @@ module.exports = {
 
 					schema.save();
 
-					await interaction.reply("embed has been created");
+					await interaction.reply("Welcome message embed has been created");
 
 					return;
 				}
 
 				await welcomeMessageSchema.findOneAndUpdate({ guildId: interaction.guildId }, { embed: { ...temp } });
 
-				await interaction.reply("embed has been updated");
+				await interaction.reply("Welcome message embed has been updated");
 			}
 
 			if (subcommand === "channel") {
 				if (!welcomeMessage) {
-					await interaction.reply("no setting available, missing embed");
+					await interaction.reply(
+						"This command is not available since no welcome message embed has been set"
+					);
 
 					return;
 				}
@@ -209,7 +211,7 @@ module.exports = {
 
 				if (!options.channelId && options.isEnabled === null) {
 					await interaction.reply({
-						content: "no options were provided",
+						content: "No options were provided",
 						ephemeral: true,
 					});
 
@@ -223,7 +225,7 @@ module.exports = {
 					temp
 				);
 
-				await interaction.reply("settings have been updated");
+				await interaction.reply("Welcome message channel have been updated");
 			}
 		}
 
@@ -238,7 +240,7 @@ module.exports = {
 
 				if (welcomeRole) {
 					await interaction.reply({
-						content: `provided role \`${role.name}\` is already added`,
+						content: `Role \`${role.name}\` is already set as a welcome role`,
 						ephemeral: true,
 					});
 
@@ -250,7 +252,7 @@ module.exports = {
 					roleId: role.id,
 				});
 
-				await interaction.reply(`added role \`${role.name}\` to welcome roles`);
+				await interaction.reply(`Added role \`${role.name}\` to welcome roles`);
 			}
 
 			if (subcommand === "remove") {
@@ -261,7 +263,7 @@ module.exports = {
 					roleId: role.id,
 				});
 
-				await interaction.reply(`removed role \`${role.name}\` from welcome roles`);
+				await interaction.reply(`Removed role \`${role.name}\` from welcome roles`);
 			}
 
 			if (subcommand === "roles") {
@@ -269,21 +271,21 @@ module.exports = {
 					guildId: interaction.guildId,
 				});
 
-				if (!welcomeRoles.length) {
-					await interaction.reply("no welcome roles set");
-
-					return;
-				}
-
-				const roleNames = welcomeRoles.map(async ({ roleId }) => {
-					const { name } = await interaction.member.guild.roles.cache.get(roleId);
-					return name;
-				});
+				const roleNames = welcomeRoles.length
+					? welcomeRoles.map(async ({ roleId }) => {
+							const { name } = await interaction.member.guild.roles.cache.get(roleId);
+							return name;
+					  })
+					: [];
 
 				const embed = new MessageEmbed()
-					.setTitle("welcome roles")
-					.setColor("#8b81a5")
-					.setDescription(`\`${roleNames.join(", ")}\``);
+					.setTitle("List of welcome roles")
+					.setColor(client.color.default)
+					.setDescription(
+						roleNames.length
+							? roleNames.join(", ")
+							: "No roles found. Use **/welcome roles add** to add a welcome role"
+					);
 
 				await interaction.reply({
 					embeds: [embed],

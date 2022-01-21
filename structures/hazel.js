@@ -27,6 +27,11 @@ module.exports = class Hazel extends Client {
 			youtubeCookie: process.env.COOKIES,
 		});
 
+		this.color = {
+			default: "#2F3136",
+			primary: "#8b81a5",
+		};
+
 		this.id = process.env.CLIENT_ID;
 		this.commands = new Collection();
 		this.temp = new Collection();

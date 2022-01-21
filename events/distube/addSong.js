@@ -5,32 +5,32 @@ module.exports = {
 
 	async execute(client, queue, song) {
 		const embed = new MessageEmbed()
-			.setAuthor({ name: "added to queue" })
+			.setAuthor({ name: "Added to queue" })
 			.setTitle(song.name)
 			.setFields(
 				{
-					name: "channel",
+					name: "Channel",
 					value: song.uploader.name,
 					inline: true,
 				},
 				{
-					name: "song duration",
+					name: "Song duration",
 					value: song.formattedDuration,
 					inline: true,
 				},
 				{
-					name: "estimate time of playing",
+					name: "Estimate time of playing",
 					value: queue.formattedCurrentTime,
 					inline: true,
 				},
 				{
-					name: "position in queue",
+					name: "Position in queue",
 					value: (queue.songs.length - 1).toString(),
 					inline: true,
 				}
 			)
 			.setTimestamp()
-			.setColor("#8b81a5");
+			.setColor(client.color.default);
 
 		queue.textChannel.send({
 			embeds: [embed],

@@ -2,19 +2,19 @@ const joinToCreateSchema = require("../../models/joinToCreateSchema");
 
 module.exports = {
 	name: "jointocreate",
-	description: "set a join to create voice channel",
+	description: "Set up a join-to-create voice channel",
 	ownerOnly: true,
 	options: [
 		{
 			type: 7,
 			name: "voice_channel",
-			description: "set a join to create voice channel",
+			description: "Provide a voice channel to act as a join-to-create voice channel",
 			channel_types: [2],
 		},
 		{
 			type: 5,
 			name: "enabled",
-			description: "enable/disable welcome messages",
+			description: "Enable/disable join-to-create",
 		},
 	],
 
@@ -35,7 +35,7 @@ module.exports = {
 
 		if (!options.channelId && options.isEnabled === null) {
 			await interaction.reply({
-				content: "no options were provided",
+				content: "No options were provided",
 				ephemeral: true,
 			});
 
@@ -48,7 +48,7 @@ module.exports = {
 
 		if (!schema?.channelId && options.isEnabled && !options.channelId) {
 			await interaction.reply({
-				content: "cannot update/change setting, no voice channel set",
+				content: "Cannot update/change setting, no voice channel has been configured",
 				ephemeral: true,
 			});
 
@@ -69,7 +69,7 @@ module.exports = {
 
 		if (!guildChannel?.name) {
 			await interaction.reply({
-				content: "provided voice channel doesn't exist anymore",
+				content: "Join-to-create voice channel is not found. Please update your configuration",
 				ephemeral: true,
 			});
 
@@ -77,7 +77,7 @@ module.exports = {
 		}
 
 		await interaction.reply(
-			`voice channel \`${guildChannel.name}\` has been updated and set as \`${updatedSchema.isEnabled}\``
+			`Join-to-create voice channel \`${guildChannel.name}\` has been updated and set to \`${updatedSchema.isEnabled}\``
 		);
 	},
 };

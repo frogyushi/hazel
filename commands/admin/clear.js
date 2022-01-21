@@ -1,11 +1,11 @@
 module.exports = {
 	name: "clear",
-	description: "removes a specified amount of messages",
+	description: "Removes a specified amount of messages within a channel",
 	ownerOnly: true,
 	options: [
 		{
 			name: "amount",
-			description: "specify an amount of messages to be removed",
+			description: "Amount of messages to removed",
 			type: 10,
 			required: true,
 		},
@@ -16,7 +16,7 @@ module.exports = {
 
 		if (amount < 1) {
 			await interaction.reply({
-				content: "specified amount cannot be negative",
+				content: "Amount must be greater than zero",
 				ephemeral: true,
 			});
 
@@ -25,7 +25,7 @@ module.exports = {
 
 		if (amount > 100) {
 			await interaction.reply({
-				content: "specified amount cannot be greater than 100",
+				content: "Amount must not be greater than 100",
 				ephemeral: true,
 			});
 
@@ -35,7 +35,7 @@ module.exports = {
 		await interaction.channel.bulkDelete(amount, true);
 
 		await interaction.reply({
-			content: `i have deleted \`${amount}\` messages`,
+			content: `I have deleted \`${amount}\` messages`,
 			ephemeral: true,
 		});
 	},

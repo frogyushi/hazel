@@ -6,7 +6,7 @@ module.exports = {
 	options: [
 		{
 			name: "user",
-			description: "select a user",
+			description: "Provide a user",
 			type: 6,
 		},
 	],
@@ -15,7 +15,7 @@ module.exports = {
 		const member = interaction.options.getUser("user");
 
 		const embed = new MessageEmbed()
-			.setColor("#8b81a5")
+			.setColor(client.color.default)
 			.setDescription(
 				member
 					? `<@${interaction.member.id}> has blushed towards <@${member.id}>`

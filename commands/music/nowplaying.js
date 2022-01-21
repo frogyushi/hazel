@@ -2,14 +2,14 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
 	name: "nowplaying",
-	description: "shows current song",
+	description: "Provides information on the currently playing song",
 
 	async execute(client, interaction) {
 		const queue = client.distube.getQueue(interaction.guildId);
 
 		if (!interaction.member.voice.channel) {
 			await interaction.reply({
-				content: "this command can only be used inside a voice channel",
+				content: "This command cannot be used outside of a voice channel",
 				ephemeral: true,
 			});
 
@@ -21,7 +21,7 @@ module.exports = {
 			client.voice.adapters.get(interaction.guildId)
 		) {
 			await interaction.reply({
-				content: "u cannot use this command if you're not in the same voice channel as hazel",
+				content: "This command cannot be used without attending a voice channel with Hazel",
 				ephemeral: true,
 			});
 
@@ -29,7 +29,10 @@ module.exports = {
 		}
 
 		if (!queue) {
-			await interaction.reply("no queue available to use this command");
+			await interaction.reply({
+				content: "No queue available to use this command",
+				ephemeral: true,
+			});
 
 			return;
 		}
@@ -40,28 +43,28 @@ module.exports = {
 			.setTitle(song.name)
 			.setFields(
 				{
-					name: "channel",
+					name: "Channel",
 					value: song.uploader.name,
 					inline: true,
 				},
 				{
-					name: "song duration",
+					name: "Song duration",
 					value: `${queue.formattedCurrentTime}/${song.formattedDuration}`,
 					inline: true,
 				},
 				{
-					name: "requested by",
+					name: "Requested by",
 					value: song.user.username,
 					inline: true,
 				},
 				{
-					name: "next up",
-					value: queue.songs[1]?.name || "none",
+					name: "Next up",
+					value: queue.songs[1]?.name || "None",
 					inline: true,
 				}
 			)
 			.setTimestamp()
-			.setColor("#8b81a5");
+			.setColor(client.color.default);
 
 		await interaction.reply({
 			embeds: [embed],

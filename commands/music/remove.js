@@ -16,7 +16,7 @@ module.exports = {
 
 		if (!interaction.member.voice.channel) {
 			await interaction.reply({
-				content: "this command can only be used inside a voice channel",
+				content: "This command cannot be used outside of a voice channel",
 				ephemeral: true,
 			});
 
@@ -28,7 +28,7 @@ module.exports = {
 			client.voice.adapters.get(interaction.guildId)
 		) {
 			await interaction.reply({
-				content: "u cannot use this command if you're not in the same voice channel as hazel",
+				content: "This command cannot be used without attending a voice channel with Hazel",
 				ephemeral: true,
 			});
 
@@ -36,7 +36,10 @@ module.exports = {
 		}
 
 		if (!queue) {
-			await interaction.reply("no queue available to use this command");
+			await interaction.reply({
+				content: "No queue available to use this command",
+				ephemeral: true,
+			});
 
 			return;
 		}
@@ -46,7 +49,7 @@ module.exports = {
 
 		if (!song) {
 			await interaction.reply({
-				content: "specified song is not in queue",
+				content: "No song was found with this index in the queue",
 				ephemeral: true,
 			});
 
@@ -55,6 +58,6 @@ module.exports = {
 
 		songs.splice(index, 1);
 
-		await interaction.reply(`i have removed \`${song.name}\` from queue`);
+		await interaction.reply(`Removed \`${song.name}\` from queue`);
 	},
 };

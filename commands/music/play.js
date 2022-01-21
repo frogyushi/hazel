@@ -1,10 +1,10 @@
 module.exports = {
 	name: "play",
-	description: "plays a song",
+	description: "Request a playback",
 	options: [
 		{
 			name: "query",
-			description: "youtube, spotify",
+			description: "Provide a search query",
 			type: 3,
 			required: true,
 		},
@@ -15,7 +15,7 @@ module.exports = {
 
 		if (!interaction.member.voice.channel) {
 			await interaction.reply({
-				content: "this command can only be used inside a voice channel",
+				content: "This command cannot be used outside of a voice channel",
 				ephemeral: true,
 			});
 
@@ -27,7 +27,7 @@ module.exports = {
 			client.voice.adapters.get(interaction.guildId)
 		) {
 			await interaction.reply({
-				content: "u cannot use this command if you're not in the same voice channel as hazel",
+				content: "This command cannot be used without attending a voice channel with Hazel",
 				ephemeral: true,
 			});
 
@@ -39,6 +39,6 @@ module.exports = {
 			member: interaction.member,
 		});
 
-		await interaction.reply(`searching: \`${query}\``);
+		await interaction.reply(`Searching: \`${query}\``);
 	},
 };

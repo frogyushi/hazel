@@ -6,7 +6,7 @@ module.exports = {
 	options: [
 		{
 			name: "user",
-			description: "select a user",
+			description: "Select a user",
 			type: 6,
 			required: true,
 		},
@@ -16,7 +16,7 @@ module.exports = {
 		const member = interaction.options.getUser("user");
 
 		const embed = new MessageEmbed()
-			.setColor("#8b81a5")
+			.setColor(client.color.default)
 			.setDescription(`<@${interaction.member.id}> has kissed <@${member.id}>`)
 			.setImage(
 				client.getRandomArrayElement([

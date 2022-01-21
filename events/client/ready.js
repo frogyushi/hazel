@@ -5,6 +5,6 @@ module.exports = {
 		client.user.setActivity("Valorant", { type: "COMPETING" });
 		client.setSlashPerms();
 		client.registerSlashCommands();
-		console.log("client is ready");
+		console.log("Client is ready");
 	},
 };

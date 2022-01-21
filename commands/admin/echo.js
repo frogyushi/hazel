@@ -1,11 +1,11 @@
 module.exports = {
 	name: "echo",
-	description: "echoes a message",
+	description: "Echoes a provided message",
 	ownerOnly: true,
 	options: [
 		{
 			name: "message",
-			description: "specify a message to be echoed",
+			description: "Message to be echoed",
 			type: 3,
 			required: true,
 		},

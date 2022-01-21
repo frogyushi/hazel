@@ -2,11 +2,11 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
 	name: "queue",
-	description: "shows queue",
+	description: "Provides a queue",
 	options: [
 		{
 			name: "page",
-			description: "specify which page to be displayed",
+			description: "Provide an optional page to expand queue",
 			type: 10,
 		},
 	],
@@ -17,7 +17,7 @@ module.exports = {
 
 		if (!interaction.member.voice.channel) {
 			await interaction.reply({
-				content: "this command can only be used inside a voice channel",
+				content: "This command cannot be used outside of a voice channel",
 				ephemeral: true,
 			});
 
@@ -29,7 +29,7 @@ module.exports = {
 			client.voice.adapters.get(interaction.guildId)
 		) {
 			await interaction.reply({
-				content: "u cannot use this command if you're not in the same voice channel as hazel",
+				content: "This command cannot be used without attending a voice channel with Hazel",
 				ephemeral: true,
 			});
 
@@ -37,7 +37,10 @@ module.exports = {
 		}
 
 		if (!queue) {
-			await interaction.reply("no queue available to use this command");
+			await interaction.reply({
+				content: "No queue available to use this command",
+				ephemeral: true,
+			});
 
 			return;
 		}
@@ -58,15 +61,15 @@ module.exports = {
 		const pageDisplay = page === 1 || page ? page * 10 - 10 : 0;
 
 		const embed = new MessageEmbed()
-			.setTitle("now playing")
+			.setTitle("Now playing")
 			.setDescription(currentQueue.current)
 			.addFields({
-				name: "next up",
+				name: "Next up",
 				value: currentQueue.queued.slice(0 + pageDisplay, 10 + pageDisplay).join("\n\n") || "none",
 			})
-			.setColor("#8b81a5")
+			.setColor(client.color.default)
 			.setFooter({
-				text: `page ${page || 1}/${maxSongs || 1} - ${queue.songs.length - 1 || "no"} songs in queue - ${
+				text: `Page ${page || 1} of ${maxSongs || 1} • ${queue.songs.length - 1 || "No"} songs in queue • ${
 					queue.formattedDuration
 				}`,
 			})
