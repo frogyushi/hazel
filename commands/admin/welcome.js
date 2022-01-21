@@ -268,8 +268,7 @@ module.exports = {
 
 				const roleNames = welcomeRoles.length
 					? welcomeRoles.map(async ({ roleId }) => {
-							const { name } = await interaction.member.guild.roles.cache.get(roleId);
-							return name;
+							return await interaction.member.guild.roles.cache.get(roleId).then(({ name }) => name);
 					  })
 					: [];
 
