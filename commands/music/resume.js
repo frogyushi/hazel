@@ -1,6 +1,6 @@
 module.exports = {
 	name: "resume",
-	description: "resumes a paused queue",
+	description: "Resume a paused queue",
 
 	async execute(client, interaction) {
 		const queue = client.distube.getQueue(interaction.guildId);

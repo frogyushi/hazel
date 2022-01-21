@@ -1,6 +1,6 @@
 module.exports = {
 	name: "shuffle",
-	description: "shuffles song positions in queue",
+	description: "Shuffle queue",
 
 	async execute(client, interaction) {
 		const queue = client.distube.getQueue(interaction.guildId);

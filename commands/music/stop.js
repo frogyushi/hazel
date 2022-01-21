@@ -1,6 +1,6 @@
 module.exports = {
 	name: "stop",
-	description: "stops playback",
+	description: "Stops queue and playback",
 
 	async execute(client, interaction) {
 		const queue = client.distube.getQueue(interaction.guildId);

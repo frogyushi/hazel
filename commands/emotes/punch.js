@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
 	name: "punch",
-	description: "punch someone",
+	description: "Punch",
 	options: [
 		{
 			name: "user",

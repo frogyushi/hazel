@@ -40,6 +40,6 @@ module.exports = {
 			skip: true,
 		});
 
-		await interaction.reply(`Searching: \`${query}\``);
+		await interaction.reply(`Searching \`${query}\``);
 	},
 };
