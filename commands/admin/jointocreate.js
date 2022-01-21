@@ -55,15 +55,12 @@ module.exports = {
 			return;
 		}
 
-		const updatedSchema = await joinToCreateSchema.findOneAndUpdate(
-			{ guildId: interaction.guildId },
-			{ ...temp },
-			{
-				upsert: true,
-				new: true,
-				setDefaultsOnInsert: true,
-			}
-		);
+		const updatedSchema = await joinToCreateSchema.findOneAndUpdate({ guildId: interaction.guildId }, temp, {
+			upsert: true,
+			new: true,
+			setDefaultsOnInsert: true,
+			overwrite: false,
+		});
 
 		const guildChannel = interaction.guild.channels.cache.get(updatedSchema.channelId);
 

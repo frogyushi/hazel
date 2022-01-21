@@ -170,7 +170,7 @@ module.exports = {
 					const schema = await welcomeMessageSchema.create({
 						guildId: interaction.guildId,
 						isEnabled: true,
-						embed: { ...temp },
+						embed: temp,
 					});
 
 					schema.save();
@@ -182,7 +182,8 @@ module.exports = {
 
 				await welcomeMessageSchema.findOneAndUpdate(
 					{ guildId: interaction.guildId },
-					{ $set: { embed: { ...temp } } }
+					{ embed: temp },
+					{ overwrite: false }
 				);
 
 				await interaction.reply("Welcome message embed has been updated");
@@ -221,12 +222,9 @@ module.exports = {
 					return;
 				}
 
-				await welcomeMessageSchema.findOneAndUpdate(
-					{
-						guildId: interaction.guildId,
-					},
-					{ $set: temp }
-				);
+				await welcomeMessageSchema.findOneAndUpdate({ guildId: interaction.guildId }, temp, {
+					overwrite: false,
+				});
 
 				await interaction.reply("Welcome message channel have been updated");
 			}
