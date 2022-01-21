@@ -145,7 +145,7 @@ module.exports = {
 					return;
 				}
 
-				if (options.color && !client.isHex(options.color)) {
+				if (options.color && !client.isHexColor(options.color)) {
 					await interaction.reply({
 						content: "Provided color must represent a hex value",
 						ephemeral: true,
