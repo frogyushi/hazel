@@ -20,35 +20,35 @@ module.exports = {
 
 		if (!welcomeMessage?.isEnabled || !channel) return;
 
-		if (welcomeMessage.embed.color) {
-			embed.setColor(welcomeMessage.embed.color);
+		if (welcomeMessage.color) {
+			embed.setColor(welcomeMessage.color);
 		}
 
-		if (welcomeMessage.embed.title) {
-			const title = welcomeMessage.embed.title
+		if (welcomeMessage.title) {
+			const title = welcomeMessage.title
 				.replace(/{member}/gi, member.user.tag)
 				.replace(/{guild}/gi, member.guild.name);
 
 			embed.setTitle({ name: title });
 		}
 
-		if (welcomeMessage.embed.description) {
-			const description = welcomeMessage.embed.description
+		if (welcomeMessage.description) {
+			const description = welcomeMessage.description
 				.replace(/{member}/gi, `<@${member.user.id}>`)
 				.replace(/{guild}/gi, member.guild.name);
 
 			embed.setDescription(description);
 		}
 
-		if (welcomeMessage.embed.image) {
-			embed.setImage(welcomeMessage.embed.image);
+		if (welcomeMessage.image) {
+			embed.setImage(welcomeMessage.image);
 		}
 
-		if (welcomeMessage.embed.footer) {
-			embed.setFooter({ text: welcomeMessage.embed.footer });
+		if (welcomeMessage.footer) {
+			embed.setFooter({ text: welcomeMessage.footer });
 		}
 
-		if (welcomeMessage.embed.timestamp) {
+		if (welcomeMessage.timestamp) {
 			embed.setTimestamp();
 		}
 
