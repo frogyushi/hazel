@@ -280,7 +280,7 @@ module.exports = {
 
 				const embed = new MessageEmbed()
 					.setTitle("List of welcome roles")
-					.setColor(client.color.default)
+					.setColor(client.color)
 					.setDescription(
 						roleNames.length
 							? roleNames.join(", ")

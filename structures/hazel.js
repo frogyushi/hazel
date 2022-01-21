@@ -17,21 +17,27 @@ module.exports = class Hazel extends Client {
 		});
 
 		this.distube = new DisTube(this, {
-			searchSongs: 1,
+			nsfw: false,
+			searchSongs: 0,
 			searchCooldown: 30,
 			leaveOnEmpty: true,
 			emptyCooldown: 60,
 			leaveOnFinish: false,
 			leaveOnStop: false,
-			plugins: [new SpotifyPlugin({ emitEventsAfterFetching: true })],
+			youtubeDL: true,
+			updateYouTubeDL: true,
 			youtubeCookie: process.env.COOKIES,
+			plugins: [new SpotifyPlugin({ emitEventsAfterFetching: true })],
+			ytdlOptions: {
+				highWaterMark: 1024 * 1024 * 64,
+				quality: "highestaudio",
+				format: "audioonly",
+				liveBuffer: 60000,
+				dlChunkSize: 1024 * 1024 * 4,
+			},
 		});
 
-		this.color = {
-			default: "#2F3136",
-			primary: "#8b81a5",
-		};
-
+		this.color = "#2F3136";
 		this.id = process.env.CLIENT_ID;
 		this.commands = new Collection();
 		this.temp = new Collection();

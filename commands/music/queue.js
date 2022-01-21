@@ -67,7 +67,7 @@ module.exports = {
 				name: "Next up",
 				value: currentQueue.queued.slice(0 + pageDisplay, 10 + pageDisplay).join("\n\n") || "none",
 			})
-			.setColor(client.color.default)
+			.setColor(client.color)
 			.setFooter({
 				text: `Page ${page || 1} of ${maxSongs || 1} • ${queue.songs.length - 1 || "No"} songs in queue • ${
 					queue.formattedDuration

@@ -15,7 +15,7 @@ module.exports = {
 		const member = interaction.options.getUser("user");
 
 		const embed = new MessageEmbed()
-			.setColor(client.color.default)
+			.setColor(client.color)
 			.setDescription(
 				member
 					? `<@${interaction.member.id}> has blushed towards <@${member.id}>`

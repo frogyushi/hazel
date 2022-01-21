@@ -30,7 +30,7 @@ module.exports = {
 				}
 			)
 			.setTimestamp()
-			.setColor(client.color.default);
+			.setColor(client.color);
 
 		queue.textChannel.send({
 			embeds: [embed],

@@ -64,7 +64,7 @@ module.exports = {
 				}
 			)
 			.setTimestamp()
-			.setColor(client.color.default);
+			.setColor(client.color);
 
 		await interaction.reply({
 			embeds: [embed],

@@ -16,7 +16,7 @@ module.exports = {
 		const member = interaction.options.getUser("user");
 
 		const embed = new MessageEmbed()
-			.setColor(client.color.default)
+			.setColor(client.color)
 			.setDescription(`<@${interaction.member.id}> has licked <@${member.id}>`)
 			.setImage(
 				client.getRandomArrayElement([

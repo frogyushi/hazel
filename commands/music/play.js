@@ -39,6 +39,6 @@ module.exports = {
 			member: interaction.member,
 		});
 
-		await interaction.reply(`Searching: \`${query}\``);
+		await interaction.reply(`Searching \`${query}\``);
 	},
 };
