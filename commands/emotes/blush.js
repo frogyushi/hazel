@@ -18,7 +18,7 @@ module.exports = {
 			.setColor(client.color)
 			.setDescription(
 				member
-					? `**${interaction.member.user.username}** has blushed towards **${member.user.username}**`
+					? `**${interaction.member.user.username}** has blushed towards **${member.username}**`
 					: `**${interaction.member.user.username}** has blushed`
 			)
 			.setImage(

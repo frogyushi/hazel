@@ -17,7 +17,7 @@ module.exports = {
 
 		const embed = new MessageEmbed()
 			.setColor(client.color)
-			.setDescription(`**${interaction.member.user.username}** has punched **${member.user.username}**`)
+			.setDescription(`**${interaction.member.user.username}** has punched **${member.username}**`)
 			.setImage(
 				client.getRandomArrayElement([
 					"https://media.giphy.com/media/dLFdh0a92fhxoTgZVf/giphy.gif",

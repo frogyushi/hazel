@@ -17,7 +17,7 @@ module.exports = {
 
 		const embed = new MessageEmbed()
 			.setColor(client.color)
-			.setDescription(`**${interaction.member.user.username}** has kissed **@${member.user.username}**`)
+			.setDescription(`**${interaction.member.user.username}** has kissed **@${member.username}**`)
 			.setImage(
 				client.getRandomArrayElement([
 					"https://media.giphy.com/media/QGc8RgRvMonFm/giphy.gif",
