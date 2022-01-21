@@ -41,7 +41,7 @@ module.exports = {
 		let object = { embeds: [embed] };
 
 		if (member) {
-			object = { ...object, content: `<${interaction.member.id}> <@${member.id}>` };
+			object = { ...object, content: `<@${interaction.member.id}> <@${member.id}>` };
 		}
 
 		await interaction.reply(object);

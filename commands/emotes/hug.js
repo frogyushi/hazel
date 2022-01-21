@@ -36,7 +36,7 @@ module.exports = {
 			);
 
 		await interaction.reply({
-			content: `<${interaction.member.id}> <@${member.id}>`,
+			content: `<@${interaction.member.id}> <@${member.id}>`,
 			embeds: [embed],
 		});
 	},
