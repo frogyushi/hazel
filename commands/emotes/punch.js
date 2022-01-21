@@ -17,7 +17,7 @@ module.exports = {
 
 		const embed = new MessageEmbed()
 			.setColor(client.color)
-			.setDescription(`<@${interaction.member.id}> has punched <@${member.id}>`)
+			.setDescription(`**${interaction.member.user.username}** has punched **${member.user.username}**`)
 			.setImage(
 				client.getRandomArrayElement([
 					"https://media.giphy.com/media/dLFdh0a92fhxoTgZVf/giphy.gif",
@@ -27,7 +27,7 @@ module.exports = {
 			);
 
 		await interaction.reply({
-			content: `<@${member.id}>`,
+			content: `<${interaction.member.id}> <@${member.id}>`,
 			embeds: [embed],
 		});
 	},

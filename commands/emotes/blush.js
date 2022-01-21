@@ -18,8 +18,8 @@ module.exports = {
 			.setColor(client.color)
 			.setDescription(
 				member
-					? `<@${interaction.member.id}> has blushed towards <@${member.id}>`
-					: `<@${interaction.member.id}> has blushed`
+					? `**${interaction.member.user.username}** has blushed towards **${member.user.username}**`
+					: `**${interaction.member.user.username}** has blushed`
 			)
 			.setImage(
 				client.getRandomArrayElement([
@@ -41,7 +41,7 @@ module.exports = {
 		let object = { embeds: [embed] };
 
 		if (member) {
-			object = { ...object, content: `<@${member.id}>` };
+			object = { ...object, content: `<${interaction.member.id}> <@${member.id}>` };
 		}
 
 		await interaction.reply(object);
