@@ -88,16 +88,18 @@ module.exports = class Hazel extends Client {
 		this.application.commands.fetch().then(async (commands) => {
 			const fullPermissions = [];
 			for (const [id, { name }] of commands) {
-				const schemas = await permissionSchema.find({
-					guildId: guild.id,
-					commandName: name,
-				});
-
-				const permissions = schemas.map(({ roleId, hasPermission }) => ({
-					id: roleId,
-					type: 1,
-					permission: hasPermission,
-				}));
+				const permissions = await permissionSchema
+					.find({
+						guildId: guild.id,
+						commandName: name,
+					})
+					.then((schemas) => {
+						return schemas.map(({ roleId, hasPermission }) => ({
+							id: roleId,
+							type: 1,
+							permission: hasPermission,
+						}));
+					});
 
 				fullPermissions.push({
 					id,
