@@ -3,19 +3,18 @@ const paginationEmbed = require("discordjs-button-pagination");
 
 module.exports = {
 	name: "lyrics",
-	description: "Provides lyrics",
+	description: "Provides lyrics using given query, else use current playing song",
 	guildOnly: true,
 	options: [
 		{
 			name: "query",
 			description: "Provide a search query",
 			type: 3,
-			required: true,
 		},
 	],
 
 	async execute(client, interaction) {
-		const query = interaction.options.getString("query");
+		const query = interaction.options.getString("query") || client.distube.songs[0].name;
 
 		const song = (await client.genius.songs.search(query))[0];
 

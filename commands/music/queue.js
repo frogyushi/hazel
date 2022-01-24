@@ -78,7 +78,7 @@ module.exports = {
 				interaction,
 				embeds,
 				[previous, next],
-				120000,
+				480000,
 				` • ${queue.songs.length - 1 || "No"} songs in queue • Duration: ${queue.formattedDuration}`
 			);
 		} catch (err) {}
