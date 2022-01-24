@@ -17,9 +17,26 @@ module.exports = {
 		const queue = client.distube.getQueue(interaction.guildId);
 		const query = interaction.options.getString("query") || queue.songs[0].name;
 
-		const song = (await client.genius.songs.search(query))[0];
+		try {
+			const song = (await client.genius.songs.search(query))[0];
+			const lyrics = await song.lyrics();
 
-		if (!song) {
+			const embeds = [];
+			lyrics.split(/\n\n/g).forEach((lyric) => {
+				const embed = new MessageEmbed()
+					.setTitle(`Lyrics for ${song.fullTitle}`)
+					.setDescription(lyric)
+					.setColor(client.color)
+					.setTimestamp();
+
+				embeds.push(embed);
+			});
+
+			const previous = new MessageButton().setCustomId("previousbtn").setLabel("<").setStyle("SECONDARY");
+			const next = new MessageButton().setCustomId("nextbtn").setLabel(">").setStyle("SECONDARY");
+
+			paginationEmbed(interaction, embeds, [previous, next], 480000);
+		} catch (err) {
 			await interaction.reply({
 				content: "No results were found for this search",
 				ephemeral: true,
@@ -27,34 +44,5 @@ module.exports = {
 
 			return;
 		}
-
-		const lyrics = await song.lyrics();
-
-		if (!lyrics) {
-			await interaction.reply({
-				content: "No lyrics were found for this search",
-				ephemeral: true,
-			});
-
-			return;
-		}
-
-		const embeds = [];
-		lyrics.split(/\n\n/g).forEach((lyric) => {
-			const embed = new MessageEmbed()
-				.setTitle(`Lyrics for ${song.fullTitle}`)
-				.setDescription(lyric)
-				.setColor(client.color)
-				.setTimestamp();
-
-			embeds.push(embed);
-		});
-
-		const previous = new MessageButton().setCustomId("previousbtn").setLabel("<").setStyle("SECONDARY");
-		const next = new MessageButton().setCustomId("nextbtn").setLabel(">").setStyle("SECONDARY");
-
-		try {
-			paginationEmbed(interaction, embeds, [previous, next], 480000);
-		} catch (err) {}
 	},
 };
