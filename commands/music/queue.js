@@ -55,8 +55,6 @@ module.exports = {
 			queues.push(temporary);
 		}
 
-		console.log(queues);
-
 		const embeds = [];
 		queues.forEach((chunk) => {
 			const embed = new MessageEmbed()
@@ -72,10 +70,7 @@ module.exports = {
 			embeds.push(embed);
 		});
 
-		console.log(embeds);
-
 		const previous = new MessageButton().setCustomId("previousbtn").setLabel("<").setStyle("SECONDARY");
-
 		const next = new MessageButton().setCustomId("nextbtn").setLabel(">").setStyle("SECONDARY");
 
 		try {
