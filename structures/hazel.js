@@ -52,11 +52,10 @@ module.exports = class Hazel extends Client {
 		this.loadCommands();
 		this.loadEvents();
 		this.loadEventsDistube();
+
 		await mongoose
-			.connect("mongodb+srv://yushi:agripo123@hazel.zsuut.mongodb.net/hazel?retryWrites=true&w=majority", {
-				keepAlive: true,
-			})
-			.then(() => console.log("connected mongodb"));
+			.connect(process.env.MONGO_URI, { keepAlive: true })
+			.then(() => console.log("Connected to database"));
 	}
 
 	async loadCommands() {
