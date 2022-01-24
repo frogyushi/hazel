@@ -1,19 +1,12 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, MessageButton } = require("discord.js");
+const paginationEmbed = require("discordjs-button-pagination");
 
 module.exports = {
 	name: "queue",
 	description: "Provides a queue",
-	options: [
-		{
-			name: "page",
-			description: "Provide an optional page to expand queue",
-			type: 10,
-		},
-	],
 
 	async execute(client, interaction) {
 		const queue = client.distube.getQueue(interaction.guildId);
-		let page = Math.floor(interaction.options.getNumber("page")) || 0;
 
 		if (!interaction.member.voice.channel) {
 			await interaction.reply({
@@ -57,26 +50,38 @@ module.exports = {
 			currentQueue.queued.push(`**${id}** - ${song.name} - ${song.formattedDuration}`);
 		}
 
-		const maxSongs = Math.ceil(currentQueue.queued.length / 10);
-		const pageDisplay = page === 1 || page ? page * 10 - 10 : 0;
+		const queues = [];
+		for (i = 0; i < currentQueue.queued.length; i += 10) {
+			queues.push(currentQueue.queued.slice(i, i + 10));
+		}
 
-		const embed = new MessageEmbed()
-			.setTitle("Now playing")
-			.setDescription(currentQueue.current)
-			.addFields({
-				name: "Next up",
-				value: currentQueue.queued.slice(0 + pageDisplay, 10 + pageDisplay).join("\n\n") || "none",
-			})
-			.setColor(client.color)
-			.setFooter({
-				text: `Page ${page || 1} of ${maxSongs || 1} • ${queue.songs.length - 1 || "No"} songs in queue • ${
-					queue.formattedDuration
-				}`,
-			})
-			.setTimestamp();
+		const embeds = [];
+		queues.forEach((chunk) => {
+			const embed = new MessageEmbed()
+				.setTitle("Now playing")
+				.setDescription(currentQueue.current)
+				.addFields({
+					name: "Next up",
+					value: chunk.join("\n\n") || "none",
+				})
+				.setColor(client.color)
+				.setTimestamp();
 
-		await interaction.reply({
-			embeds: [embed],
+			embeds.push(embed);
 		});
+
+		const previous = new MessageButton().setCustomId("previousbtn").setLabel("<").setStyle("SECONDARY");
+
+		const next = new MessageButton().setCustomId("nextbtn").setLabel(">").setStyle("SECONDARY");
+
+		try {
+			paginationEmbed(
+				interaction,
+				embeds,
+				[previous, next],
+				120000,
+				` • ${queue.songs.length - 1 || "No"} songs in queue • Duration: ${queue.formattedDuration}`
+			);
+		} catch (err) {}
 	},
 };

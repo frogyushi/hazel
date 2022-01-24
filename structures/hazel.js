@@ -1,6 +1,7 @@
 const fg = require("fast-glob");
 const mongoose = require("mongoose");
 const permissionSchema = require("../models/permissionSchema");
+const Genius = require("genius-lyrics");
 const { DisTube } = require("distube");
 const { SpotifyPlugin } = require("@distube/spotify");
 const { Client, Intents, Collection } = require("discord.js");
@@ -16,6 +17,7 @@ module.exports = class Hazel extends Client {
 			],
 		});
 
+		this.genius = new Genius.Client();
 		this.distube = new DisTube(this, {
 			nsfw: false,
 			searchSongs: 0,
@@ -42,14 +44,16 @@ module.exports = class Hazel extends Client {
 		this.commands = new Collection();
 		this.temp = new Collection();
 		this.slash = [];
+		this.slashGuild = [];
 	}
 
 	async build() {
 		this.login(process.env.CLIENT_TOKEN);
-		this.loadCommands();
-		this.loadEvents();
-		this.loadEventsDistube();
-		await mongoose.connect(process.env.MONGO_URI, { keepAlive: true });
+		await mongoose.connect(process.env.MONGO_URI, { keepAlive: true }).then(() => {
+			this.loadCommands();
+			this.loadEvents();
+			this.loadEventsDistube();
+		});
 	}
 
 	async loadCommands() {
@@ -58,7 +62,7 @@ module.exports = class Hazel extends Client {
 			const command = require("." + path);
 			if (command.ownerOnly) command.default_permission = false;
 			if (command.name && command.execute) {
-				this.slash.push(command);
+				command.guildOnly ? this.slashGuild.push(command) : this.slash.push(command);
 				this.commands.set(command.name, command);
 			}
 		});
@@ -124,6 +128,7 @@ module.exports = class Hazel extends Client {
 
 	async registerSlashCommands() {
 		await this.application.commands.set(this.slash);
+		await this.application.commands.set(this.slashGuild, "774755933209231371");
 	}
 
 	getRandomArrayElement(array) {

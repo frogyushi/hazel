@@ -1,5 +1,9 @@
 # http-basic
 
+**This is a temporary fork of [`ForbesLindesay/http-basic`](https://github.com/ForbesLindesay/http-basic).**
+
+---
+
 Simple wrapper arround http.request/https.request
 
 [![Build Status](https://img.shields.io/travis/ForbesLindesay/http-basic/master.svg)](https://travis-ci.org/ForbesLindesay/http-basic)

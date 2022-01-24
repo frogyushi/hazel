@@ -82,7 +82,7 @@ class OpusStream extends Transform {
    */
   setBitrate(bitrate) {
     (this.encoder.applyEncoderCTL || this.encoder.encoderCTL)
-      .apply(this.encoder, [CTL.BITRATE, Math.min(128e3, Math.max(16e3, bitrate))]);
+      .apply(this.encoder, [CTL.BITRATE, Math.min(512e3, Math.max(8e3, bitrate))]);
   }
 
   /**
