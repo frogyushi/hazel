@@ -14,7 +14,8 @@ module.exports = {
 	],
 
 	async execute(client, interaction) {
-		const query = interaction.options.getString("query") || client.distube.songs[0].name;
+		const queue = client.distube.getQueue(interaction.guildId);
+		const query = interaction.options.getString("query") || queue.songs[0].name;
 
 		const song = (await client.genius.songs.search(query))[0];
 
