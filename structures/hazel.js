@@ -49,11 +49,14 @@ module.exports = class Hazel extends Client {
 
 	async build() {
 		this.login(process.env.CLIENT_TOKEN);
-		await mongoose.connect(process.env.MONGO_URI, { keepAlive: true }).then(() => {
-			this.loadCommands();
-			this.loadEvents();
-			this.loadEventsDistube();
-		});
+		this.loadCommands();
+		this.loadEvents();
+		this.loadEventsDistube();
+		await mongoose
+			.connect("mongodb+srv://yushi:agripo123@hazel.zsuut.mongodb.net/hazel?retryWrites=true&w=majority", {
+				keepAlive: true,
+			})
+			.then(() => console.log("connected mongodb"));
 	}
 
 	async loadCommands() {
