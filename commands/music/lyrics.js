@@ -51,11 +51,10 @@ module.exports = {
 		});
 
 		const previous = new MessageButton().setCustomId("previousbtn").setLabel("<").setStyle("SECONDARY");
-
 		const next = new MessageButton().setCustomId("nextbtn").setLabel(">").setStyle("SECONDARY");
 
 		try {
-			paginationEmbed(interaction, embeds, [previous, next], 120000);
+			paginationEmbed(interaction, embeds, [previous, next], 480000);
 		} catch (err) {}
 	},
 };
