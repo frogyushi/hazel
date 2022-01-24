@@ -39,11 +39,9 @@ module.exports = {
 		}
 
 		const currentQueue = { queued: [] };
-
 		for (const [id, song] of queue.songs.entries()) {
 			if (!id) {
 				currentQueue.current = `${song.name} - ${song.formattedDuration}`;
-
 				continue;
 			}
 
@@ -51,9 +49,13 @@ module.exports = {
 		}
 
 		const queues = [];
+		let temporary = "";
 		for (i = 0; i < currentQueue.queued.length; i += 10) {
-			queues.push(currentQueue.queued.slice(i, i + 10));
+			temporary = currentQueue.queued.slice(i, i + 10);
+			queues.push(temporary);
 		}
+
+		console.log(queues);
 
 		const embeds = [];
 		queues.forEach((chunk) => {
@@ -69,6 +71,8 @@ module.exports = {
 
 			embeds.push(embed);
 		});
+
+		console.log(embeds);
 
 		const previous = new MessageButton().setCustomId("previousbtn").setLabel("<").setStyle("SECONDARY");
 
