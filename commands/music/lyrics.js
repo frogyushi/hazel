@@ -35,7 +35,9 @@ module.exports = {
 			const previous = new MessageButton().setCustomId("previousbtn").setLabel("<").setStyle("SECONDARY");
 			const next = new MessageButton().setCustomId("nextbtn").setLabel(">").setStyle("SECONDARY");
 
-			paginationEmbed(interaction, embeds, [previous, next], 480000);
+			try {
+				paginationEmbed(interaction, embeds, [previous, next], 480000);
+			} catch (err) {}
 		} catch (err) {
 			await interaction.reply({
 				content: "No results were found for this search",
