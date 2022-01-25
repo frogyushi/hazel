@@ -17,6 +17,8 @@ module.exports = {
 		const queue = client.distube.getQueue(interaction.guildId);
 		const query = interaction.options.getString("query") || queue?.songs[0].name;
 
+		await interaction.deferReply();
+
 		let song = null;
 		try {
 			[song] = await genius.songs.search(query);
@@ -38,9 +40,7 @@ module.exports = {
 			.setColor(client.color)
 			.setTimestamp();
 
-		if (!interaction.deffered) await interaction.deferReply();
-
-		await interaction.reply({
+		await interaction.editReply({
 			embeds: [embed],
 		});
 	},
