@@ -1,7 +1,6 @@
 const fg = require("fast-glob");
 const mongoose = require("mongoose");
 const permissionSchema = require("../models/permissionSchema");
-const Genius = require("genius-lyrics");
 const { DisTube } = require("distube");
 const { SpotifyPlugin } = require("@distube/spotify");
 const { Client, Intents, Collection } = require("discord.js");
@@ -17,7 +16,6 @@ module.exports = class Hazel extends Client {
 			],
 		});
 
-		this.genius = new Genius.Client();
 		this.distube = new DisTube(this, {
 			nsfw: false,
 			searchSongs: 0,

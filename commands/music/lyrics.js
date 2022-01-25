@@ -1,5 +1,5 @@
-const { MessageEmbed, MessageButton } = require("discord.js");
-const paginationEmbed = require("discordjs-button-pagination");
+const Genius = require("genius-lyrics");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
 	name: "lyrics",
@@ -14,13 +14,14 @@ module.exports = {
 	],
 
 	async execute(client, interaction) {
+		const genius = new Genius.Client();
 		const queue = client.distube.getQueue(interaction.guildId);
-		const query = interaction.options.getString("query") || queue.songs[0].name;
+		const query = interaction.options.getString("query") || queue?.songs[0].name;
 
 		let song = null;
 
 		try {
-			[song] = await client.genius.songs.search(query);
+			[song] = await genius.songs.search(query);
 		} catch (err) {}
 
 		if (!song) {
