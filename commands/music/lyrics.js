@@ -13,11 +13,10 @@ module.exports = {
 	],
 
 	async execute(client, interaction) {
+		await interaction.deferReply();
 		const genius = new Genius.Client();
 		const queue = client.distube.getQueue(interaction.guildId);
 		const query = interaction.options.getString("query") || queue?.songs[0].name;
-
-		await interaction.deferReply();
 
 		let song = null;
 		try {
