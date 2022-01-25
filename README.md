@@ -23,7 +23,7 @@ After cloning the repo, navigate to the project and install the npm packages
     git install
     
 ## Credentials
-Navigate to `.env.example` and fill out the following credetials. Don't forget to rename the file to `.env` when finished.
+Navigate to `.env.example` and fill out the following credetials. Rename the file to `.env` when finished.
 
 
 ## Deployment
