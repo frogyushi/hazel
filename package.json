@@ -13,7 +13,7 @@
     "dotenv": "^10.0.0",
     "fast-glob": "^3.2.11",
     "ffmpeg": "^0.0.4",
-    "genius-lyrics": "^4.3.5",
+    "genius-lyrics-api": "^3.2.0",
     "glob": "^7.2.0",
     "libsodium-wrappers": "^0.7.9",
     "mongoose": "^6.1.7",

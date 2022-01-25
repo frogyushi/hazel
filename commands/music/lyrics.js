@@ -1,4 +1,4 @@
-const Genius = require("genius-lyrics");
+const { getSong } = require("genius-lyrics-api");
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
@@ -13,14 +13,14 @@ module.exports = {
 	],
 
 	async execute(client, interaction) {
-		const genius = new Genius.Client();
 		const queue = client.distube.getQueue(interaction.guildId);
-		const query = interaction.options.getString("query") || queue?.songs[0].name;
 
-		let song = null;
-		try {
-			[song] = await genius.songs.search(query);
-		} catch (err) {}
+		const song = await getSong({
+			apiKey: "tLZ9rcX6AEV7zXakeywW7D0lIrFO3ARYnfO_Yyw6daM72AGL80QYeeZO5xwb8rdQ",
+			title: interaction.options.getString("query") || queue?.songs[0].name,
+			artist: "",
+			optimizeQuery: true,
+		});
 
 		if (!song) {
 			await interaction.reply({
@@ -31,10 +31,9 @@ module.exports = {
 			return;
 		}
 
-		const lyrics = await song.lyrics();
 		const embed = new MessageEmbed()
-			.setTitle(`Lyrics for ${song.fullTitle}`)
-			.setDescription(lyrics)
+			.setTitle(`Lyrics for ${song.title}`)
+			.setDescription(song.lyrics)
 			.setColor(client.color)
 			.setTimestamp();
 
