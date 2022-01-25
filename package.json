@@ -18,7 +18,8 @@
     "libsodium-wrappers": "^0.7.9",
     "mongoose": "^6.1.7",
     "nodemon": "^2.0.15",
-    "signale": "^1.4.0"
+    "signale": "^1.4.0",
+    "nth-check": ">=2.0.1"
   },
   "engines": {
     "node": "16.x"
@@ -39,5 +40,6 @@
     "url": "https://github.com/frogyushi/hazel/issues"
   },
   "homepage": "https://github.com/frogyushi/hazel#readme",
-  "description": ""
+  "description": "Hi, I'm Hazel. An all-purpose @discord.js bot for music/sound playback, moderation, and entertainment. I'm feature-rich and very customizable. For any support questions or suggestions, please visit our [server](https://discord.gg/YzWCDx6Vva).",
+  "devDependencies": {}
 }
