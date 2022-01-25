@@ -14,10 +14,11 @@ module.exports = {
 
 	async execute(client, interaction) {
 		const queue = client.distube.getQueue(interaction.guildId);
+		const query = interaction.options.getString("query") || queue?.songs[0].name;
 
 		const song = await getSong({
 			apiKey: "tLZ9rcX6AEV7zXakeywW7D0lIrFO3ARYnfO_Yyw6daM72AGL80QYeeZO5xwb8rdQ",
-			title: interaction.options.getString("query") || queue?.songs[0].name,
+			title: query,
 			artist: "",
 			optimizeQuery: true,
 		});
