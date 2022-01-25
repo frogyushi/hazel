@@ -13,7 +13,6 @@ module.exports = {
 	],
 
 	async execute(client, interaction) {
-		await interaction.deferReply();
 		const genius = new Genius.Client();
 		const queue = client.distube.getQueue(interaction.guildId);
 		const query = interaction.options.getString("query") || queue?.songs[0].name;
@@ -39,7 +38,7 @@ module.exports = {
 			.setColor(client.color)
 			.setTimestamp();
 
-		await interaction.editReply({
+		await interaction.reply({
 			embeds: [embed],
 		});
 	},
