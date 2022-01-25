@@ -17,11 +17,10 @@ module.exports = {
 		const queue = client.distube.getQueue(interaction.guildId);
 		const query = interaction.options.getString("query") || queue.songs[0].name;
 
-		let lyrics = null;
+		let song = null;
 
 		try {
-			const [song] = await client.genius.songs.search(query);
-			lyrics = await song.lyrics();
+			song = await client.genius.songs.search(query)[0];
 		} catch (err) {
 			await interaction.reply({
 				content: "No results were found for this search",
@@ -33,7 +32,7 @@ module.exports = {
 
 		const embed = new MessageEmbed()
 			.setTitle(`Lyrics for ${song.fullTitle}`)
-			.setDescription(lyrics)
+			.setDescription(song.lyrics())
 			.setColor(client.color)
 			.setTimestamp();
 
