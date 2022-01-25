@@ -127,15 +127,15 @@ module.exports = class Hazel extends Client {
 
 	async setSlashPerms() {
 		this.guilds.cache.forEach((guild) => this.setSlashPermsGuild(guild));
-		this.logger.success("successfully loaded slash permissions");
+		this.logger.success("Loaded slash permissions");
 	}
 
 	async registerSlashCommands() {
 		await this.application.commands.set(this.slash);
-		this.logger.success("successfully loaded global commands");
+		this.logger.success("Loaded global commands");
 		if (process.env.GUILD_ID) {
 			await this.application.commands.set(this.slashGuild, process.env.GUILD_ID);
-			this.logger.success("successfully loaded guild commands");
+			this.logger.success("Loaded guild commands");
 		}
 	}
 
