@@ -4,7 +4,6 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
 	name: "lyrics",
 	description: "Provides lyrics using given query, else use current playing song",
-	guildOnly: true,
 	options: [
 		{
 			name: "query",
@@ -39,6 +38,7 @@ module.exports = {
 			.setColor(client.color)
 			.setTimestamp();
 
+		await interaction.deferReply();
 		await interaction.reply({
 			embeds: [embed],
 		});
