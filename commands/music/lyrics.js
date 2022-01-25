@@ -20,8 +20,10 @@ module.exports = {
 		let song = null;
 
 		try {
-			song = await client.genius.songs.search(query)[0];
-		} catch (err) {
+			[song] = await client.genius.songs.search(query);
+		} catch (err) {}
+
+		if (!song) {
 			await interaction.reply({
 				content: "No results were found for this search",
 				ephemeral: true,
