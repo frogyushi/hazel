@@ -17,9 +17,9 @@ module.exports = {
 		const query = interaction.options.getString("query") || queue?.songs[0].name;
 
 		const options = {
-			apiKey: "tLZ9rcX6AEV7zXakeywW7D0lIrFO3ARYnfO_Yyw6daM72AGL80QYeeZO5xwb8rdQ",
 			title: query,
 			artist: "",
+			apiKey: "tLZ9rcX6AEV7zXakeywW7D0lIrFO3ARYnfO_Yyw6daM72AGL80QYeeZO5xwb8rdQ",
 			optimizeQuery: true,
 		};
 
