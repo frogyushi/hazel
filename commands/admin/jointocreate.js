@@ -59,7 +59,6 @@ module.exports = {
 			upsert: true,
 			new: true,
 			setDefaultsOnInsert: true,
-			overwrite: false,
 		});
 
 		const guildChannel = interaction.guild.channels.cache.get(updatedSchema.channelId);

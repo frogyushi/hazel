@@ -43,32 +43,18 @@ module.exports = {
 			return;
 		}
 
-		const data = await permissionSchema.findOne({
-			guildId: interaction.guildId,
-			commandName: options.commandName,
-			roleId: options.roleId,
-		});
-
-		if (!data) {
-			const schema = await permissionSchema.create({
-				guildId: interaction.guildId,
-				commandName: options.commandName,
-				roleId: options.roleId,
-				hasPermission: options.hasPermission,
-			});
-
-			schema.save();
-
-			return;
-		}
-
 		await permissionSchema.findOneAndUpdate(
 			{
 				guildId: interaction.guildId,
 				commandName: options.commandName,
 				roleId: options.roleId,
 			},
-			{ hasPermission: options.hasPermission }
+			{ hasPermission: options.hasPermission },
+			{
+				upsert: true,
+				new: true,
+				setDefaultsOnInsert: true,
+			}
 		);
 
 		await interaction.reply(
