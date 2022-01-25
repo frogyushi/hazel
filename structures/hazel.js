@@ -1,7 +1,7 @@
 const fg = require("fast-glob");
 const mongoose = require("mongoose");
 const permissionSchema = require("../models/permissionSchema");
-const logger = require("signale");
+const { Signale } = require("signale");
 const { DisTube } = require("distube");
 const { SpotifyPlugin } = require("@distube/spotify");
 const { Client, Intents, Collection } = require("discord.js");
@@ -17,7 +17,7 @@ module.exports = class Hazel extends Client {
 			],
 		});
 
-		this.logger = logger;
+		this.logger = new Signale({ scope: "hazel" });
 		this.distube = new DisTube(this, {
 			nsfw: false,
 			searchSongs: 0,
