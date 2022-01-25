@@ -1,9 +1,10 @@
-const { searchSong } = require("genius-lyrics-api");
+const geniusapi = require("../../helpers/geniusapi");
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
 	name: "lyrics",
 	description: "Provides lyrics using given query, else use current playing song",
+	guildOnly: true,
 	options: [
 		{
 			name: "query",
@@ -16,16 +17,9 @@ module.exports = {
 		const queue = client.distube.getQueue(interaction.guildId);
 		const query = interaction.options.getString("query") || queue?.songs[0].name;
 
-		const options = {
-			title: query,
-			artist: "",
-			apiKey: "tLZ9rcX6AEV7zXakeywW7D0lIrFO3ARYnfO_Yyw6daM72AGL80QYeeZO5xwb8rdQ",
-			optimizeQuery: true,
-		};
+		const song = await geniusapi.search(query);
 
-		const [song] = await searchSong(options);
-
-		if (!song) {
+		if (!song?.title) {
 			await interaction.reply({
 				content: "No results were found for this search",
 				ephemeral: true,
@@ -36,16 +30,11 @@ module.exports = {
 
 		const embed = new MessageEmbed()
 			.setTitle(`Lyrics for ${song.title}`)
-			.setFields(
-				...song.lyrics.split(/\/n\/n/).map((chunk) => ({
-					name: "\u200b",
-					value: chunk,
-				}))
-			)
+			.setDescription(song.lyrics)
 			.setColor(client.color)
 			.setTimestamp();
 
-		await interaction.reply({
+		await interaction.editReply({
 			embeds: [embed],
 		});
 	},

@@ -6,20 +6,19 @@
     "@discordjs/voice": "^0.7.5",
     "@distube/spotify": "^1.0.0",
     "@distube/ytdl-core": "^4.9.4",
+    "axios": "^0.25.0",
+    "cheerio": "^1.0.0-rc.10",
     "discord-api-types": "^0.25.2",
     "discord.js": "^13.6.0",
-    "discordjs-button-pagination": "^3.0.0",
     "distube": "^3.2.1",
     "dotenv": "^10.0.0",
     "fast-glob": "^3.2.11",
     "ffmpeg": "^0.0.4",
-    "genius-lyrics-api": "^3.2.0",
     "glob": "^7.2.0",
     "libsodium-wrappers": "^0.7.9",
     "mongoose": "^6.1.7",
     "nodemon": "^2.0.15",
-    "signale": "^1.4.0",
-    "nth-check": ">=2.0.1"
+    "signale": "^1.4.0"
   },
   "engines": {
     "node": "16.x"
@@ -40,6 +39,5 @@
     "url": "https://github.com/frogyushi/hazel/issues"
   },
   "homepage": "https://github.com/frogyushi/hazel#readme",
-  "description": "Hi, I'm Hazel. An all-purpose @discord.js bot for music/sound playback, moderation, and entertainment. I'm feature-rich and very customizable. For any support questions or suggestions, please visit our [server](https://discord.gg/YzWCDx6Vva).",
-  "devDependencies": {}
+  "description": "Hi, I'm Hazel. An all-purpose @discord.js bot for music/sound playback, moderation, and entertainment. I'm feature-rich and very customizable. For any support questions or suggestions, please visit our [server](https://discord.gg/YzWCDx6Vva)."
 }
