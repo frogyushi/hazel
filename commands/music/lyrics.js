@@ -1,4 +1,4 @@
-const { getSong } = require("genius-lyrics-api");
+const { searchSong } = require("genius-lyrics-api");
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
@@ -23,7 +23,7 @@ module.exports = {
 			optimizeQuery: true,
 		};
 
-		const song = await getSong(options);
+		const [song] = await searchSong(options);
 
 		if (!song) {
 			await interaction.reply({
