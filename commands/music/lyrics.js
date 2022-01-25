@@ -33,7 +33,12 @@ module.exports = {
 
 		const embed = new MessageEmbed()
 			.setTitle(`Lyrics for ${song.title}`)
-			.setDescription(song.lyrics)
+			.setFields(
+				...song.lyrics.split(/\/n\/n/).map((chunk) => ({
+					name: "\u200b",
+					value: chunk,
+				}))
+			)
 			.setColor(client.color)
 			.setTimestamp();
 
