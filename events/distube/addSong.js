@@ -25,7 +25,7 @@ module.exports = {
 				},
 				{
 					name: "Position in queue",
-					value: (queue.songs.length - 1).toString(),
+					value: (queue.songs.length - 1 || "None").toString(),
 					inline: true,
 				}
 			)
