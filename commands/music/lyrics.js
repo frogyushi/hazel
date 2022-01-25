@@ -19,8 +19,6 @@ module.exports = {
 		const query = interaction.options.getString("query") || queue?.songs[0].name;
 
 		let song = null;
-		const lyrics = await song.lyrics();
-
 		try {
 			[song] = await genius.songs.search(query);
 		} catch (err) {}
@@ -34,6 +32,7 @@ module.exports = {
 			return;
 		}
 
+		const lyrics = await song.lyrics();
 		const embed = new MessageEmbed()
 			.setTitle(`Lyrics for ${song.fullTitle}`)
 			.setDescription(lyrics)
