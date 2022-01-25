@@ -53,7 +53,8 @@ module.exports = class Hazel extends Client {
 
 		await mongoose
 			.connect(process.env.MONGO_URI, { keepAlive: true })
-			.then(() => console.log("Connected to database"));
+			.then(() => console.log("Connected to database"))
+			.catch(() => console.log("Error connecting to database"));
 	}
 
 	async loadCommands() {
