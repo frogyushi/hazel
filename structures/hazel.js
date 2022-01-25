@@ -1,6 +1,7 @@
 const fg = require("fast-glob");
 const mongoose = require("mongoose");
 const permissionSchema = require("../models/permissionSchema");
+const logger = require("signale");
 const { DisTube } = require("distube");
 const { SpotifyPlugin } = require("@distube/spotify");
 const { Client, Intents, Collection } = require("discord.js");
@@ -16,6 +17,7 @@ module.exports = class Hazel extends Client {
 			],
 		});
 
+		this.logger = logger;
 		this.distube = new DisTube(this, {
 			nsfw: false,
 			searchSongs: 0,
@@ -53,8 +55,8 @@ module.exports = class Hazel extends Client {
 
 		await mongoose
 			.connect(process.env.MONGO_URI, { keepAlive: true })
-			.then(() => console.log("Connected to database"))
-			.catch(() => console.log("Error connecting to database"));
+			.then(() => this.logger.success("Connected to database"))
+			.catch(() => this.logger.fatal("Couldn't connect to database"));
 	}
 
 	async loadCommands() {
@@ -125,11 +127,16 @@ module.exports = class Hazel extends Client {
 
 	async setSlashPerms() {
 		this.guilds.cache.forEach((guild) => this.setSlashPermsGuild(guild));
+		this.logger.success("successfully loaded slash permissions");
 	}
 
 	async registerSlashCommands() {
 		await this.application.commands.set(this.slash);
-		await this.application.commands.set(this.slashGuild, "774755933209231371");
+		this.logger.success("successfully loaded global commands");
+		if (process.env.GUILD_ID) {
+			await this.application.commands.set(this.slashGuild, process.env.GUILD_ID);
+			this.logger.success("successfully loaded guild commands");
+		}
 	}
 
 	getRandomArrayElement(array) {
