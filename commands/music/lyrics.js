@@ -38,7 +38,8 @@ module.exports = {
 			.setColor(client.color)
 			.setTimestamp();
 
-		await interaction.deferReply();
+		if (!interaction.deffered) await interaction.deferReply();
+
 		await interaction.reply({
 			embeds: [embed],
 		});
