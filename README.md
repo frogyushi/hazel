@@ -26,7 +26,7 @@ After cloning the repo, navigate to the project and install the npm packages
 Navigate to `.env.example` and fill out the following credetials. Don't forget to rename the file to `.env` when finished.
 
 
-## Deploy
+## Deployment
 U can now deploy this instance by running this command
 
     npm start
