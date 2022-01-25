@@ -17,27 +17,11 @@ module.exports = {
 		const queue = client.distube.getQueue(interaction.guildId);
 		const query = interaction.options.getString("query") || queue.songs[0].name;
 
+		let lyrics = null;
+
 		try {
-			const song = (await client.genius.songs.search(query))[0];
-			const lyrics = await song.lyrics();
-
-			const embeds = [];
-			lyrics.split(/\n\n/g).forEach((lyric) => {
-				const embed = new MessageEmbed()
-					.setTitle(`Lyrics for ${song.fullTitle}`)
-					.setDescription(lyric)
-					.setColor(client.color)
-					.setTimestamp();
-
-				embeds.push(embed);
-			});
-
-			const previous = new MessageButton().setCustomId("previousbtn").setLabel("<").setStyle("SECONDARY");
-			const next = new MessageButton().setCustomId("nextbtn").setLabel(">").setStyle("SECONDARY");
-
-			try {
-				paginationEmbed(interaction, embeds, [previous, next], 480000);
-			} catch (err) {}
+			const [song] = await client.genius.songs.search(query);
+			lyrics = await song.lyrics();
 		} catch (err) {
 			await interaction.reply({
 				content: "No results were found for this search",
@@ -46,5 +30,15 @@ module.exports = {
 
 			return;
 		}
+
+		const embed = new MessageEmbed()
+			.setTitle(`Lyrics for ${song.fullTitle}`)
+			.setDescription(lyrics)
+			.setColor(client.color)
+			.setTimestamp();
+
+		await interaction.reply({
+			embeds: [embed],
+		});
 	},
 };

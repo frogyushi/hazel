@@ -1,12 +1,19 @@
-const { MessageEmbed, MessageButton } = require("discord.js");
-const paginationEmbed = require("discordjs-button-pagination");
+const { MessageEmbed } = require("discord.js");
 
 module.exports = {
 	name: "queue",
 	description: "Provides a queue",
+	options: [
+		{
+			name: "page",
+			description: "Provide an optional page to expand queue",
+			type: 10,
+		},
+	],
 
 	async execute(client, interaction) {
 		const queue = client.distube.getQueue(interaction.guildId);
+		const page = Math.floor(interaction.options.getNumber("page")) || 0;
 
 		if (!interaction.member.voice.channel) {
 			await interaction.reply({
@@ -48,39 +55,26 @@ module.exports = {
 			currentQueue.queued.push(`**${id}** - ${song.name} - ${song.formattedDuration}`);
 		}
 
-		const queues = [];
-		let temporary = "";
-		for (i = 0; i < currentQueue.queued.length; i += 10) {
-			temporary = currentQueue.queued.slice(i, i + 10);
-			queues.push(temporary);
-		}
+		const maxSongs = Math.ceil(currentQueue.queued.length / 10);
+		const pageDisplay = page === 1 || page ? page * 10 - 10 : 0;
 
-		const embeds = [];
-		queues.forEach((chunk) => {
-			const embed = new MessageEmbed()
-				.setTitle("Now playing")
-				.setDescription(currentQueue.current)
-				.addFields({
-					name: "Next up",
-					value: chunk.join("\n\n") || "none",
-				})
-				.setColor(client.color)
-				.setTimestamp();
+		const embed = new MessageEmbed()
+			.setTitle("Now playing")
+			.setDescription(currentQueue.current)
+			.addFields({
+				name: "Next up",
+				value: currentQueue.queued.slice(0 + pageDisplay, 10 + pageDisplay).join("\n\n") || "none",
+			})
+			.setColor(client.color)
+			.setFooter({
+				text: `Page ${page || 1} of ${maxSongs || 1} • ${queue.songs.length - 1 || "No"} songs in queue • ${
+					queue.formattedDuration
+				}`,
+			})
+			.setTimestamp();
 
-			embeds.push(embed);
+		await interaction.reply({
+			embeds: [embed],
 		});
-
-		const previous = new MessageButton().setCustomId("previousbtn").setLabel("<").setStyle("SECONDARY");
-		const next = new MessageButton().setCustomId("nextbtn").setLabel(">").setStyle("SECONDARY");
-
-		try {
-			paginationEmbed(
-				interaction,
-				embeds,
-				[previous, next],
-				480000,
-				` • ${queue.songs.length - 1 || "No"} songs in queue • Duration: ${queue.formattedDuration}`
-			);
-		} catch (err) {}
 	},
 };
