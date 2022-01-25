@@ -31,4 +31,4 @@ U can now deploy this instance by running this command
 
     npm start
     
-If you do not see a successful run please visit our support [server](https://discord.gg/YzWCDx6Vva)
+If you do not see a successful run please visit our support [server](https://discord.gg/YzWCDx6Vva).
