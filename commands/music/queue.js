@@ -55,19 +55,19 @@ module.exports = {
 			currentQueue.queued.push(`**${id}** - ${song.name} - ${song.formattedDuration}`);
 		}
 
-		const maxSongs = Math.ceil(currentQueue.queued.length / 10);
-		const pageDisplay = page === 1 || page ? page * 10 - 10 : 0;
+		const max = Math.ceil(currentQueue.queued.length / 10);
+		const chunk = page === 1 || page ? page * 10 - 10 : 0;
 
 		const embed = new MessageEmbed()
 			.setTitle("Now playing")
 			.setDescription(currentQueue.current)
 			.addFields({
 				name: "Next up",
-				value: currentQueue.queued.slice(0 + pageDisplay, 10 + pageDisplay).join("\n\n") || "none",
+				value: currentQueue.queued.slice(0 + chunk, 10 + chunk).join("\n\n") || "none",
 			})
 			.setColor(client.color)
 			.setFooter({
-				text: `Page ${page || 1} of ${maxSongs || 1} • ${queue.songs.length - 1 || "No"} songs in queue • ${
+				text: `Page ${page || 1} of ${max || 1} • ${queue.songs.length - 1 || "No"} songs in queue • ${
 					queue.formattedDuration
 				}`,
 			})
