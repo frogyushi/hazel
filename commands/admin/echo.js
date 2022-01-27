@@ -1,6 +1,6 @@
 module.exports = {
 	name: "echo",
-	description: "Echoes a provided message",
+	description: "Echo a provided message",
 	ownerOnly: true,
 	options: [
 		{

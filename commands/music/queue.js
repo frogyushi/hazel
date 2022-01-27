@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
 	name: "queue",
-	description: "Provides a queue",
+	description: "Provide a queue",
 	options: [
 		{
 			name: "page",

@@ -1,6 +1,6 @@
 module.exports = {
-	name: "empty",
-	description: "Empties queue",
+	name: "stop",
+	description: "Stop playback",
 
 	async execute(client, interaction) {
 		const queue = client.distube.getQueue(interaction.guildId);

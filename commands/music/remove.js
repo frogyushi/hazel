@@ -1,6 +1,6 @@
 module.exports = {
 	name: "remove",
-	description: "Removes a song from queue",
+	description: "Remove a song from queue",
 	options: [
 		{
 			name: "index",

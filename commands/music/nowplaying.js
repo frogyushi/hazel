@@ -2,7 +2,7 @@ const { MessageEmbed } = require("discord.js");
 
 module.exports = {
 	name: "nowplaying",
-	description: "Provides information on the currently playing song",
+	description: "Provide information on the currently playing song",
 
 	async execute(client, interaction) {
 		const queue = client.distube.getQueue(interaction.guildId);

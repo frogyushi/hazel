@@ -1,6 +1,6 @@
 module.exports = {
 	name: "clear",
-	description: "Removes a specified amount of messages within a channel",
+	description: "Remove a specified amount of messages in a given channel",
 	ownerOnly: true,
 	options: [
 		{

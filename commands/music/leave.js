@@ -1,6 +1,6 @@
 module.exports = {
 	name: "leave",
-	description: "Leaves voice channel",
+	description: "Leave voice channel",
 
 	async execute(client, interaction) {
 		const queue = client.distube.getQueue(interaction.guildId);
