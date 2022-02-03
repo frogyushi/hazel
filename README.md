@@ -8,7 +8,7 @@ Note. Since this is an open-source project there's no issue with using an instan
 If you have any suggestions or edits on this project please make an issue or pull request.
 
 ## Prerequisites
-Before you continue, please make sure u have these requirements as this is needed for Hazel to run.
+Before you continue, please make sure you have these requirements as this is needed for Hazel to run.
 
 - Node.js — ``16.13.1`` or newer is required
 - MongoDB
@@ -27,7 +27,7 @@ Navigate to `.env.example` and fill out the following credetials. Rename the fil
 
 
 ## Deployment
-U can now deploy this instance by running this command
+You can now deploy this instance by running this command
 
     npm start
     
