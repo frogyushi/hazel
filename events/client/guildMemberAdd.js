@@ -10,8 +10,6 @@ module.exports = {
 		const roles = await welcomeRoleSchema.find({ guildId: member.guild.id });
 		const channel = await member.guild.channels.cache.get(welcome.channelId);
 
-		console.log(channel);
-
 		const embed = new MessageEmbed();
 
 		if (!welcome?.isEnabled || !channel) return;
