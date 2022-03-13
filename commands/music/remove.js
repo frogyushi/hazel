@@ -11,7 +11,7 @@ module.exports = {
 	],
 
 	async execute(client, interaction) {
-		const index = interaction.options.getNumber("number", true);
+		const index = interaction.options.getNumber("index", true);
 		const queue = client.distube.getQueue(interaction.guildId);
 
 		if (!interaction.member.voice.channel) {

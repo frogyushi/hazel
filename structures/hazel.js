@@ -6,7 +6,7 @@ const { DisTube } = require("distube");
 const { SpotifyPlugin } = require("@distube/spotify");
 const { Client, Intents, Collection } = require("discord.js");
 
-module.exports = class Hazel extends Client {
+class Hazel extends Client {
 	constructor() {
 		super({
 			intents: [
@@ -17,7 +17,10 @@ module.exports = class Hazel extends Client {
 			],
 		});
 
-		this.logger = new Signale({ scope: "hazel" });
+		this.logger = new Signale({
+			scope: "hazel",
+		});
+
 		this.distube = new DisTube(this, {
 			nsfw: false,
 			searchSongs: 0,
@@ -146,4 +149,6 @@ module.exports = class Hazel extends Client {
 	isHexColor(color) {
 		return /^#[0-9A-F]{6}$/i.test(color);
 	}
-};
+}
+
+module.exports = Hazel;
