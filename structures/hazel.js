@@ -17,10 +17,7 @@ class Hazel extends Client {
 			],
 		});
 
-		this.logger = new Signale({
-			scope: "hazel",
-		});
-
+		this.logger = new Signale({ scope: "hazel" });
 		this.distube = new DisTube(this, {
 			nsfw: false,
 			searchSongs: 0,
@@ -59,7 +56,7 @@ class Hazel extends Client {
 		await mongoose
 			.connect(process.env.MONGO_URI, { keepAlive: true })
 			.then(() => this.logger.success("Connected to database"))
-			.catch(() => this.logger.fatal("Couldn't connect to database"));
+			.catch(() => this.logger.error("Couldn't connect to database"));
 	}
 
 	async loadCommands() {
