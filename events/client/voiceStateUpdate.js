@@ -17,7 +17,7 @@ module.exports = {
 
 			const jtcName = `${user.username}'s channel`;
 
-			const jtc = await guild.channels.create(jtcName, {
+			const jtcSettings = {
 				type: "GUILD_VOICE",
 				parent: newState.channel?.parentId || null,
 				permissionOverwrites: [
@@ -26,14 +26,17 @@ module.exports = {
 						allow: ["MANAGE_CHANNELS"],
 					},
 				],
-			});
+			};
 
-			client.temp.set(jtc.id, newState.member);
-			voice.setChannel(jtc.id);
+			const jtcChannel = await guild.channels.create(jtcName, jtcSettings);
+
+			client.temp.set(jtcChannel.id, newState.member);
+			voice.setChannel(jtcChannel.id);
 		}
 
 		if (client.temp.get(oldState.channelId) && !oldState.channel.members.size) {
 			oldState.channel.delete();
+
 			return;
 		}
 	},
