@@ -4,20 +4,22 @@ module.exports = {
 	name: "voiceStateUpdate",
 
 	async execute(client, oldState, newState) {
-		const schema = await joinToCreateSchema.findOne({
+		const jtcConfig = await joinToCreateSchema.findOne({
 			guildId: oldState.guild.id || newState.guild.id,
 		});
 
-		if (!schema?.isEnabled) return;
+		if (!jtcConfig?.isEnabled) {
+			return;
+		};
 
-		if (newState?.channelId === schema?.channelId) {
+		if (newState?.channelId === jtcConfig?.channelId) {
 			const { guild, user, voice, id } = newState.member;
-			const parent = newState.channel?.parentId;
-			const parentId = parent ? { parent } : {};
 
-			const vc = await guild.channels.create(`${user.username}'s channel`, {
+			const jtcName = `${user.username}'s channel`;
+
+			const jtc = await guild.channels.create(jtcName, {
 				type: "GUILD_VOICE",
-				...parentId,
+				parent: newState.channel?.parentId || null,
 				permissionOverwrites: [
 					{
 						id: id,
@@ -26,13 +28,12 @@ module.exports = {
 				],
 			});
 
-			client.temp.set(vc.id, newState.member);
-			voice.setChannel(vc.id);
+			client.temp.set(jtc.id, newState.member);
+			voice.setChannel(jtc.id);
 		}
 
 		if (client.temp.get(oldState.channelId) && !oldState.channel.members.size) {
 			oldState.channel.delete();
-
 			return;
 		}
 	},
