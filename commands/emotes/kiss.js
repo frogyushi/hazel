@@ -15,24 +15,24 @@ module.exports = {
 	async execute(client, interaction) {
 		const member = interaction.options.getUser("user");
 
+		const image = client.getRandomArrayElement([
+			"https://media.giphy.com/media/QGc8RgRvMonFm/giphy.gif",
+			"https://media.giphy.com/media/FqBTvSNjNzeZG/giphy.gif",
+			"https://media.giphy.com/media/bGm9FuBCGg4SY/giphy.gif",
+			"https://media.giphy.com/media/zkppEMFvRX5FC/giphy.gif",
+			"https://media.giphy.com/media/nyGFcsP0kAobm/giphy.gif",
+			"https://media.giphy.com/media/11rWoZNpAKw8w/giphy.gif",
+			"https://media.giphy.com/media/w62BhkdkxaCwE/giphy.gif",
+			"https://media.giphy.com/media/hogpNuO4rveGca2wkZ/giphy.gif",
+			"https://media.giphy.com/media/G3va31oEEnIkM/giphy.gif",
+			"https://media.giphy.com/media/bm2O3nXTcKJeU/giphy.gif",
+			"https://media.giphy.com/media/Quhl2AS7lC7MoHrSYk/giphy.gif",
+		]);
+
 		const embed = new MessageEmbed()
 			.setColor(client.color)
 			.setDescription(`**${interaction.member.user.username}** has kissed **${member.username}**`)
-			.setImage(
-				client.getRandomArrayElement([
-					"https://media.giphy.com/media/QGc8RgRvMonFm/giphy.gif",
-					"https://media.giphy.com/media/FqBTvSNjNzeZG/giphy.gif",
-					"https://media.giphy.com/media/bGm9FuBCGg4SY/giphy.gif",
-					"https://media.giphy.com/media/zkppEMFvRX5FC/giphy.gif",
-					"https://media.giphy.com/media/nyGFcsP0kAobm/giphy.gif",
-					"https://media.giphy.com/media/11rWoZNpAKw8w/giphy.gif",
-					"https://media.giphy.com/media/w62BhkdkxaCwE/giphy.gif",
-					"https://media.giphy.com/media/hogpNuO4rveGca2wkZ/giphy.gif",
-					"https://media.giphy.com/media/G3va31oEEnIkM/giphy.gif",
-					"https://media.giphy.com/media/bm2O3nXTcKJeU/giphy.gif",
-					"https://media.giphy.com/media/Quhl2AS7lC7MoHrSYk/giphy.gif",
-				])
-			);
+			.setImage(image);
 
 		await interaction.reply({
 			content: `<@${interaction.member.id}> <@${member.id}>`,

@@ -15,16 +15,16 @@ module.exports = {
 	async execute(client, interaction) {
 		const member = interaction.options.getUser("user");
 
+		const image = client.getRandomArrayElement([
+			"https://media.giphy.com/media/dLFdh0a92fhxoTgZVf/giphy.gif",
+			"https://media.giphy.com/media/vtjMER18uH2bX4VUHq/giphy.gif",
+			"https://media.giphy.com/media/xVMLgxUrQR1inwGpem/giphy.gif",
+		]);
+
 		const embed = new MessageEmbed()
 			.setColor(client.color)
 			.setDescription(`**${interaction.member.user.username}** has punched **${member.username}**`)
-			.setImage(
-				client.getRandomArrayElement([
-					"https://media.giphy.com/media/dLFdh0a92fhxoTgZVf/giphy.gif",
-					"https://media.giphy.com/media/vtjMER18uH2bX4VUHq/giphy.gif",
-					"https://media.giphy.com/media/xVMLgxUrQR1inwGpem/giphy.gif",
-				])
-			);
+			.setImage(image);
 
 		await interaction.reply({
 			content: `<@${interaction.member.id}> <@${member.id}>`,
