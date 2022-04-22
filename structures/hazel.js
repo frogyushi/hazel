@@ -17,8 +17,13 @@ class Hazel extends Client {
 			],
 		});
 
-		this.color = "#8b81a5";
+		this.color = process.env.COLOR;
 		this.id = process.env.CLIENT_ID;
+		this.commands = new Collection();
+		this.temp = new Collection();
+		this.slash = [];
+		this.slashGuild = [];
+
 		this.logger = new Signale({ scope: "hazel" });
 		this.distube = new DisTube(this, {
 			nsfw: false,
@@ -40,11 +45,6 @@ class Hazel extends Client {
 				dlChunkSize: 1024 * 1024 * 4,
 			},
 		});
-
-		this.commands = new Collection();
-		this.temp = new Collection();
-		this.slash = [];
-		this.slashGuild = [];
 	}
 
 	async build() {
