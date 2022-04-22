@@ -17,6 +17,8 @@ class Hazel extends Client {
 			],
 		});
 
+		this.color = "#8b81a5";
+		this.id = process.env.CLIENT_ID;
 		this.logger = new Signale({ scope: "hazel" });
 		this.distube = new DisTube(this, {
 			nsfw: false,
@@ -39,8 +41,6 @@ class Hazel extends Client {
 			},
 		});
 
-		this.color = "#8b81a5";
-		this.id = process.env.CLIENT_ID;
 		this.commands = new Collection();
 		this.temp = new Collection();
 		this.slash = [];
@@ -62,7 +62,7 @@ class Hazel extends Client {
 	async loadCommands() {
 		const commands = await fg("./commands/**/*.js");
 		commands.forEach((path) => {
-			const command = require("." + path);
+			const command = require(`.${path}`);
 			if (command.ownerOnly) command.default_permission = false;
 			if (command.name && command.execute) {
 				command.guildOnly ? this.slashGuild.push(command) : this.slash.push(command);
@@ -74,7 +74,7 @@ class Hazel extends Client {
 	async loadEvents() {
 		const client = await fg("./events/client/**/*.js");
 		client.forEach((path) => {
-			const { name, execute } = require("." + path);
+			const { name, execute } = require(`.${path}`);
 			if (name && execute) {
 				this.on(name, (...args) => execute(this, ...args));
 			}
@@ -84,7 +84,7 @@ class Hazel extends Client {
 	async loadEventsDistube() {
 		const events = await fg("./events/distube/**/*.js");
 		events.forEach((path) => {
-			const { name, execute } = require("." + path);
+			const { name, execute } = require(`.${path}`);
 			if (name && execute) {
 				this.distube.on(name, (...args) => execute(this, ...args));
 			}
@@ -92,37 +92,37 @@ class Hazel extends Client {
 	}
 
 	async setSlashPermsGuild(guild) {
-		this.application.commands.fetch().then(async (commands) => {
-			const fullPermissions = [];
-			for (const [id, { name }] of commands) {
-				const permissions = await permissionSchema
-					.find({
-						guildId: guild.id,
-						commandName: name,
-					})
-					.then((schemas) => {
-						return schemas.map(({ roleId, hasPermission }) => ({
-							id: roleId,
-							type: 1,
-							permission: hasPermission,
-						}));
-					});
+		const commands = await this.application.commands.fetch();
 
-				fullPermissions.push({
-					id,
-					permissions: [
-						{
-							id: guild.ownerId,
-							type: 2,
-							permission: true,
-						},
-						...permissions,
-					],
+		const fullPermissions = [];
+		for (const [id, cmd] of commands) {
+			const permissions = await permissionSchema
+				.find({
+					guildId: guild.id,
+					commandName: cmd.name,
+				})
+				.then((schemas) => {
+					return schemas.map(({ roleId, hasPermission }) => ({
+						id: roleId,
+						type: 1,
+						permission: hasPermission,
+					}));
 				});
-			}
 
-			await guild.commands.permissions.set({ fullPermissions });
-		});
+			fullPermissions.push({
+				id,
+				permissions: [
+					{
+						id: guild.ownerId,
+						type: 2,
+						permission: true,
+					},
+					...permissions,
+				],
+			});
+		}
+
+		await guild.commands.permissions.set({ fullPermissions });
 	}
 
 	async setSlashPerms() {
