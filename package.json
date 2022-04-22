@@ -5,7 +5,7 @@
     "@discordjs/rest": "^0.2.0-canary.0",
     "@discordjs/voice": "^0.7.5",
     "@distube/spotify": "^1.0.0",
-    "@distube/ytdl-core": "^4.11.1",
+    "@distube/ytdl-core": "^4.11.3",
     "axios": "^0.25.0",
     "cheerio": "^1.0.0-rc.10",
     "discord-api-types": "^0.25.2",

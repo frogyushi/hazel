@@ -60,41 +60,34 @@ class Hazel extends Client {
 	}
 
 	async loadCommands() {
-		const commands = await fg("./commands/**/*.js");
-		commands.forEach((path) => {
+		for (const path of await fg("./commands/**/*.js")) {
 			const command = require(`.${path}`);
 			if (command.ownerOnly) command.default_permission = false;
 			if (command.name && command.execute) {
 				command.guildOnly ? this.slashGuild.push(command) : this.slash.push(command);
 				this.commands.set(command.name, command);
 			}
-		});
+		}
 	}
 
 	async loadEvents() {
-		const client = await fg("./events/client/**/*.js");
-		client.forEach((path) => {
+		for (const path of await fg("./events/client/**/*.js")) {
 			const { name, execute } = require(`.${path}`);
-			if (name && execute) {
-				this.on(name, (...args) => execute(this, ...args));
-			}
-		});
+			if (name && execute) this.on(name, (...args) => execute(this, ...args));
+		}
 	}
 
 	async loadEventsDistube() {
-		const events = await fg("./events/distube/**/*.js");
-		events.forEach((path) => {
+		for (const path of await fg("./events/distube/**/*.js")) {
 			const { name, execute } = require(`.${path}`);
-			if (name && execute) {
-				this.distube.on(name, (...args) => execute(this, ...args));
-			}
-		});
+			if (name && execute) this.distube.on(name, (...args) => execute(this, ...args));
+		}
 	}
 
 	async setSlashPermsGuild(guild) {
 		const commands = await this.application.commands.fetch();
-
 		const fullPermissions = [];
+
 		for (const [id, cmd] of commands) {
 			const permissions = await permissionSchema
 				.find({
