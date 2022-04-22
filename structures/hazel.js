@@ -132,8 +132,8 @@ class Hazel extends Client {
 		}
 	}
 
-	getRandomArrayElement(array) {
-		return array[Math.floor(Math.random() * array.length)];
+	getRandomArrayElement(arr) {
+		return arr[Math.floor(Math.random() * arr.length)];
 	}
 
 	isHexColor(color) {
