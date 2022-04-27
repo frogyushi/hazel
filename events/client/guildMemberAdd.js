@@ -7,24 +7,24 @@ module.exports = {
 
 	async execute(client, member) {
 		const embedConfig = await welcomeMessageSchema.findOne({
-			guildId: member.guild.id
+			guildId: member.guild.id,
 		});
 
 		const welcomeRoles = await welcomeRoleSchema.find({
-			guildId: member.guild.id
+			guildId: member.guild.id,
 		});
 
-		const channel = await member.guild.channels.cache.get(embedConfig.channelId);
+		const channel = await member.guild.channels.cache.get(embedConfig?.channelId);
 
 		const embed = new MessageEmbed();
 
 		if (!embedConfig?.isEnabled || !channel) {
 			return;
-		};
+		}
 
 		if (embedConfig.color) {
 			embed.setColor(embedConfig.color);
-		};
+		}
 
 		if (embedConfig.image) {
 			embed.setImage(embedConfig.image);
@@ -55,7 +55,7 @@ module.exports = {
 		}
 
 		channel.send({
-			embeds: [embed]
+			embeds: [embed],
 		});
 
 		const roleIds = welcomeRoles.map(({ roleId }) => roleId);
