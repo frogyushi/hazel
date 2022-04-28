@@ -19,6 +19,7 @@ class Hazel extends Client {
 
 		this.color = process.env.COLOR;
 		this.id = process.env.CLIENT_ID;
+
 		this.commands = new Collection();
 		this.temp = new Collection();
 		this.slash = [];
