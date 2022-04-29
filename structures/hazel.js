@@ -1,6 +1,5 @@
 const fg = require("fast-glob");
 const mongoose = require("mongoose");
-const permissionSchema = require("../models/permissionSchema");
 const { Signale } = require("signale");
 const { DisTube } = require("distube");
 const { SpotifyPlugin } = require("@distube/spotify");
