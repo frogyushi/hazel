@@ -35,8 +35,8 @@ module.exports = {
 			return;
 		}
 
-		client.distube.setFilter(interaction, queue.filters.length ? "karaoke" : false);
+		client.distube.setFilter(interaction, !queue.filters.length ? "karaoke" : false);
 
-		await interaction.reply(`Karaoke mode set to \`${queue.filters.length ? "true" : "false"}\``);
+		await interaction.reply(`Karaoke mode set to \`${!queue.filters.length ? "true" : "false"}\``);
 	},
 };
