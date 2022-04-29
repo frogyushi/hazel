@@ -85,6 +85,15 @@ class Hazel extends Client {
 		}
 	}
 
+	async registerSlashCommands() {
+		await this.application.commands.set(this.slash);
+		this.logger.success("Loaded global commands");
+		if (process.env.GUILD_ID) {
+			await this.application.commands.set(this.slashGuild, process.env.GUILD_ID);
+			this.logger.success("Loaded guild commands");
+		}
+	}
+
 	getRandomArrayElement(arr) {
 		return arr[Math.floor(Math.random() * arr.length)];
 	}
