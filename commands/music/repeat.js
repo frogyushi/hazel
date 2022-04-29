@@ -35,8 +35,8 @@ module.exports = {
 			return;
 		}
 
-		client.distube.setRepeatMode(interaction, queue.repeatMode ? 1 : 0);
+		client.distube.setRepeatMode(interaction, queue.repeatMode != 1 ? 1 : 0);
 
-		await interaction.reply(`Repeat set to \`${queue.repeatMode ? "true" : "false"}\``);
+		await interaction.reply(`Repeat set to \`${queue.repeatMode === 1 ? "true" : "false"}\``);
 	},
 };
