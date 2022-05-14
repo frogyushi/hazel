@@ -1,5 +1,5 @@
 # Hazel
-Hi, I'm Hazel. An all-purpose @discord.js bot for music/sound playback, moderation, and entertainment. For any support questions or suggestions, please visit our [server](https://discord.gg/YzWCDx6Vva).
+Hi, I'm Hazel. An all-purpose @discord.js bot for music/sound playback, moderation, and entertainment. 
 
 Redirect [here](https://discord.com/api/oauth2/authorize?client_id=806714323158302721&permissions=8&scope=applications.commands%20bot) to invite Hazel to your own server.
 
