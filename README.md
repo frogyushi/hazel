@@ -1,7 +1,7 @@
 # Hazel
 Hi, I'm Hazel. An all-purpose @discord.js bot for music/sound playback, moderation, and entertainment. 
 
-Redirect [here](https://discord.com/api/oauth2/authorize?client_id=806714323158302721&permissions=8&scope=applications.commands%20bot) to invite Hazel to your own server.
+> Redirect [here](https://discord.com/api/oauth2/authorize?client_id=806714323158302721&permissions=8&scope=applications.commands%20bot) to invite Hazel to your own server.
 
 # Setup
 Note. Since this is an open-source project there's no issue with using an instance of Hazel. But do **NOT** use this instance to distrubute under the same name as Hazel publically. 
