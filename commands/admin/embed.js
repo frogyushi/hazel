@@ -29,7 +29,7 @@ module.exports = {
         const embed = new MessageEmbed()
             .setColor("#6C78AD")
             .setTitle(title)
-            .setDescription(description.replace(/\n/, "\n"));
+            .setDescription(description.replace(/\n/g, "\n"));
 
         interaction.channel.send({ embeds: [embed] });
     },
