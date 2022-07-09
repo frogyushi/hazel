@@ -59,7 +59,7 @@ module.exports = {
                 },
                 {
                     name: "next up",
-                    value: queue.songs[1]?.name || "None",
+                    value: queue.songs[1]?.name || "none",
                     inline: true,
                 }
             )
