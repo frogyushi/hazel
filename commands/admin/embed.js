@@ -26,10 +26,12 @@ module.exports = {
         await interaction.deferReply();
         await interaction.deleteReply();
 
+        console.log(description);
+
         const embed = new MessageEmbed()
             .setColor("#6C78AD")
             .setTitle(title)
-            .setDescription(description.replace(/\n/g, "\n"));
+            .setDescription(description.replace(/\\n/g, "\n"));
 
         interaction.channel.send({ embeds: [embed] });
     },
