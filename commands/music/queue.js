@@ -59,7 +59,7 @@ module.exports = {
         const chunk = page === 1 || page ? page * 10 - 10 : 0;
 
         const embed = new MessageEmbed()
-            .setTitle("now playing")
+            .setTitle("now playing ♡")
             .setDescription(currentQueue.current)
             .addFields({
                 name: "next up",
@@ -67,7 +67,7 @@ module.exports = {
             })
             .setColor(client.color)
             .setFooter({
-                text: `Page ${page || 1} of ${max || 1} • ${
+                text: `page ${page || 1} of ${max || 1} • ${
                     queue.songs.length - 1 || "No"
                 } songs in queue`,
             })
