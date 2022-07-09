@@ -1,32 +1,32 @@
 module.exports = {
-	name: "leave",
-	description: "Leave voice channel",
+    name: "leave",
+    description: "Leave voice channel",
 
-	async execute(client, interaction) {
-		const queue = client.distube.getQueue(interaction.guildId);
+    async execute(client, interaction) {
+        const queue = client.distube.getQueue(interaction.guildId);
 
-		if (!interaction.member.voice.channel) {
-			await interaction.reply({
-				content: "This command cannot be used outside of a voice channel",
-				ephemeral: true,
-			});
+        if (!interaction.member.voice.channel) {
+            await interaction.reply({
+                content: "This command cannot be used outside of a voice channel",
+                ephemeral: true,
+            });
 
-			return;
-		}
+            return;
+        }
 
-		if (
-			!interaction.member.voice.channel.members.has(client.id) &&
-			client.voice.adapters.get(interaction.guildId)
-		) {
-			await interaction.reply({
-				content: "This command cannot be used without attending a voice channel with Hazel",
-				ephemeral: true,
-			});
+        if (
+            !interaction.member.voice.channel.members.has(client.id) &&
+            client.voice.adapters.get(interaction.guildId)
+        ) {
+            await interaction.reply({
+                content: "This command cannot be used without attending a voice channel with Hazel",
+                ephemeral: true,
+            });
 
-			return;
-		}
+            return;
+        }
 
-		queue.stop();
-		await interaction.guild.me.voice.disconnect();
-	},
+        queue.stop();
+        await interaction.guild.me.voice.disconnect();
+    },
 };

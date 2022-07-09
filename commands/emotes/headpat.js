@@ -1,41 +1,43 @@
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-	name: "headpat",
-	description: "Headpat",
-	options: [
-		{
-			name: "user",
-			description: "Select a user",
-			type: 6,
-			required: true,
-		},
-	],
+    name: "headpat",
+    description: "Headpat",
+    options: [
+        {
+            name: "user",
+            description: "Select a user",
+            type: 6,
+            required: true,
+        },
+    ],
 
-	async execute(client, interaction) {
-		const member = interaction.options.getUser("user");
+    async execute(client, interaction) {
+        const member = interaction.options.getUser("user");
 
-		const image = client.getRandomArrayElement([
-			"https://media.giphy.com/media/109ltuoSQT212w/giphy.gif",
-			"https://media.giphy.com/media/ye7OTQgwmVuVy/giphy.gif",
-			"https://media.giphy.com/media/ARSp9T7wwxNcs/giphy.gif",
-			"https://media.giphy.com/media/SWjOyVOcUECfdG7dQm/giphy.gif",
-			"https://media.giphy.com/media/S6NIIbtNYOTtvgdwWC/giphy.gif",
-			"https://media.giphy.com/media/QWRln9pNiBmJt1Krks/giphy.gif",
-			"https://media.giphy.com/media/S5uT7KROKtGCON9w4c/giphy.gif",
-			"https://media.giphy.com/media/S98oiYhUk7pa6RjC7C/giphy.gif",
-			"https://media.giphy.com/media/eMtJldMsmIbQkcewyx/giphy.gif",
-			"https://media.giphy.com/media/l1rejhOyfxSdzOgIfx/giphy.gif",
-		]);
+        const image = client.getRandomArrayElement([
+            "https://media.giphy.com/media/109ltuoSQT212w/giphy.gif",
+            "https://media.giphy.com/media/ye7OTQgwmVuVy/giphy.gif",
+            "https://media.giphy.com/media/ARSp9T7wwxNcs/giphy.gif",
+            "https://media.giphy.com/media/SWjOyVOcUECfdG7dQm/giphy.gif",
+            "https://media.giphy.com/media/S6NIIbtNYOTtvgdwWC/giphy.gif",
+            "https://media.giphy.com/media/QWRln9pNiBmJt1Krks/giphy.gif",
+            "https://media.giphy.com/media/S5uT7KROKtGCON9w4c/giphy.gif",
+            "https://media.giphy.com/media/S98oiYhUk7pa6RjC7C/giphy.gif",
+            "https://media.giphy.com/media/eMtJldMsmIbQkcewyx/giphy.gif",
+            "https://media.giphy.com/media/l1rejhOyfxSdzOgIfx/giphy.gif",
+        ]);
 
-		const embed = new MessageEmbed()
-			.setColor(client.color)
-			.setDescription(`**${interaction.member.user.username}** gave **${member.username}** a headpat`)
-			.setImage(image);
+        const embed = new MessageEmbed()
+            .setColor(client.color)
+            .setDescription(
+                `**${interaction.member.user.username}** gave **${member.username}** a headpat`
+            )
+            .setImage(image);
 
-		await interaction.reply({
-			content: `<@${interaction.member.id}> <@${member.id}>`,
-			embeds: [embed],
-		});
-	},
+        await interaction.reply({
+            content: `<@${interaction.member.id}> <@${member.id}>`,
+            embeds: [embed],
+        });
+    },
 };

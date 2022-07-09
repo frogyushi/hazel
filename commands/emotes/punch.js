@@ -1,34 +1,36 @@
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-	name: "punch",
-	description: "Punch",
-	options: [
-		{
-			name: "user",
-			description: "Select a user",
-			type: 6,
-			required: true,
-		},
-	],
+    name: "punch",
+    description: "Punch",
+    options: [
+        {
+            name: "user",
+            description: "Select a user",
+            type: 6,
+            required: true,
+        },
+    ],
 
-	async execute(client, interaction) {
-		const member = interaction.options.getUser("user");
+    async execute(client, interaction) {
+        const member = interaction.options.getUser("user");
 
-		const image = client.getRandomArrayElement([
-			"https://media.giphy.com/media/dLFdh0a92fhxoTgZVf/giphy.gif",
-			"https://media.giphy.com/media/vtjMER18uH2bX4VUHq/giphy.gif",
-			"https://media.giphy.com/media/xVMLgxUrQR1inwGpem/giphy.gif",
-		]);
+        const image = client.getRandomArrayElement([
+            "https://media.giphy.com/media/dLFdh0a92fhxoTgZVf/giphy.gif",
+            "https://media.giphy.com/media/vtjMER18uH2bX4VUHq/giphy.gif",
+            "https://media.giphy.com/media/xVMLgxUrQR1inwGpem/giphy.gif",
+        ]);
 
-		const embed = new MessageEmbed()
-			.setColor(client.color)
-			.setDescription(`**${interaction.member.user.username}** has punched **${member.username}**`)
-			.setImage(image);
+        const embed = new MessageEmbed()
+            .setColor(client.color)
+            .setDescription(
+                `**${interaction.member.user.username}** has punched **${member.username}**`
+            )
+            .setImage(image);
 
-		await interaction.reply({
-			content: `<@${interaction.member.id}> <@${member.id}>`,
-			embeds: [embed],
-		});
-	},
+        await interaction.reply({
+            content: `<@${interaction.member.id}> <@${member.id}>`,
+            embeds: [embed],
+        });
+    },
 };

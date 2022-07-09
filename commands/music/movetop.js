@@ -1,64 +1,64 @@
 module.exports = {
-	name: "movetop",
-	description: "Move requested song to first position in queue",
-	options: [
-		{
-			name: "index",
-			description: "Provide song's index",
-			type: 10,
-			required: true,
-		},
-	],
+    name: "movetop",
+    description: "Move requested song to first position in queue",
+    options: [
+        {
+            name: "index",
+            description: "Provide song's index",
+            type: 10,
+            required: true,
+        },
+    ],
 
-	async execute(client, interaction) {
-		const index = interaction.options.getNumber("index", true);
-		const queue = client.distube.getQueue(interaction.guildId);
+    async execute(client, interaction) {
+        const index = interaction.options.getNumber("index", true);
+        const queue = client.distube.getQueue(interaction.guildId);
 
-		if (!interaction.member.voice.channel) {
-			await interaction.reply({
-				content: "This command cannot be used outside of a voice channel",
-				ephemeral: true,
-			});
+        if (!interaction.member.voice.channel) {
+            await interaction.reply({
+                content: "This command cannot be used outside of a voice channel",
+                ephemeral: true,
+            });
 
-			return;
-		}
+            return;
+        }
 
-		if (
-			!interaction.member.voice.channel.members.has(client.id) &&
-			client.voice.adapters.get(interaction.guildId)
-		) {
-			await interaction.reply({
-				content: "This command cannot be used without attending a voice channel with Hazel",
-				ephemeral: true,
-			});
+        if (
+            !interaction.member.voice.channel.members.has(client.id) &&
+            client.voice.adapters.get(interaction.guildId)
+        ) {
+            await interaction.reply({
+                content: "This command cannot be used without attending a voice channel with Hazel",
+                ephemeral: true,
+            });
 
-			return;
-		}
+            return;
+        }
 
-		if (!queue) {
-			await interaction.reply({
-				content: "No queue available to use this command",
-				ephemeral: true,
-			});
+        if (!queue) {
+            await interaction.reply({
+                content: "No queue available to use this command",
+                ephemeral: true,
+            });
 
-			return;
-		}
+            return;
+        }
 
-		const songs = queue.songs;
-		const song = songs[index];
+        const songs = queue.songs;
+        const song = songs[index];
 
-		if (!song) {
-			await interaction.reply({
-				content: "No song was found with this index in the queue",
-				ephemeral: true,
-			});
+        if (!song) {
+            await interaction.reply({
+                content: "No song was found with this index in the queue",
+                ephemeral: true,
+            });
 
-			return;
-		}
+            return;
+        }
 
-		await songs.splice(index, 1);
-		await songs.splice(1, 0, song);
+        await songs.splice(index, 1);
+        await songs.splice(1, 0, song);
 
-		await interaction.reply(`Moved \`${song.name}\` to first position in the queue`);
-	},
+        await interaction.reply(`Moved \`${song.name}\` to first position in the queue`);
+    },
 };
