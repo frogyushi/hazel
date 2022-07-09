@@ -23,7 +23,7 @@
   "engines": {
     "node": "16.x"
   },
-  "name": "hazel-slash-v13",
+  "name": "hazel",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -40,5 +40,6 @@
     "url": "https://github.com/frogyushi/hazel/issues"
   },
   "homepage": "https://github.com/frogyushi/hazel#readme",
-  "description": "Hi, I'm Hazel. An all-purpose @discord.js bot for music/sound playback, moderation, and entertainment. I'm feature-rich and very customizable. For any support questions or suggestions, please visit our [server](https://discord.gg/YzWCDx6Vva)."
+  "description": "Hi, I'm Hazel. An all-purpose @discord.js bot for music/sound playback, moderation, and entertainment. I'm feature-rich and very customizable. For any support questions or suggestions, please visit our [server](https://discord.gg/YzWCDx6Vva).",
+  "devDependencies": {}
 }
