@@ -68,7 +68,7 @@ module.exports = {
             .setColor(client.color)
             .setFooter({
                 text: `page ${page || 1} of ${max || 1} • ${
-                    queue.songs.length - 1 || "No"
+                    queue.songs.length - 1 || "no"
                 } songs in queue`,
             })
             .setTimestamp();
