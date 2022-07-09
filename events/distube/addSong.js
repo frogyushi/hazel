@@ -5,26 +5,26 @@ module.exports = {
 
     async execute(client, queue, song) {
         const embed = new MessageEmbed()
-            .setAuthor({ name: "Added to queue" })
+            .setAuthor({ name: "added to queue ♡" })
             .setTitle(song.name)
             .setFields(
                 {
-                    name: "Channel",
+                    name: "channel",
                     value: song.uploader.name,
                     inline: true,
                 },
                 {
-                    name: "Song duration",
+                    name: "song duration",
                     value: song.formattedDuration,
                     inline: true,
                 },
                 {
-                    name: "Estimate time of playing",
+                    name: "estimate time of playing",
                     value: queue.formattedCurrentTime,
                     inline: true,
                 },
                 {
-                    name: "Position in queue",
+                    name: "position in queue",
                     value: (queue.songs.length - 1 || "None").toString(),
                     inline: true,
                 }

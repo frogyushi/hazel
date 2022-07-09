@@ -15,7 +15,7 @@ module.exports = {
 
         if (!interaction.member.voice.channel) {
             await interaction.reply({
-                content: "This command cannot be used outside of a voice channel",
+                content: "this command cannot be used outside of a voice channel",
                 ephemeral: true,
             });
 
@@ -27,7 +27,7 @@ module.exports = {
             client.voice.adapters.get(interaction.guildId)
         ) {
             await interaction.reply({
-                content: "This command cannot be used without attending a voice channel with Hazel",
+                content: "this command cannot be used without attending a voice channel with Hazel",
                 ephemeral: true,
             });
 
@@ -40,6 +40,6 @@ module.exports = {
             skip: true,
         });
 
-        await interaction.reply(`Searching \`${query}\``);
+        await interaction.reply(`searching \`${query}\``);
     },
 };

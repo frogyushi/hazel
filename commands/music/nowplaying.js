@@ -9,7 +9,7 @@ module.exports = {
 
         if (!interaction.member.voice.channel) {
             await interaction.reply({
-                content: "This command cannot be used outside of a voice channel",
+                content: "this command cannot be used outside of a voice channel",
                 ephemeral: true,
             });
 
@@ -21,7 +21,7 @@ module.exports = {
             client.voice.adapters.get(interaction.guildId)
         ) {
             await interaction.reply({
-                content: "This command cannot be used without attending a voice channel with Hazel",
+                content: "this command cannot be used without attending a voice channel with Hazel",
                 ephemeral: true,
             });
 
@@ -30,7 +30,7 @@ module.exports = {
 
         if (!queue) {
             await interaction.reply({
-                content: "No queue available to use this command",
+                content: "no queue available to use this command",
                 ephemeral: true,
             });
 
@@ -43,22 +43,22 @@ module.exports = {
             .setTitle(song.name)
             .setFields(
                 {
-                    name: "Channel",
+                    name: "channel",
                     value: song.uploader.name,
                     inline: true,
                 },
                 {
-                    name: "Song duration",
+                    name: "song duration",
                     value: `${queue.formattedCurrentTime}/${song.formattedDuration}`,
                     inline: true,
                 },
                 {
-                    name: "Requested by",
+                    name: "requested by",
                     value: song.user.username,
                     inline: true,
                 },
                 {
-                    name: "Next up",
+                    name: "next up",
                     value: queue.songs[1]?.name || "None",
                     inline: true,
                 }

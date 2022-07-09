@@ -55,8 +55,8 @@ class Hazel extends Client {
 
         await mongoose
             .connect(process.env.MONGO_URI, { keepAlive: true })
-            .then(() => this.logger.success("Connected to database"))
-            .catch(() => this.logger.error("Couldn't connect to database"));
+            .then(() => this.logger.success("connected to database"))
+            .catch(() => this.logger.error("couldn't connect to database"));
     }
 
     async loadCommands() {
@@ -86,10 +86,10 @@ class Hazel extends Client {
 
     async registerSlashCommands() {
         await this.application.commands.set(this.slash);
-        this.logger.success("Loaded global commands");
+        this.logger.success("loaded global commands");
         if (process.env.GUILD_ID) {
             await this.application.commands.set(this.slashGuild, process.env.GUILD_ID);
-            this.logger.success("Loaded guild commands");
+            this.logger.success("loaded guild commands");
         }
     }
 

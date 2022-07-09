@@ -16,7 +16,7 @@ module.exports = {
 
         if (amount < 1) {
             await interaction.reply({
-                content: "Amount must be greater than zero",
+                content: "amount must be greater than zero",
                 ephemeral: true,
             });
 
@@ -25,7 +25,7 @@ module.exports = {
 
         if (amount > 100) {
             await interaction.reply({
-                content: "Amount must not be greater than 100",
+                content: "amount must not be greater than 100",
                 ephemeral: true,
             });
 
@@ -35,7 +35,7 @@ module.exports = {
         await interaction.channel.bulkDelete(amount, true);
 
         await interaction.reply({
-            content: `I have deleted \`${amount}\` messages`,
+            content: `i have deleted \`${amount}\` messages`,
             ephemeral: true,
         });
     },

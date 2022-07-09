@@ -138,7 +138,7 @@ module.exports = {
 
                 if (!Object.keys(temp).length) {
                     await interaction.reply({
-                        content: "Cannot create/update embed since no options were provided",
+                        content: "cannot create/update embed since no options were provided",
                         ephemeral: true,
                     });
 
@@ -147,7 +147,7 @@ module.exports = {
 
                 if (options.color && !client.isHexColor(options.color)) {
                     await interaction.reply({
-                        content: "Provided color must represent a hex value",
+                        content: "provided color must represent a hex value",
                         ephemeral: true,
                     });
 
@@ -160,7 +160,7 @@ module.exports = {
                 ) {
                     await interaction.reply({
                         content:
-                            "There must be at least one description or title inside the welcome message embed",
+                            "there must be at least one description or title inside the welcome message embed",
                         ephemeral: true,
                     });
 
@@ -176,20 +176,20 @@ module.exports = {
 
                     schema.save();
 
-                    await interaction.reply("Welcome message embed has been created");
+                    await interaction.reply("welcome message embed has been created");
 
                     return;
                 }
 
                 await welcomeMessageSchema.findOneAndUpdate({ guildId: interaction.guildId }, temp);
 
-                await interaction.reply("Welcome message embed has been updated");
+                await interaction.reply("welcome message embed has been updated");
             }
 
             if (subcommand === "channel") {
                 if (!welcomeMessage) {
                     await interaction.reply(
-                        "This command is not available since no welcome message embed has been set"
+                        "this command is not available since no welcome message embed has been set"
                     );
 
                     return;
@@ -212,7 +212,7 @@ module.exports = {
 
                 if (!options.channelId && options.isEnabled === null) {
                     await interaction.reply({
-                        content: "No options were provided",
+                        content: "no options were provided",
                         ephemeral: true,
                     });
 
@@ -221,7 +221,7 @@ module.exports = {
 
                 await welcomeMessageSchema.findOneAndUpdate({ guildId: interaction.guildId }, temp);
 
-                await interaction.reply("Welcome message channel have been updated");
+                await interaction.reply("welcome message channel have been updated");
             }
         }
 
@@ -281,7 +281,7 @@ module.exports = {
                     .setDescription(
                         roleNames.length
                             ? roleNames.join(", ")
-                            : "No roles found. Use **/welcome roles add** to add a welcome role"
+                            : "no roles found. use **/welcome roles add** to add a welcome role"
                     );
 
                 await interaction.reply({

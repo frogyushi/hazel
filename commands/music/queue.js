@@ -17,7 +17,7 @@ module.exports = {
 
         if (!interaction.member.voice.channel) {
             await interaction.reply({
-                content: "This command cannot be used outside of a voice channel",
+                content: "this command cannot be used outside of a voice channel",
                 ephemeral: true,
             });
 
@@ -29,7 +29,7 @@ module.exports = {
             client.voice.adapters.get(interaction.guildId)
         ) {
             await interaction.reply({
-                content: "This command cannot be used without attending a voice channel with Hazel",
+                content: "this command cannot be used without attending a voice channel with Hazel",
                 ephemeral: true,
             });
 
@@ -38,7 +38,7 @@ module.exports = {
 
         if (!queue) {
             await interaction.reply({
-                content: "No queue available to use this command",
+                content: "no queue available to use this command",
                 ephemeral: true,
             });
 
@@ -59,10 +59,10 @@ module.exports = {
         const chunk = page === 1 || page ? page * 10 - 10 : 0;
 
         const embed = new MessageEmbed()
-            .setTitle("Now playing")
+            .setTitle("now playing")
             .setDescription(currentQueue.current)
             .addFields({
-                name: "Next up",
+                name: "next up",
                 value: currentQueue.queued.slice(0 + chunk, 10 + chunk).join("\n\n") || "none",
             })
             .setColor(client.color)

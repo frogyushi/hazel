@@ -1,8 +1,8 @@
 module.exports = {
-	name: "addList",
+    name: "addList",
 
-	async execute(client, queue, playlist) {
-		queue.shuffle();
-		queue.textChannel.send(`Added \`${playlist.songs.length}\` songs to queue`);
-	},
+    async execute(client, queue, playlist) {
+        queue.shuffle();
+        queue.textChannel.send(`added \`${playlist.songs.length}\` songs to queue`);
+    },
 };

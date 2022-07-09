@@ -35,7 +35,7 @@ module.exports = {
 
         if (!options.channelId && options.isEnabled === null) {
             await interaction.reply({
-                content: "No options were provided",
+                content: "no options were provided",
                 ephemeral: true,
             });
 
@@ -48,7 +48,7 @@ module.exports = {
 
         if (!schema?.channelId && options.isEnabled && !options.channelId) {
             await interaction.reply({
-                content: "Cannot update/change setting, no voice channel has been configured",
+                content: "cannot update/change setting, no voice channel has been configured",
                 ephemeral: true,
             });
 
@@ -70,7 +70,7 @@ module.exports = {
         if (!guildChannel?.name) {
             await interaction.reply({
                 content:
-                    "Join-to-create voice channel is not found. Please update your configuration",
+                    "join-to-create voice channel is not found. please update your configuration",
                 ephemeral: true,
             });
 
@@ -78,7 +78,7 @@ module.exports = {
         }
 
         await interaction.reply(
-            `Join-to-create voice channel \`${guildChannel.name}\` has been updated and set to \`${updatedSchema.isEnabled}\``
+            `join-to-create voice channel \`${guildChannel.name}\` has been updated and set to \`${updatedSchema.isEnabled}\``
         );
     },
 };

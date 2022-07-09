@@ -30,7 +30,7 @@ module.exports = {
             interaction.member.roles.add(role);
 
             await interaction.reply({
-                content: `Added \`${color.roleName}\` to your roles`,
+                content: `added \`${color.roleName}\` to your roles`,
                 ephemeral: true,
             });
         }

@@ -46,7 +46,7 @@ module.exports = {
             await interaction.reply({
                 content: found
                     ? `\`${color.roleName}\` has been removed from your roles`
-                    : "No color found to remove in your roles",
+                    : "no color found to remove in your roles",
                 ephemeral: true,
             });
         }
